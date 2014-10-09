@@ -1,0 +1,8 @@
+language: java
+cache:
+  directories:
+  - .sbt
+script:
+  - sbt compile
+  - sbt test
+  - sbt dist
