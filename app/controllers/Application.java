@@ -1,9 +1,9 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-
-import views.html.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.index;
+import views.html.login;
 
 public class Application extends Controller {
 
@@ -11,4 +11,20 @@ public class Application extends Controller {
         return ok(index.render("Ok. Hello, motherfucker!"));
     }
 
+    public static Result login() {
+        return ok(
+                login.render()
+        );
+    }
+
+    public static Result authenticate() {
+        return ok();
+    }
+
+    public static class Login {
+
+        public String email;
+        public String password;
+
+    }
 }
