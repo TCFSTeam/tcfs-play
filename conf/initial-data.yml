@@ -1,0 +1,6 @@
+# User
+
+- &penny !!models.User
+    email:      penny@tcfs.com
+    name:       Penny
+    password:   pass
