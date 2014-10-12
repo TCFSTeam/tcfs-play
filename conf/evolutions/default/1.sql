@@ -3,14 +3,14 @@
 
 # --- !Ups
 
-create table user (
+create table account (
   email                     varchar(255) not null,
   name                      varchar(255),
   password                  varchar(255),
-  constraint pk_user primary key (email))
+  constraint pk_account primary key (email))
 ;
 
-create sequence user_seq;
+create sequence account_seq;
 
 
 
@@ -19,9 +19,9 @@ create sequence user_seq;
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists user;
+drop table if exists account;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
-drop sequence if exists user_seq;
+drop sequence if exists account_seq;
 

@@ -4,16 +4,12 @@ import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
 import views.html.login;
 
 import static play.data.Form.form;
 
 public class Application extends Controller {
 
-    public static Result index() {
-        return ok(index.render("Ok. Hello, motherfucker!"));
-    }
 
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
@@ -23,7 +19,7 @@ public class Application extends Controller {
             session().clear();
             session("email", loginForm.get().email);
             return redirect(
-                    routes.Application.index()
+                    routes.UserPage.index()
             );
         }
     }
