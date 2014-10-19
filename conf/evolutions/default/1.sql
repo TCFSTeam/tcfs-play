@@ -17,11 +17,7 @@ create sequence account_seq;
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
-
-drop table if exists account;
-
-SET REFERENTIAL_INTEGRITY TRUE;
+drop table if exists account cascade;
 
 drop sequence if exists account_seq;
 
