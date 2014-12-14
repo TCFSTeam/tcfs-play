@@ -10,6 +10,9 @@ import static play.data.Form.form;
 
 public class Application extends Controller {
 
+    public static Result GO_HOME = redirect(
+            routes.Application.login()
+    );
 
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
@@ -24,11 +27,25 @@ public class Application extends Controller {
         }
     }
 
+    /**
+     * Login and set the session.
+     * @return Dash page
+     */
     public static Result login() {
         return ok(
                 login.render(form(Login.class))
         );
     }
+
+    /**
+     * Logout and clean the session.
+     * @return Index page
+     */
+    public static Result logout() {
+        session().clear();
+        return GO_HOME;
+    }
+
 
     public static class Login {
 
