@@ -23,6 +23,5 @@ public class UserPage extends Controller {
         return ok(user.render(User.find.byId(request().username())));
     }
 
-
 }
 

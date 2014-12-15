@@ -4,3 +4,8 @@
     email:      penny@tcfs.com
     name:       Penny
     password:   pass
+
+- &joe !!models.User
+        email:      joe@tcfs.com
+        name:       Joe
+        password:   joe123
