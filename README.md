@@ -15,10 +15,11 @@
 * Connect to vmware.p-hosting.ru
 * Enjoy using Elementary OS
 
-### Method 2 (complicated)
+### Method 2 (developer mode)
 -----------
-In design
-
-### Method 3 (developer mode)
------------
-In design
+* Install Java 7
+* Install Intellij IDEA Ultimate (get this from you student license)
+* Install Scala plugin for IDEA
+* Install SBT plugin for IDEA
+* Install Play 2.0 plugin for IDEA
+* Clone this repo, open project and start develop
