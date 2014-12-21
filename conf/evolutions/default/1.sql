@@ -3,14 +3,6 @@
 
 # --- !Ups
 
-create table order_it (
-  id                        integer not null,
-  waiter                    varchar(255),
-  order_status              varchar(255),
-  table                     integer,
-  constraint pk_order_it primary key (id))
-;
-
 create table order_item (
   id                        integer not null,
   item_price                double,
@@ -20,6 +12,14 @@ create table order_item (
   constraint pk_order_item primary key (id))
 ;
 
+create table order_tcfs (
+  id                        integer not null,
+  waiter                    varchar(255),
+  order_status              varchar(255),
+  table                     integer,
+  constraint pk_order_tcfs primary key (id))
+;
+
 create table user (
   email                     varchar(255) not null,
   name                      varchar(255),
@@ -27,9 +27,9 @@ create table user (
   constraint pk_user primary key (email))
 ;
 
-create sequence order_it_seq;
-
 create sequence order_item_seq;
+
+create sequence order_tcfs_seq;
 
 create sequence user_seq;
 
@@ -40,17 +40,17 @@ create sequence user_seq;
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists order_it;
-
 drop table if exists order_item;
+
+drop table if exists order_tcfs;
 
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
-drop sequence if exists order_it_seq;
-
 drop sequence if exists order_item_seq;
+
+drop sequence if exists order_tcfs_seq;
 
 drop sequence if exists user_seq;
 

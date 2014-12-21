@@ -11,13 +11,13 @@ import play.mvc.Security;
 import views.html.user;
 
 /**
- * Manage projects related operations.
+ * Manage user related operations.
  */
-@Security.Authenticated(Secured.class)
-public class UserPage extends Controller {
+@Security.Authenticated(SecuredController.class)
+public class UserController extends Controller {
 
     /**
-     * Display the dashboard.
+     * Display the user dashboard.
      */
     public static Result index() {
         return ok(user.render(User.find.byId(request().username())));

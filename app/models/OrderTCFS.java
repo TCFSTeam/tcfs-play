@@ -10,9 +10,9 @@ import java.util.List;
  * Created by alexander on 12/20/14.
  */
 @Entity
-public class OrderIt extends Model {
+public class OrderTCFS extends Model {
     private static final long serialVersionUID = 1L;
-    public static Model.Finder<String, OrderIt> find = new Model.Finder<String, OrderIt>(String.class, OrderIt.class);
+    public static Model.Finder<String, OrderTCFS> find = new Model.Finder<String, OrderTCFS>(String.class, OrderTCFS.class);
     @Id
     public int id;
     public String Waiter;
@@ -22,14 +22,14 @@ public class OrderIt extends Model {
     /**
      * Retrieve all orders.
      */
-    public static List<OrderIt> findAll() {
+    public static List<OrderTCFS> findAll() {
         return find.all();
     }
 
     /**
      * Retrieve order by waiter email and with active status.
      */
-    public static List<OrderIt> findActiveByUser(User user) {
+    public static List<OrderTCFS> findActiveByUser(User user) {
         return find.where().eq("Waiter", user.email).where().eq("OrderStatus", "Active").findList();
     }
 }

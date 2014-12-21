@@ -14,28 +14,28 @@
         name:       Liza
         password:   liza
 #Orders
-- &order !!models.OrderIt
+- &order !!models.OrderTCFS
        Waiter:     penny@tcfs.com
        Table:       1
        OrderStatus:   Complete
-- &order1 !!models.OrderIt
+- &order1 !!models.OrderTCFS
        Waiter:      penny@tcfs.com
        Table:       2
        OrderStatus:   Active
-- &order2 !!models.OrderIt
+- &order2 !!models.OrderTCFS
        Waiter:      liza@tcfs.com
        Table:       3
        OrderStatus:   Active
-- &order3 !!models.OrderIt
+- &order3 !!models.OrderTCFS
        Waiter:     penny@tcfs.com
        Table:       4
        OrderStatus:   Complete
-- &order4 !!models.OrderIt
+- &order4 !!models.OrderTCFS
        Waiter:     penny@tcfs.com
        Table:       6
        OrderStatus:   Active
 
-#Order Items
+#OrderTCFS Items
 - &orderItem1 !!models.OrderItem
        itemPrice: 10
        itemsCount: 2

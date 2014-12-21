@@ -1,5 +1,7 @@
 package controllers;
-
+/**
+ * Created by alexander on 10/12/14.
+ */
 import models.User;
 import play.data.Form;
 import play.mvc.Controller;
@@ -8,10 +10,10 @@ import views.html.login;
 
 import static play.data.Form.form;
 
-public class Application extends Controller {
+public class ApplicationController extends Controller {
 
     public static Result GO_HOME = redirect(
-            routes.Application.login()
+            routes.ApplicationController.login()
     );
 
     public static Result authenticate() {
@@ -22,7 +24,7 @@ public class Application extends Controller {
             session().clear();
             session("email", loginForm.get().email);
             return redirect(
-                    routes.UserPage.index()
+                    routes.UserController.index()
             );
         }
     }
