@@ -1,10 +1,30 @@
-@(user: User)
-
+@(user: User, orders: List[OrderIt])
     @main(user) {
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Active orders</h1>
             </div>
         </div>
-    }
+    <h2>Order list</h2>
+    <table class="table table-hover">
+        <thead>
+            <th>ID</th>
+            <th>Waiter</th>
+            <th>Table</th>
+            <th>Order Status</th>
+        </thead>
+        <tbody>
+        @for(order <- orders) {
+            <tr>
+                <td>@order.id</td>
+                <td>@User.findByEmail(order.Waiter).name</td>
+                <td>@order.Table</td>
+                <td>@order.OrderStatus</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
 

@@ -1,5 +1,6 @@
 package controllers;
 
+import models.OrderIt;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,7 +17,7 @@ public class OrderController extends Controller {
     }
 
     public static Result active() {
-        return ok(views.html.activeOrders.render(User.find.byId(request().username())));
+        return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderIt.findActiveByUser(User.find.byId(request().username()))));
     }
 
 }

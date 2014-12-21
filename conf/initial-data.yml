@@ -9,3 +9,28 @@
         email:      joe@tcfs.com
         name:       Joe
         password:   joe123
+- &liza !!models.User
+        email:      liza@tcfs.com
+        name:       Liza
+        password:   liza
+
+- &order !!models.OrderIt
+       Waiter:     penny@tcfs.com
+       Table:       1
+       OrderStatus:   Complete
+- &order1 !!models.OrderIt
+       Waiter:      penny@tcfs.com
+       Table:       2
+       OrderStatus:   Active
+- &order2 !!models.OrderIt
+       Waiter:      liza@tcfs.com
+       Table:       3
+       OrderStatus:   Active
+- &order3 !!models.OrderIt
+       Waiter:     penny@tcfs.com
+       Table:       4
+       OrderStatus:   Complete
+- &order4 !!models.OrderIt
+       Waiter:     penny@tcfs.com
+       Table:       6
+       OrderStatus:   Active
