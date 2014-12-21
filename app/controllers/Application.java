@@ -29,6 +29,7 @@ public class Application extends Controller {
 
     /**
      * Login and set the session.
+     *
      * @return Dash page
      */
     public static Result login() {
@@ -39,6 +40,7 @@ public class Application extends Controller {
 
     /**
      * Logout and clean the session.
+     *
      * @return Index page
      */
     public static Result logout() {

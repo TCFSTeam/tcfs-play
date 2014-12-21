@@ -4,10 +4,6 @@ import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import views.html.user;
-
-import static play.mvc.Controller.request;
-import static play.mvc.Results.ok;
 
 /**
  * Created by alexander on 12/20/14.

@@ -18,5 +18,4 @@ public class Order extends Model {
     private int OrderStatus;
 
 
-
 }
