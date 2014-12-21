@@ -13,30 +13,26 @@ import java.util.List;
  * User entity managed by Ebean
  */
 @Entity
-@Table(name="account")
+@Table(name = "account")
 public class User extends Model {
 
     private static final long serialVersionUID = 1L;
-
+    public static Model.Finder<String, User> find = new Model.Finder<String, User>(String.class, User.class);
     @Id
     @Constraints.Required
     @Formats.NonEmpty
     public String email;
-
     @Constraints.Required
     public String name;
-
     @Constraints.Required
     public String password;
+    // -- Queries
 
     public User(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
     }
-    // -- Queries
-
-    public static Model.Finder<String,User> find = new Model.Finder<String,User>(String.class, User.class);
 
     /**
      * Retrieve all users.
