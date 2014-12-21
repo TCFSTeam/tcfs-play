@@ -14,7 +14,8 @@ create table order_it (
 create table order_item (
   id                        integer not null,
   item_price                double,
-  item_name                 varchar(255),
+  items_count               integer,
+  is_deleted                boolean,
   item_description          varchar(255),
   constraint pk_order_item primary key (id))
 ;

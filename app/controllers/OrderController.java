@@ -1,6 +1,7 @@
 package controllers;
 
 import models.OrderIt;
+import models.OrderItem;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,7 +14,7 @@ import play.mvc.Security;
 public class OrderController extends Controller {
 
     public static Result place() {
-        return ok(views.html.placeOrder.render(User.find.byId(request().username())));
+        return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll()));
     }
 
     public static Result active() {

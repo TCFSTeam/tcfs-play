@@ -4,15 +4,27 @@ import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
 /**
  * Created by alexander on 12/21/14.
  */
 @Entity
 public class OrderItem extends Model {
+    private static final long serialVersionUID = 1L;
+    public static Model.Finder<String, OrderItem> find = new Model.Finder<String, OrderItem>(String.class, OrderItem.class);
     @Id
-    private int Id;
-    private double itemPrice;
-    private String itemName;
-    private String itemDescription;
+    public int Id;
+    public double itemPrice;
+    public int itemsCount;
+    public boolean isDeleted;
+    public String itemDescription;
+
+    /**
+     * Retrieve available order items.
+     */
+    public static List<OrderItem> findAll() {
+        return find.all();
+    }
+
 }

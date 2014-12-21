@@ -20,14 +20,14 @@ public class OrderIt extends Model {
     public int Table;
 
     /**
-     * Retrieve all users.
+     * Retrieve all orders.
      */
     public static List<OrderIt> findAll() {
         return find.all();
     }
 
     /**
-     * Retrieve a User from email.
+     * Retrieve order by waiter email and with active status.
      */
     public static List<OrderIt> findActiveByUser(User user) {
         return find.where().eq("Waiter", user.email).where().eq("OrderStatus", "Active").findList();
