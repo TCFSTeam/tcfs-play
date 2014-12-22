@@ -30,8 +30,20 @@
                 <ul class="nav navbar-nav pull-right">
                     <li><a href="/logout">Logout</a></li>
                 </ul>
+
                 <div class="navbar-default sidebar" role="navigation">
+
                     <div class="sidebar-nav navbar-collapse">
+                        <div class="media">
+                            <a class="media-left" href="#">
+                                <img src="@user.imagePath" class="img-rounded" style="margin : 5 px">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading" style="margin-top : 20 px">@user.name</h4>
+                                <span>@user.post</span>
+                            </div>
+                        </div>
+                    </div>
                         <ul class="nav" id="side-menu">
                             <li>
                                 <a @if(request().uri().endsWith("/")) {class="active"} href="/"><i class="fa fa-dashboard fa-fw"></i> Home</a>
@@ -47,12 +59,15 @@
                 </div>
             </nav>
             <div id="page-wrapper">
+                <div class="container-fluid">
             @body
+                </div>
             </div>
         </div>
         <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/jquery.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("../../public/javascripts/tcfs.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/plugins/metisMenu/metisMenu.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/placeOrder.js")" type="text/javascript"></script>
     </body>
 </html>

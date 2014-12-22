@@ -4,15 +4,21 @@
     email:      penny@tcfs.com
     name:       Penny
     password:   pass
+    imagePath: /assets/images/penny.jpg
+    post: Waiter
 
 - &joe !!models.User
         email:      joe@tcfs.com
         name:       Joe
         password:   joe123
+        imagePath: /assets/images/joe.jpg
+        post: Admin
 - &liza !!models.User
         email:      liza@tcfs.com
         name:       Liza
         password:   liza
+        imagePath: /assets/images/liza.jpg
+        post: Waiter
 #Orders
 - &order !!models.OrderTCFS
        Waiter:     penny@tcfs.com

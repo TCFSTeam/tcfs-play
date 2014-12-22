@@ -17,6 +17,8 @@ public class User extends Model {
     public String email;
     public String name;
     public String password;
+    public String post;
+    public String imagePath;
     // -- Queries
 
     public User(String email, String name, String password) {
@@ -47,6 +49,10 @@ public class User extends Model {
                 .eq("email", email)
                 .eq("password", password)
                 .findUnique();
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     // --

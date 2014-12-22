@@ -27,4 +27,11 @@ public class OrderItem extends Model {
         return find.all();
     }
 
+    public static double getCostForAll() {
+        double cost = 0;
+        for (OrderItem item : findAll()) {
+            cost += (item.itemPrice * item.itemsCount);
+        }
+        return cost;
+    }
 }
