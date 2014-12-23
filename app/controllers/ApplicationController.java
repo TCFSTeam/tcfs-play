@@ -24,7 +24,7 @@ public class ApplicationController extends Controller {
             session().clear();
             session("email", loginForm.get().email);
             return redirect(
-                    routes.UserController.index()
+                    routes.OrderController.active()
             );
         }
     }
@@ -58,7 +58,7 @@ public class ApplicationController extends Controller {
 
         public String validate() {
             if (User.authenticate(email, password) == null) {
-                return "Invalid user or password";
+                return "Invalid userSettings or password";
             }
             return null;
         }

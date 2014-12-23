@@ -16,7 +16,7 @@ public class OrderItem extends Model {
     @Id
     public int Id;
     public double itemPrice;
-    public int itemsCount;
+    public int itemNumder;
     public boolean isDeleted;
     public String itemDescription;
 
@@ -30,7 +30,7 @@ public class OrderItem extends Model {
     public static double getCostForAll() {
         double cost = 0;
         for (OrderItem item : findAll()) {
-            cost += (item.itemPrice * item.itemsCount);
+            cost += (item.itemPrice);
         }
         return cost;
     }

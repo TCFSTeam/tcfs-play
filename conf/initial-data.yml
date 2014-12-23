@@ -44,21 +44,17 @@
 #OrderTCFS Items
 - &orderItem1 !!models.OrderItem
        itemPrice: 10
-       itemsCount: 2
        itemDescription: Sandwich
        isDeleted: false
 - &orderItem2 !!models.OrderItem
        itemPrice: 20
-       itemsCount: 1
        itemDescription: Coffee
        isDeleted: false
 - &orderItem3 !!models.OrderItem
        itemPrice: 14
-       itemsCount: 1
        itemDescription: Tea
        isDeleted: false
 - &orderItem4 !!models.OrderItem
        itemPrice: 75
-       itemsCount: 2
        itemDescription: Cheesecake
        isDeleted: false

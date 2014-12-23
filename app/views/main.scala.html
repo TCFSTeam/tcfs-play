@@ -46,13 +46,13 @@
                     </div>
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a @if(request().uri().endsWith("/")) {class="active"} href="/"><i class="fa fa-dashboard fa-fw"></i> Home</a>
-                            </li>
-                            <li>
                                 <a @if(request().uri().contains("active")) {class="active"} href="/active"><i class="fa fa-bar-chart-o fa-fw"></i> Active orders</a>
                             </li>
                             <li>
                                 <a @if(request().uri().contains("/place")) {class="active"}href="/place"><i class="fa fa-table fa-fw"></i> Place order</a>
+                            </li>
+                            <li>
+                                <a @if(request().uri().endsWith("/settings")) {class="active"} href="/settings"><i class="fa fa-dashboard fa-fw"></i> Settings</a>
                             </li>
                         </ul>
                     </div>

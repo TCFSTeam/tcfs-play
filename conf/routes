@@ -3,17 +3,18 @@
 # ~~~~
 
 # Home page
-GET         /              controllers.UserController.index
-GET         /home          controllers.ApplicationController.login()
+GET         /settings            controllers.UserController.settings()
+GET         /home                controllers.ApplicationController.login()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file        controllers.Assets.at(path="/public", file)
 
 # Map ApplicationController actions
-GET         /login         controllers.ApplicationController.login()
-POST        /login         controllers.ApplicationController.authenticate()
-GET         /logout        controllers.ApplicationController.logout()
+GET         /login               controllers.ApplicationController.login()
+POST        /login               controllers.ApplicationController.authenticate()
+GET         /logout              controllers.ApplicationController.logout()
 
 # Map order actions
 GET         /place               controllers.OrderController.place()
 GET         /active              controllers.OrderController.active()
+GET         /                    controllers.OrderController.active()

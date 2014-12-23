@@ -8,19 +8,18 @@ import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-import views.html.user;
 
 /**
- * Manage user related operations.
+ * Manage userSettings related operations.
  */
 @Security.Authenticated(SecuredController.class)
 public class UserController extends Controller {
 
     /**
-     * Display the user dashboard.
+     * Display the userSettings dashboard.
      */
-    public static Result index() {
-        return ok(user.render(User.find.byId(request().username())));
+    public static Result settings() {
+        return ok(views.html.userSettings.render(User.find.byId(request().username())));
     }
 
 }

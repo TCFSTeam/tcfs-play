@@ -6,7 +6,7 @@
 create table order_item (
   id                        integer not null,
   item_price                double,
-  items_count               integer,
+  item_numder               integer,
   is_deleted                boolean,
   item_description          varchar(255),
   constraint pk_order_item primary key (id))
@@ -17,6 +17,7 @@ create table order_tcfs (
   waiter                    varchar(255),
   order_status              varchar(255),
   table                     integer,
+  created_at                timestamp,
   constraint pk_order_tcfs primary key (id))
 ;
 

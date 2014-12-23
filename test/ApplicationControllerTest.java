@@ -19,7 +19,7 @@ public class ApplicationControllerTest {
     public void renderTemplate() {
 //        new User("bob@gmail.com", "Bob", "secret").save();
 //        User bob = User.find.where().eq("email", "bob@gmail.com").findUnique();
-//        Content html = views.html.user.render(User.find.byId(bob.name));
+//        Content html = views.html.userSettings.render(User.find.byId(bob.name));
 //        assertThat(contentType(html)).isEqualTo("text/html");
 //        assertThat(contentAsString(html)).contains("Bob");
     }

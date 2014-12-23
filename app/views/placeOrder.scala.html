@@ -27,8 +27,6 @@
             <th>ID</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Count</th>
-            <th>Total</th>
             <th>Delete</th>
         </thead>
         <tbody>
@@ -37,8 +35,6 @@
                 <td>@orderItem.Id</td>
                 <td>@orderItem.itemDescription</td>
                 <td>@orderItem.itemPrice</td>
-                <td>@orderItem.itemsCount</td>
-                <td>@(orderItem.itemPrice * orderItem.itemsCount)</td>
                 <td><a title="Remove"> <i class="fa fa-trash-o fa-lg"></i></a></td>
             </tr>
         }
