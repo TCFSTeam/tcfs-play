@@ -20,7 +20,6 @@ public class User extends Model {
     public String post;
     public String imagePath;
     //public UserSettings settings;
-    // -- Queries
 
     public User(String email, String name, String password) {
         this.email = email;
@@ -55,9 +54,6 @@ public class User extends Model {
     public String getEmail() {
         return email;
     }
-
-    // --
-
     public String toString() {
         return "User(" + email + ")";
     }

@@ -31,7 +31,22 @@ public class OrderTCFS extends Model {
     public static List<OrderTCFS> findAll() {
         return find.all();
     }
+    public static OrderTCFS findById(int id) {
+        return find.where().eq("id", id).findUnique();
+    }
 
+    public static double getOrderCost(int id){
+        double cost = 0;
+        OrderTCFS orderTCFS = OrderTCFS.findById(id);
+        if(orderTCFS != null){
+        for (OrderItem item : orderTCFS.items) {
+            cost += (item.itemPrice);
+        }
+        return cost;
+        }
+        else
+            return 0;
+    }
     /**
      * Retrieve order by waiter email and with active status.
      */
