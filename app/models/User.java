@@ -19,7 +19,7 @@ public class User extends Model {
     public String password;
     public String post;
     public String imagePath;
-    public UserSettings settings;
+    //public UserSettings settings;
     // -- Queries
 
     public User(String email, String name, String password) {

@@ -1,22 +1,22 @@
 @(user: User, ordersItems: List[OrderItem])
-
     @main(user) {
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Place new order</h1>
             </div>
         </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="input-group input-group-sm">
-                <span class="input-group-addon">S</span>
-                <input type="text" class="form-control" placeholder="Search item">
+    <div class="form-group">
+      <div class="input-group select2-bootstrap-append">
+            <select id="single-append-text" class="form-control select2-allow-clear">
+                @for(orderItem <- ordersItems) {
+                    <option value="@orderItem.Id">@orderItem.itemDescription</option>
+                }
+                </select>
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Add</button>
+                    <button class="btn btn-default" type="button" data-select2-open="single-append-text">Add</button>
                 </span>
             </div>
-        </div><!-- /.col-lg-6 -->
-    </div> <!-- /.row -->
+        </div>
     <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">Order items</h2>

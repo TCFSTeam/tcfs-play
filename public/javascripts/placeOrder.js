@@ -11,3 +11,5 @@ $('#isCorrectOrder').change(function () {
         $('#payOrder').addClass("disabled");
     }
 });
+
+$(document).ready(function() { $( "#single-append-text" ).select2( { placeholder: "Select an order item", maximumSelectionSize: 1 } ); });

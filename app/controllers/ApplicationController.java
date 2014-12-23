@@ -58,7 +58,7 @@ public class ApplicationController extends Controller {
 
         public String validate() {
             if (User.authenticate(email, password) == null) {
-                return "Invalid userSettings or password";
+                return "Invalid username or password";
             }
             return null;
         }
