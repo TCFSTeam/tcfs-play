@@ -6,6 +6,7 @@ import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class OrderTCFS extends Model {
     public int Table;
     @Formats.DateTime(pattern="MMM ddd d HH:mm yyyy")
     public DateTime createdAt = new DateTime();
+    @ManyToMany
     public List<OrderItem> items = new ArrayList<OrderItem>();
 
     /**

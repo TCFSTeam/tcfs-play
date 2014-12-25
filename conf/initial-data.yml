@@ -1,5 +1,5 @@
 # Users
-
+users:
 - &penny !!models.User
     email:      penny@tcfs.com
     name:       Penny
@@ -19,29 +19,9 @@
         password:   liza
         imagePath: /assets/images/liza.jpg
         post: Waiter
-#Orders
-- &order !!models.OrderTCFS
-       Waiter:     penny@tcfs.com
-       Table:       1
-       OrderStatus:   Complete
-- &order1 !!models.OrderTCFS
-       Waiter:      penny@tcfs.com
-       Table:       2
-       OrderStatus:   Active
-- &order2 !!models.OrderTCFS
-       Waiter:      liza@tcfs.com
-       Table:       3
-       OrderStatus:   Active
-- &order3 !!models.OrderTCFS
-       Waiter:     penny@tcfs.com
-       Table:       4
-       OrderStatus:   Complete
-- &order4 !!models.OrderTCFS
-       Waiter:     penny@tcfs.com
-       Table:       6
-       OrderStatus:   Active
 
 #OrderTCFS Items
+items:
 - &orderItem1 !!models.OrderItem
        itemPrice: 10
        itemDescription: Sandwich
@@ -58,3 +38,34 @@
        itemPrice: 75
        itemDescription: Cheesecake
        isDeleted: false
+
+#Orders
+orders:
+- &order !!models.OrderTCFS
+        Waiter:     penny@tcfs.com
+        Table:       1
+        OrderStatus:   Complete
+        items:
+              - *orderItem1
+- &order1 !!models.OrderTCFS
+       Waiter:      penny@tcfs.com
+       Table:       2
+       OrderStatus:   Active
+       items:
+             - *orderItem4
+             - *orderItem1
+             - *orderItem2
+- &order2 !!models.OrderTCFS
+     Waiter:      liza@tcfs.com
+     Table:       3
+     OrderStatus:   Active
+     items:
+           - *orderItem2
+- &order3 !!models.OrderTCFS
+     Waiter:     penny@tcfs.com
+     Table:       4
+     OrderStatus:   Complete
+- &order4 !!models.OrderTCFS
+     Waiter:     penny@tcfs.com
+     Table:       6
+     OrderStatus:   Active

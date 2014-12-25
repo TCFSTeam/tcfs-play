@@ -30,6 +30,12 @@ create table user (
   constraint pk_user primary key (email))
 ;
 
+
+create table order_tcfs_order_item (
+  order_tcfs_id                  integer not null,
+  order_item_id                  integer not null,
+  constraint pk_order_tcfs_order_item primary key (order_tcfs_id, order_item_id))
+;
 create sequence order_item_seq;
 
 create sequence order_tcfs_seq;
@@ -39,6 +45,10 @@ create sequence user_seq;
 
 
 
+alter table order_tcfs_order_item add constraint fk_order_tcfs_order_item_orde_01 foreign key (order_tcfs_id) references order_tcfs (id) on delete restrict on update restrict;
+
+alter table order_tcfs_order_item add constraint fk_order_tcfs_order_item_orde_02 foreign key (order_item_id) references order_item (id) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
@@ -46,6 +56,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 drop table if exists order_item;
 
 drop table if exists order_tcfs;
+
+drop table if exists order_tcfs_order_item;
 
 drop table if exists user;
 

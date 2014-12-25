@@ -34,5 +34,8 @@ public class OrderController extends Controller {
             return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(),order));
         }
     }
+    public static Result edit(Integer id) {
+            return ok(views.html.edit.render(User.find.byId(request().username()), OrderTCFS.findById((id))));
+        }
+    }
 
-}

@@ -38,6 +38,7 @@
         @if(orders.length > 0){
     <table class="table table-hover">
         <thead>
+            <th></th>
             <th>ID</th>
             <th>Waiter</th>
             <th>Table</th>
@@ -47,11 +48,12 @@
         <tbody>
         @for(order <- orders) {
             <tr>
+                <td><a href="/edit/@order.id" ><i class="fa fa-edit fa-fw"></i></a></td>
                 <td>@order.id</td>
                 <td>@User.findByEmail(order.Waiter).name</td>
                 <td>@order.Table</td>
                 <td>@order.OrderStatus</td>
-                <td>@order.createdAt</td>
+                <td>@order.createdAt.toDateTime()</td>
             </tr>
         }
         </tbody>
