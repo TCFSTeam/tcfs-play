@@ -57,6 +57,21 @@ public class OrderTCFS extends Model {
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
         return (now().toDate().getTime()-orderTCFS.createdAt.minusMinutes(25).toDate().getTime())/60000;
     }
+
+    public static float getReadinessStatus(int orderId) {
+        int readyCount = 0;
+
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        int allItemsCount = orderTCFS.items.size();
+        for (OrderItem item : orderTCFS.items) {
+            if (item.isReady)
+                readyCount++;
+        }
+        if (readyCount > 0 && allItemsCount > 0) {
+            return (readyCount / allItemsCount) * 100;
+        } else
+            return -1;
+    }
     /**
      * Retrieve order by waiter email and with active status.
      */
@@ -65,7 +80,7 @@ public class OrderTCFS extends Model {
     }
 
     /**
-     * Retrieve order by waiter email and with active status.
+     * Retrieve all active orders.
      */
     public static List<OrderTCFS> findAllActive() {
         return find.where().eq("OrderStatus", "Active").findList();

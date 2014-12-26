@@ -9,6 +9,7 @@ create table order_item (
   item_numder               integer,
   is_deleted                boolean,
   item_description          varchar(255),
+  is_ready                  boolean,
   constraint pk_order_item primary key (id))
 ;
 

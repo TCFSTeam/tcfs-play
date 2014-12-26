@@ -35,15 +35,26 @@
         <th>ID</th>
         <th>Description</th>
         <th>Price</th>
-        <th>Delete</th>
+        <th data-checkbox="true">Readiness</th>
+        @if(user.memberType != MemberType.Сook || user.memberType != MemberType.Cashier) {
+          <th>Delete</th>
+        }
       </thead>
       <tbody>
       @for(orderItem <- order.items) {
-        <tr>
+        <tr @if(orderItem.isReady) {
+          class="success" }>
           <td>@orderItem.id</td>
           <td>@orderItem.itemDescription</td>
           <td>@orderItem.itemPrice</td>
-          <td><a title="Remove"> <i class="fa fa-trash-o fa-lg"></i></a></td>
+          <td><input type="checkbox" @if(user.memberType != MemberType.Сook) {
+            disabled="true"
+          } @if(orderItem.isReady) {
+            checked="true" }>
+          </td>
+          @if(user.memberType != MemberType.Сook || user.memberType != MemberType.Cashier) {
+            <td><a title="Remove"> <i class="fa fa-trash-o fa-lg"></i></a></td>
+          }
         </tr>
       }
       </tbody>

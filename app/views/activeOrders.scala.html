@@ -42,6 +42,7 @@
             <th>ID</th>
             <th>Waiter</th>
             <th>Table</th>
+            <th>Readiness</th>
             <th>Order Status</th>
             <th>Created</th>
         </thead>
@@ -52,13 +53,14 @@
                 <td>@order.id</td>
                 <td>@User.findByEmail(order.Waiter).name</td>
                 <td>@order.Table</td>
+                <td>@OrderTCFS.getReadinessStatus(order.id).toString() %</td>
                 <td>@order.OrderStatus</td>
                 <td>@order.createdAt.toDateTime()</td>
             </tr>
         }
         </tbody>
     </table>}
-        @if(orders.length == 0){
+    @if(orders == null || orders.length == 0) {
         <h3>No active orders</h3>
         }
 }

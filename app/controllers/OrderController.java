@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import models.OrderItem;
 import models.OrderTCFS;
 import models.User;
@@ -15,33 +16,40 @@ import play.mvc.Security;
 public class OrderController extends Controller {
 
     public static Result place() {
-        return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(),null));
+        return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(), null));
     }
 
     public static Result active() {
         User.MemberType memberType = User.find.byId(request().username()).memberType;
-        if(memberType == User.MemberType.Сook || memberType == User.MemberType.Cashier)
-        {return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findAllActive()));}
-        else if(memberType == User.MemberType.Admin)
-        {return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findAll()));}
-        else
-        {return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findActiveByUser(User.find.byId(request().username()))));}
+        if (memberType == User.MemberType.Сook || memberType == User.MemberType.Cashier) {
+            return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findAllActive()));
+        } else if (memberType == User.MemberType.Admin) {
+            return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findAll()));
+        } else {
+            return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findActiveByUser(User.find.byId(request().username()))));
+        }
     }
 
     public static Result add() {
         Form<OrderItem> formData = Form.form(OrderItem.class).bindFromRequest();
         if (formData.hasErrors()) {
             return badRequest();
-        }
-        else {
+        } else {
             OrderItem orderItem = OrderItem.findById(Integer.parseInt(formData.data().get("itemId").toString()));
             OrderTCFS order = new OrderTCFS();
             order.items.add(orderItem);
-            return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(),order));
+            order.Waiter = request().username();
+            order.guestsCount = 1;
+            order.Table = 1;
+            order.id = OrderTCFS.findAll().size() + 1;
+            order.OrderStatus = "Active";
+            Ebean.save(order);
+            return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(), order));
         }
     }
+
     public static Result edit(Integer id) {
-            return ok(views.html.edit.render(User.find.byId(request().username()), OrderTCFS.findById((id))));
-        }
+        return ok(views.html.edit.render(User.find.byId(request().username()), OrderTCFS.findById((id))));
     }
+}
 

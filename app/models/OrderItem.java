@@ -19,6 +19,7 @@ public class OrderItem extends Model {
     public int itemNumder;
     public boolean isDeleted;
     public String itemDescription;
+    public boolean isReady = false;
 
     /**
      * Retrieve available order items.

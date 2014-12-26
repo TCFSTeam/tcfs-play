@@ -44,7 +44,10 @@ items:
        itemPrice: 75
        itemDescription: Cheesecake
        isDeleted: false
-
+- &orderItem5 !!models.OrderItem
+       itemPrice: 43
+       itemDescription: Pasta
+       isDeleted: false
 #Orders
 orders:
 - &order !!models.OrderTCFS
@@ -61,7 +64,7 @@ orders:
        items:
              - *orderItem4
              - *orderItem1
-             - *orderItem2
+             - *orderItem5
        guestsCount: 3
 - &order2 !!models.OrderTCFS
      Waiter:      liza@tcfs.com
