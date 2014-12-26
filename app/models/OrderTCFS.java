@@ -63,4 +63,11 @@ public class OrderTCFS extends Model {
     public static List<OrderTCFS> findActiveByUser(User user) {
         return find.where().eq("Waiter", user.email).where().eq("OrderStatus", "Active").findList();
     }
+
+    /**
+     * Retrieve order by waiter email and with active status.
+     */
+    public static List<OrderTCFS> findAllActive() {
+        return find.where().eq("OrderStatus", "Active").findList();
+    }
 }

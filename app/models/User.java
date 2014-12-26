@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.annotation.EnumValue;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
@@ -17,14 +18,19 @@ public class User extends Model {
     public String email;
     public String name;
     public String password;
-    public String post;
     public String imagePath;
+    public MemberType memberType;
     //public UserSettings settings;
 
     public User(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
+    }
+
+
+    public enum MemberType {
+        @EnumValue("W")Waiter, @EnumValue("CK")Сook, @EnumValue("A")Admin, @EnumValue("CASH")Cashier
     }
 
     /**

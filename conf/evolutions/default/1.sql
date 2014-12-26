@@ -26,8 +26,9 @@ create table user (
   email                     varchar(255) not null,
   name                      varchar(255),
   password                  varchar(255),
-  post                      varchar(255),
   image_path                varchar(255),
+  member_type               varchar(4),
+  constraint ck_user_member_type check (member_type in ('CK','W','CASH','A')),
   constraint pk_user primary key (email))
 ;
 
