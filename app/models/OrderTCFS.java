@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.joda.time.DateTime.now;
+
 /**
  * Created by alexander on 12/20/14.
  */
@@ -19,6 +21,7 @@ public class OrderTCFS extends Model {
     public static Model.Finder<String, OrderTCFS> find = new Model.Finder<String, OrderTCFS>(String.class, OrderTCFS.class);
     @Id
     public int id;
+    public int guestsCount;
     public String Waiter;
     public String OrderStatus;
     public int Table;
@@ -48,6 +51,11 @@ public class OrderTCFS extends Model {
         }
         else
             return 0;
+    }
+
+    public static long getActiveTime(int orderId){
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        return (now().toDate().getTime()-orderTCFS.createdAt.minusMinutes(25).toDate().getTime())/60000;
     }
     /**
      * Retrieve order by waiter email and with active status.

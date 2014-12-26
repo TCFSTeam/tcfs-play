@@ -5,7 +5,10 @@
       <h1 class="page-header">Edit order №@order.id</h1>
     </div>
   </div>
-
+  <div class="row-fluid">Table: @order.Table</div>
+  <div class="row-fluid">Guests count: @order.guestsCount</div>
+  <div class="row-fluid">Active time: @OrderTCFS.getActiveTime(order.id) minutes</div>
+  <div class="row-fluid">Waiter: @User.findByEmail(order.Waiter).name</div>
   @if(order == null){
     <div class="row">
       <div class="col-lg-12">

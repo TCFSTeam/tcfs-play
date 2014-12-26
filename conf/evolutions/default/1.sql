@@ -14,6 +14,7 @@ create table order_item (
 
 create table order_tcfs (
   id                        integer not null,
+  guests_count              integer,
   waiter                    varchar(255),
   order_status              varchar(255),
   table                     integer,

@@ -47,25 +47,30 @@ orders:
         OrderStatus:   Complete
         items:
               - *orderItem1
+        guestsCount: 1
 - &order1 !!models.OrderTCFS
        Waiter:      penny@tcfs.com
-       Table:       2
+       Table:       5
        OrderStatus:   Active
        items:
              - *orderItem4
              - *orderItem1
              - *orderItem2
+       guestsCount: 3
 - &order2 !!models.OrderTCFS
      Waiter:      liza@tcfs.com
      Table:       3
      OrderStatus:   Active
      items:
            - *orderItem2
+     guestsCount: 1
 - &order3 !!models.OrderTCFS
      Waiter:     penny@tcfs.com
      Table:       4
      OrderStatus:   Complete
+     guestsCount: 3
 - &order4 !!models.OrderTCFS
      Waiter:     penny@tcfs.com
      Table:       6
      OrderStatus:   Active
+     guestsCount: 2
