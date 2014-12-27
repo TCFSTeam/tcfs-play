@@ -44,9 +44,9 @@
       @for(orderItem <- order.items) {
         <tr @if(orderItem.isReady) {
           class="success" }>
-          <td>@orderItem.id</td>
-          <td>@orderItem.itemDescription</td>
-          <td>@orderItem.itemPrice</td>
+          <td>@MenuItem.findById(orderItem.menuItemId).id</td>
+          <td>@MenuItem.findById(orderItem.menuItemId).itemDescription</td>
+          <td>@MenuItem.findById(orderItem.menuItemId).itemPrice</td>
           <td><input type="checkbox" @if(user.memberType != MemberType.Сook) {
             disabled="true"
           } @if(orderItem.isReady) {

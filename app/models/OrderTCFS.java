@@ -27,7 +27,7 @@ public class OrderTCFS extends Model {
     public String OrderStatus;
     public int Table;
     public boolean saved = false;
-    @Formats.DateTime(pattern="MMM ddd d HH:mm yyyy")
+    @Formats.DateTime(pattern = "MMM ddd HH:mm")
     public DateTime createdAt = new DateTime();
     @ManyToMany
     public List<OrderItem> items = new ArrayList<OrderItem>();
@@ -47,7 +47,7 @@ public class OrderTCFS extends Model {
         OrderTCFS orderTCFS = OrderTCFS.findById(id);
         if(orderTCFS != null){
         for (OrderItem item : orderTCFS.items) {
-            cost += (item.itemPrice);
+            cost += (MenuItem.findById(item.menuItemId).itemPrice);
         }
         return cost;
         }
@@ -62,7 +62,6 @@ public class OrderTCFS extends Model {
 
     public static double getReadinessStatus(int orderId) {
         double readyCount = 0;
-
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
         double allItemsCount = orderTCFS.items.size();
         for (OrderItem item : orderTCFS.items) {
@@ -89,7 +88,6 @@ public class OrderTCFS extends Model {
     }
 
     public static boolean removeNonSavedOrders() {
-
         List<OrderTCFS> ordersForDelete = find.where().eq("saved", "true").findList();
         for (OrderTCFS orderForDelete : ordersForDelete) {
             Ebean.delete(orderForDelete);

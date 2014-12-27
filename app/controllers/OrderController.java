@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import models.MenuItem;
 import models.OrderItem;
 import models.OrderTCFS;
 import models.User;
@@ -23,7 +24,7 @@ public class OrderController extends Controller {
         order.OrderStatus = "Active";
         order.saved = false;
         Ebean.save(order);
-        return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(), order));
+        return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), order));
     }
 
     public static Result active() {
@@ -47,11 +48,11 @@ public class OrderController extends Controller {
 
     public static Result add() {
         OrderTCFS order;
-        Form<OrderItem> formData = Form.form(OrderItem.class).bindFromRequest();
+        Form<MenuItem> formData = Form.form(MenuItem.class).bindFromRequest();
         if (formData.hasErrors()) {
             return badRequest();
         } else {
-            OrderItem orderItem = OrderItem.findById(Integer.parseInt(formData.data().get("itemId").toString()));
+            MenuItem menuItem = MenuItem.findById(Integer.parseInt(formData.data().get("menuItemId").toString()));
             int orderId = (Integer.parseInt(formData.data().get("orderId").toString()));
             if (orderId > 0)
                 order = OrderTCFS.findById(orderId);
@@ -63,13 +64,15 @@ public class OrderController extends Controller {
                 order.OrderStatus = "Active";
                 order.saved = true;
             }
-            if (orderItem != null && orderItem.id > 0) {
+            if (menuItem != null && menuItem.id > 0) {
+                OrderItem orderItem = new OrderItem(menuItem.id, false);
+                Ebean.save(orderItem);
                 order.items.add(orderItem);
             }
             if (order != null) {
                 Ebean.save(order);
             }
-            return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(), order));
+            return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), order));
         }
     }
 

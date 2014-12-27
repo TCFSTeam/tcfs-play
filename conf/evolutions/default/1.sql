@@ -3,11 +3,17 @@
 
 # --- !Ups
 
-create table order_item (
+create table menu_item (
   id                        integer not null,
   item_price                double,
   is_deleted                boolean,
   item_description          varchar(255),
+  constraint pk_menu_item primary key (id))
+;
+
+create table order_item (
+  id                        integer not null,
+  menu_item_id              integer,
   is_ready                  boolean,
   constraint pk_order_item primary key (id))
 ;
@@ -39,6 +45,8 @@ create table order_tcfs_order_item (
   order_item_id                  integer not null,
   constraint pk_order_tcfs_order_item primary key (order_tcfs_id, order_item_id))
 ;
+create sequence menu_item_seq;
+
 create sequence order_item_seq;
 
 create sequence order_tcfs_seq;
@@ -56,6 +64,8 @@ alter table order_tcfs_order_item add constraint fk_order_tcfs_order_item_orde_0
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists menu_item;
+
 drop table if exists order_item;
 
 drop table if exists order_tcfs;
@@ -65,6 +75,8 @@ drop table if exists order_tcfs_order_item;
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists menu_item_seq;
 
 drop sequence if exists order_item_seq;
 

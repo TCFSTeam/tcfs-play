@@ -19,11 +19,12 @@ public class ApplicationController extends Controller {
 
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
-        if (loginForm.hasErrors()) {
+        User user = User.findByEmail(loginForm.data().get("email").toString());
+        if (user == null) {
             return badRequest(login.render(loginForm));
         } else {
             session().clear();
-            session("email", loginForm.get().email);
+            session("email", loginForm.data().get("email"));
             return redirect(
                     routes.OrderController.active()
             );

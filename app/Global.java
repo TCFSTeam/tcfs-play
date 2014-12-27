@@ -16,17 +16,10 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
         @SuppressWarnings("unchecked")
         Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
-
-        // Save all roles
         Ebean.save(all.get("users"));
-        // Save all roles
-        Ebean.save(all.get("items"));
-
-        // Insert users and for every user save its many-to-many association
+        Ebean.save(all.get("menuitems"));
+        Ebean.save(all.get("orderitems"));
         Ebean.save(all.get("orders"));
-        for(Object user: all.get("orders")) {
-            Ebean.saveManyToManyAssociations(user, "items");
-        }
     }
 
 }

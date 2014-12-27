@@ -26,30 +26,52 @@ users:
         imagePath: /assets/images/jack.jpg
         memberType:  Сook
 
-#OrderTCFS Items
-items:
-- &orderItem1 !!models.OrderItem
+#OrderTCFS Menu Items
+menuitems:
+- &menuItem1 !!models.MenuItem
+       id: 1
        itemPrice: 10
        itemDescription: Sandwich
-       isDeleted: false
-       isReady: true
-- &orderItem2 !!models.OrderItem
+- &menuItem2 !!models.MenuItem
+       id: 2
        itemPrice: 20
        itemDescription: Coffee
-       isDeleted: false
-- &orderItem3 !!models.OrderItem
+- &menuItem3 !!models.MenuItem
+       id: 3
        itemPrice: 14
        itemDescription: Tea
        isDeleted: false
-- &orderItem4 !!models.OrderItem
+- &menuItem4 !!models.MenuItem
+       id: 4
        itemPrice: 75
        itemDescription: Cheesecake
-       isDeleted: false
+- &menuItem5 !!models.MenuItem
+        id: 5
+        itemPrice: 43
+        itemDescription: Pasta
+
+#OrderTCFS Order Items
+orderitems:
+- &orderItem1 !!models.OrderItem
+        id: 1
+        menuItemId: 1
+        isReady: false
+- &orderItem2 !!models.OrderItem
+        id: 2
+        menuItemId: 2
+        isReady: false
+- &orderItem3 !!models.OrderItem
+        id: 3
+        menuItemId: 3
+        isReady: true
+- &orderItem4 !!models.OrderItem
+        id: 4
+        menuItemId: 4
+        isReady: true
 - &orderItem5 !!models.OrderItem
-       itemPrice: 43
-       itemDescription: Pasta
-       isDeleted: false
-       isReady: true
+        id: 5
+        menuItemId: 4
+        isReady: true
 #Orders
 orders:
 - &order !!models.OrderTCFS
@@ -58,6 +80,7 @@ orders:
         OrderStatus:   Complete
         items:
               - *orderItem1
+              - *orderItem3
         guestsCount: 1
         saved: true
 - &order1 !!models.OrderTCFS
@@ -66,16 +89,15 @@ orders:
        OrderStatus:   Active
        items:
              - *orderItem4
-             - *orderItem1
+             - *orderItem2
+             - *orderItem3
              - *orderItem5
-       guestsCount: 3
+       guestsCount: 2
        saved: true
 - &order2 !!models.OrderTCFS
      Waiter:      liza@tcfs.com
      Table:       3
      OrderStatus:   Active
-     items:
-           - *orderItem2
      guestsCount: 1
      saved: true
 - &order3 !!models.OrderTCFS

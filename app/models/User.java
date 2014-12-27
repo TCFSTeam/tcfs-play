@@ -20,17 +20,11 @@ public class User extends Model {
     public String password;
     public String imagePath;
     public MemberType memberType;
-    //public UserSettings settings;
 
     public User(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
-    }
-
-
-    public enum MemberType {
-        @EnumValue("W")Waiter, @EnumValue("CK")Сook, @EnumValue("A")Admin, @EnumValue("CASH")Cashier
     }
 
     /**
@@ -60,8 +54,13 @@ public class User extends Model {
     public String getEmail() {
         return email;
     }
+
     public String toString() {
         return "User(" + email + ")";
+    }
+
+    public enum MemberType {
+        @EnumValue("W")Waiter, @EnumValue("CK")Сook, @EnumValue("A")Admin, @EnumValue("CASH")Cashier
     }
 
 }

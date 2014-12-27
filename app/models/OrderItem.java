@@ -3,26 +3,30 @@ package models;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.List;
 
 /**
- * Created by alexander on 12/21/14.
+ * Created by alexander on 12/27/14.
  */
 @Entity
-public class OrderItem extends Model {
+public class OrderItem {
+
     private static final long serialVersionUID = 1L;
     public static Model.Finder<String, OrderItem> find = new Model.Finder<String, OrderItem>(String.class, OrderItem.class);
+
     @Id
+    @GeneratedValue
     public int id;
-    public double itemPrice;
-    public boolean isDeleted;
-    public String itemDescription;
+    public int menuItemId;
     public boolean isReady = false;
 
-    /**
-     * Retrieve available order items.
-     */
+    public OrderItem(int menuItemId, boolean isready) {
+        this.id = findAll().size() + 1;
+        this.isReady = isready;
+        this.menuItemId = menuItemId;
+    }
     public static List<OrderItem> findAll() {
         return find.all();
     }
@@ -30,11 +34,4 @@ public class OrderItem extends Model {
         return find.where().eq("id",id).findUnique();
     }
 
-    public static double getCostForAll() {
-        double cost = 0;
-        for (OrderItem item : findAll()) {
-            cost += (item.itemPrice);
-        }
-        return cost;
-    }
 }
