@@ -16,7 +16,14 @@ import play.mvc.Security;
 public class OrderController extends Controller {
 
     public static Result place() {
-        return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(), null));
+        OrderTCFS order = new OrderTCFS();
+        order.Waiter = request().username();
+        order.Table = 1;
+        order.id = OrderTCFS.findAll().size() + 1;
+        order.OrderStatus = "Active";
+        order.saved = false;
+        Ebean.save(order);
+        return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(), order));
     }
 
     public static Result active() {
@@ -30,20 +37,38 @@ public class OrderController extends Controller {
         }
     }
 
+    public static Result save(Integer orderId) {
+        OrderTCFS order = OrderTCFS.findById(orderId);
+        order.saved = true;
+        order.OrderStatus = "Active";
+        Ebean.save(order);
+        return ok("saved");
+    }
+
     public static Result add() {
+        OrderTCFS order;
         Form<OrderItem> formData = Form.form(OrderItem.class).bindFromRequest();
         if (formData.hasErrors()) {
             return badRequest();
         } else {
             OrderItem orderItem = OrderItem.findById(Integer.parseInt(formData.data().get("itemId").toString()));
-            OrderTCFS order = new OrderTCFS();
-            order.items.add(orderItem);
-            order.Waiter = request().username();
-            order.guestsCount = 1;
-            order.Table = 1;
-            order.id = OrderTCFS.findAll().size() + 1;
-            order.OrderStatus = "Active";
-            Ebean.save(order);
+            int orderId = (Integer.parseInt(formData.data().get("orderId").toString()));
+            if (orderId > 0)
+                order = OrderTCFS.findById(orderId);
+            else {
+                order = new OrderTCFS();
+                order.Waiter = request().username();
+                order.Table = 1;
+                order.id = OrderTCFS.findAll().size() + 1;
+                order.OrderStatus = "Active";
+                order.saved = true;
+            }
+            if (orderItem != null && orderItem.id > 0) {
+                order.items.add(orderItem);
+            }
+            if (order != null) {
+                Ebean.save(order);
+            }
             return ok(views.html.placeOrder.render(User.find.byId(request().username()), OrderItem.findAll(), order));
         }
     }

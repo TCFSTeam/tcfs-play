@@ -6,7 +6,6 @@
 create table order_item (
   id                        integer not null,
   item_price                double,
-  item_numder               integer,
   is_deleted                boolean,
   item_description          varchar(255),
   is_ready                  boolean,
@@ -19,6 +18,7 @@ create table order_tcfs (
   waiter                    varchar(255),
   order_status              varchar(255),
   table                     integer,
+  saved                     boolean,
   created_at                timestamp,
   constraint pk_order_tcfs primary key (id))
 ;

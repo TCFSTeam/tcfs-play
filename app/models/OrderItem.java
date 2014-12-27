@@ -16,7 +16,6 @@ public class OrderItem extends Model {
     @Id
     public int id;
     public double itemPrice;
-    public int itemNumder;
     public boolean isDeleted;
     public String itemDescription;
     public boolean isReady = false;

@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import org.joda.time.DateTime;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -21,10 +22,11 @@ public class OrderTCFS extends Model {
     public static Model.Finder<String, OrderTCFS> find = new Model.Finder<String, OrderTCFS>(String.class, OrderTCFS.class);
     @Id
     public int id;
-    public int guestsCount;
+    public int guestsCount = 1;
     public String Waiter;
     public String OrderStatus;
     public int Table;
+    public boolean saved = false;
     @Formats.DateTime(pattern="MMM ddd d HH:mm yyyy")
     public DateTime createdAt = new DateTime();
     @ManyToMany
@@ -55,14 +57,14 @@ public class OrderTCFS extends Model {
 
     public static long getActiveTime(int orderId){
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
-        return (now().toDate().getTime()-orderTCFS.createdAt.minusMinutes(25).toDate().getTime())/60000;
+        return (now().toDate().getTime() - orderTCFS.createdAt.toDate().getTime()) / 60000;
     }
 
-    public static float getReadinessStatus(int orderId) {
-        int readyCount = 0;
+    public static double getReadinessStatus(int orderId) {
+        double readyCount = 0;
 
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
-        int allItemsCount = orderTCFS.items.size();
+        double allItemsCount = orderTCFS.items.size();
         for (OrderItem item : orderTCFS.items) {
             if (item.isReady)
                 readyCount++;
@@ -70,7 +72,7 @@ public class OrderTCFS extends Model {
         if (readyCount > 0 && allItemsCount > 0) {
             return (readyCount / allItemsCount) * 100;
         } else
-            return -1;
+            return 0;
     }
     /**
      * Retrieve order by waiter email and with active status.
@@ -84,5 +86,14 @@ public class OrderTCFS extends Model {
      */
     public static List<OrderTCFS> findAllActive() {
         return find.where().eq("OrderStatus", "Active").findList();
+    }
+
+    public static boolean removeNonSavedOrders() {
+
+        List<OrderTCFS> ordersForDelete = find.where().eq("saved", "true").findList();
+        for (OrderTCFS orderForDelete : ordersForDelete) {
+            Ebean.delete(orderForDelete);
+        }
+        return true;
     }
 }

@@ -53,7 +53,9 @@
                 <td>@order.id</td>
                 <td>@User.findByEmail(order.Waiter).name</td>
                 <td>@order.Table</td>
-                <td>@OrderTCFS.getReadinessStatus(order.id).toString() %</td>
+                <td>@{
+                    OrderTCFS.getReadinessStatus(order.id)
+                } %</td>
                 <td>@order.OrderStatus</td>
                 <td>@order.createdAt.toDateTime()</td>
             </tr>
