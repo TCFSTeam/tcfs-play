@@ -31,6 +31,10 @@ public class ApplicationController extends Controller {
         }
     }
 
+    public static Result ajax() {
+        return ok("ajax");
+    }
+
     /**
      * Login and set the session.
      *

@@ -10,22 +10,22 @@
             <span class="col-xs-6 col-md-8 col-lg-10 vcenter" style="text-align : center"><h4>Tables</h4></span>
             <div class="btn-group btn-group-justified" role="group" aria-label="...">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default">1</button>
+                    <a role="button" class="btn btn-default btn-table" href="/table/1">1</a>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default">2</button>
+                    <a role="button" class="btn btn-default btn-table" href="/table/2">2</a>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default">3</button>
+                    <a role="button" class="btn btn-default btn-table" href="/table/3">3</a>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default">4</button>
+                    <a role="button" class="btn btn-default btn-table" href="/table/4">4</a>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default">5</button>
+                    <a role="button" class="btn btn-default btn-table" href="/table/5">5</a>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default">6</button>
+                    <a role="button" class="btn btn-default btn-table" href="/table/6">6</a>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
         </div>
     </div>
         @if(orders.length > 0){
-    <table class="table table-hover">
+            <table class="table table-hover" id="activeList">
         <thead>
             <th></th>
             <th>ID</th>

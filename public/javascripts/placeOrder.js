@@ -13,3 +13,11 @@ $('#isCorrectOrder').change(function () {
 });
 
 $(document).ready(function() { $( "#single-append-text" ).select2( { placeholder: "Select an order item", maximumSelectionSize: 1 } ); });
+
+
+$('.table-button').click(function () {
+    $('.table-button').removeClass("btn-success");
+    ($(this).addClass("btn-success"));
+    $('#tableId').val($(this).val());
+
+});

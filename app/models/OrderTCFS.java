@@ -38,6 +38,7 @@ public class OrderTCFS extends Model {
     public static List<OrderTCFS> findAll() {
         return find.all();
     }
+
     public static OrderTCFS findById(int id) {
         return find.where().eq("id", id).findUnique();
     }
@@ -73,18 +74,23 @@ public class OrderTCFS extends Model {
         } else
             return 0;
     }
+
     /**
      * Retrieve order by waiter email and with active status.
      */
     public static List<OrderTCFS> findActiveByUser(User user) {
-        return find.where().eq("Waiter", user.email).where().eq("OrderStatus", "Active").findList();
+        return find.where().eq("Waiter", user.email).where().eq("OrderStatus", "Active").where().eq("saved", "true").orderBy("id").findList();
     }
 
     /**
      * Retrieve all active orders.
      */
     public static List<OrderTCFS> findAllActive() {
-        return find.where().eq("OrderStatus", "Active").findList();
+        return find.where().eq("OrderStatus", "Active").where().eq("saved", "true").orderBy("id").findList();
+    }
+
+    public static List<OrderTCFS> findAllActiveByTable(int table, String waiterId) {
+        return find.where().eq("OrderStatus", "Active").where().eq("Table", table).where().eq("Waiter", waiterId).where().eq("saved", "true").orderBy("id").findList();
     }
 
     public static boolean removeNonSavedOrders() {
@@ -93,5 +99,17 @@ public class OrderTCFS extends Model {
             Ebean.delete(orderForDelete);
         }
         return true;
+    }
+
+    public void setTable(int table) {
+        this.Table = table;
+    }
+
+    public void setSaved() {
+        this.saved = true;
+    }
+
+    public void setNotSaved() {
+        this.saved = false;
     }
 }
