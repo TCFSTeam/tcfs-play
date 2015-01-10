@@ -18,6 +18,9 @@ import java.util.List;
 @Security.Authenticated(SecuredController.class)
 public class OrderController extends Controller {
 
+    /**
+     * Place new order
+     */
     public static Result place() {
         OrderTCFS order = new OrderTCFS();
         order.Waiter = request().username();
@@ -29,6 +32,9 @@ public class OrderController extends Controller {
         return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), order));
     }
 
+    /**
+     * Show active orders
+     */
     public static Result active() {
         User.MemberType memberType = User.find.byId(request().username()).memberType;
         if (memberType == User.MemberType.Сook || memberType == User.MemberType.Cashier) {
@@ -43,10 +49,26 @@ public class OrderController extends Controller {
         }
     }
 
+    /**
+     * Filtering orders
+     */
     public static Result sort(Integer tableId) {
         return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findAllActiveByTable(tableId, request().username())));
     }
 
+    /**
+     * Work on readiness status for order items
+     */
+    public static Result setReady(Integer orderId, Integer orderItemId) {
+        if (OrderTCFS.setReadinessStatus(orderId, orderItemId))
+            return ok();
+        else
+            return internalServerError();
+    }
+
+    /**
+     * Processing new order
+     */
     public static Result add() {
         OrderTCFS order;
         Form<MenuItem> formData = Form.form(MenuItem.class).bindFromRequest();
@@ -79,6 +101,9 @@ public class OrderController extends Controller {
         }
     }
 
+    /**
+     * Edit order form
+     */
     public static Result edit(Integer id) {
         return ok(views.html.edit.render(User.find.byId(request().username()), OrderTCFS.findById((id))));
     }

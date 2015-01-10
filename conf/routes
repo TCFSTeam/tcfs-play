@@ -3,21 +3,27 @@
 # ~~~~
 
 # Home page
-GET         /settings            controllers.UserController.settings()
-GET         /home                controllers.ApplicationController.login()
+GET         /settings                        controllers.UserController.settings()
+GET         /home                            controllers.ApplicationController.login()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file        controllers.Assets.at(path="/public", file)
+GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+
+# JS ROUTES
+GET         /public/javascript/routes        controllers.ApplicationController.javascriptRoutes()
+
 
 # Map ApplicationController actions
-GET         /login               controllers.ApplicationController.login()
-POST        /login               controllers.ApplicationController.authenticate()
-GET         /logout              controllers.ApplicationController.logout()
+GET         /login                           controllers.ApplicationController.login()
+POST        /login                           controllers.ApplicationController.authenticate()
+GET         /logout                          controllers.ApplicationController.logout()
 
 # Map order actions
-GET         /place               controllers.OrderController.place()
-GET         /active              controllers.OrderController.active()
-GET         /                    controllers.OrderController.active()
-POST        /add                 controllers.OrderController.add()
-GET        /edit/:id         controllers.OrderController.edit(id: Integer)
-GET        /table/:id        controllers.OrderController.sort(id: Integer)
+GET         /                                controllers.OrderController.active()
+GET         /place                           controllers.OrderController.place()
+GET         /active                          controllers.OrderController.active()
+POST        /add                             controllers.OrderController.add()
+GET         /table/:id                       controllers.OrderController.sort(id: Integer)
+GET         /edit/:id                        controllers.OrderController.edit(id: Integer)
+PUT         /edit/:id/:item                  controllers.OrderController.setReady(id: Integer, item: Integer)
+

@@ -67,10 +67,22 @@ orderitems:
 - &orderItem4 !!models.OrderItem
         id: 4
         menuItemId: 4
-        isReady: true
+        isReady: false
 - &orderItem5 !!models.OrderItem
         id: 5
         menuItemId: 4
+        isReady: true
+- &orderItem6 !!models.OrderItem
+        id: 6
+        menuItemId: 3
+        isReady: true
+- &orderItem7 !!models.OrderItem
+        id: 7
+        menuItemId: 1
+        isReady: true
+- &orderItem8 !!models.OrderItem
+        id: 8
+        menuItemId: 1
         isReady: true
 #Orders
 orders:
@@ -88,10 +100,9 @@ orders:
        Table:       5
        OrderStatus:   Active
        items:
-             - *orderItem4
              - *orderItem2
-             - *orderItem3
-             - *orderItem5
+             - *orderItem7
+             - *orderItem8
        guestsCount: 2
        saved: true
 - &order2 !!models.OrderTCFS
@@ -110,5 +121,9 @@ orders:
      Waiter:     penny@tcfs.com
      Table:       6
      OrderStatus:   Active
+     items:
+           - *orderItem4
+           - *orderItem5
+           - *orderItem6
      guestsCount: 2
      saved: true

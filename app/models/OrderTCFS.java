@@ -43,20 +43,19 @@ public class OrderTCFS extends Model {
         return find.where().eq("id", id).findUnique();
     }
 
-    public static double getOrderCost(int id){
+    public static double getOrderCost(int id) {
         double cost = 0;
         OrderTCFS orderTCFS = OrderTCFS.findById(id);
-        if(orderTCFS != null){
-        for (OrderItem item : orderTCFS.items) {
-            cost += (MenuItem.findById(item.menuItemId).itemPrice);
-        }
-        return cost;
-        }
-        else
+        if (orderTCFS != null) {
+            for (OrderItem item : orderTCFS.items) {
+                cost += (MenuItem.findById(item.menuItemId).itemPrice);
+            }
+            return cost;
+        } else
             return 0;
     }
 
-    public static long getActiveTime(int orderId){
+    public static long getActiveTime(int orderId) {
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
         return (now().toDate().getTime() - orderTCFS.createdAt.toDate().getTime()) / 60000;
     }
@@ -73,6 +72,20 @@ public class OrderTCFS extends Model {
             return (readyCount / allItemsCount) * 100;
         } else
             return 0;
+    }
+
+    public static boolean setReadinessStatus(int orderId, int orderItemId) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        boolean redinessSetted = false;
+        for (OrderItem item : orderTCFS.items) {
+            if (item.id == orderItemId) {
+                redinessSetted = item.isReady = true;
+                Ebean.save(item);
+                Ebean.save(orderTCFS);
+                break;
+            }
+        }
+        return redinessSetted;
     }
 
     /**

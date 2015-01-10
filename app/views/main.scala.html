@@ -38,34 +38,39 @@
                     <div class="sidebar-nav navbar-collapse">
                         <div class="media">
                             <a class="media-left" href="#">
-                                <img src="@user.imagePath" class="img-rounded" style="margin : 5px">
+                                <img src="@user.imagePath" class="img-rounded" style="margin : 5 px">
                             </a>
                             <div class="media-body">
-                                <h4 class="media-heading" style="margin-top : 20px">@user.name</h4>
+                                <h4 class="media-heading" style="margin-top : 20 px">@user.name</h4>
                                 <span>@user.memberType</span>
                             </div>
                         </div>
                     </div>
-                        <ul class="nav" id="side-menu">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a @if(request().uri().contains("active")) {
+                                class="active"
+                            } href="/active"><i class="fa fa-bar-chart-o fa-fw"></i> @if(user.memberType == models.User.MemberType.Admin) {Show orders} else {Active orders}</a>
+                        </li>
+                        @if(user.memberType == models.User.MemberType.Admin || user.memberType == models.User.MemberType.Waiter) {
                             <li>
-                                <a @if(request().uri().contains("active")) {
+                                <a @if(request().uri().contains("/place")) {
                                     class="active"
-                                } href="/active"><i class="fa fa-bar-chart-o fa-fw"></i> @if(user.memberType == models.User.MemberType.Admin) {Show orders} else {Active orders}</a>
+                                } href="/place"
+                                ><i class="fa fa-table fa-fw"></i> Place order</a>
                             </li>
-                            @if(user.memberType == models.User.MemberType.Admin || user.memberType == models.User.MemberType.Waiter){
-                                <li>
-                                <a @if(request().uri().contains("/place")) {class="active"}href="/place"><i class="fa fa-table fa-fw"></i> Place order</a>
-                            </li>
-                            }
-                            <li>
-                                <a @if(request().uri().endsWith("/settings")) {class="active"} href="/settings"><i class="fa fa-dashboard fa-fw"></i> Settings</a>
-                            </li>
-                        </ul>
-                    </div>
+                        }
+                        <li>
+                            <a @if(request().uri().endsWith("/settings")) {
+                                class="active"
+                            } href="/settings"><i class="fa fa-dashboard fa-fw"></i> Settings</a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
             <div id="page-wrapper">
                 <div class="container-fluid">
-            @body
+                @body
                 </div>
             </div>
         </div>
@@ -77,5 +82,7 @@
         <script src="@routes.Assets.at("javascripts/select/select2.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js")" type="text/javascript"></script>
+        <script type="text/javascript" src="@routes.ApplicationController.javascriptRoutes()"></script>
+
     </body>
 </html>

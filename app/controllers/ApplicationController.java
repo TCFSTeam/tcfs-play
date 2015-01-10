@@ -4,6 +4,7 @@ package controllers;
  */
 
 import models.User;
+import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,7 +15,7 @@ import static play.data.Form.form;
 public class ApplicationController extends Controller {
 
     public static Result GO_HOME = redirect(
-            routes.ApplicationController.login()
+            controllers.routes.ApplicationController.login()
     );
 
     public static Result authenticate() {
@@ -31,8 +32,14 @@ public class ApplicationController extends Controller {
         }
     }
 
-    public static Result ajax() {
-        return ok("ajax");
+    /*
+    * Custom javascript reverse-routing
+     */
+    public static Result javascriptRoutes() {
+        response().setContentType("text/javascript");
+        return ok(Routes.javascriptRouter("jsRoutes",
+                controllers.routes.javascript.OrderController.setReady()
+        ));
     }
 
     /**
@@ -56,7 +63,6 @@ public class ApplicationController extends Controller {
         return GO_HOME;
     }
 
-
     public static class Login {
 
         public String email;
@@ -68,6 +74,5 @@ public class ApplicationController extends Controller {
             }
             return null;
         }
-
     }
 }
