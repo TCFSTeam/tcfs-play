@@ -1,16 +1,22 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.Page;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import helpers.NumbersHelper;
 import models.MenuItem;
 import models.OrderItem;
 import models.OrderTCFS;
 import models.User;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-
-import java.util.List;
+import views.html.activeOrders;
+import java.util.Map;
 
 /**
  * Created by alexander on 12/20/14.
@@ -36,24 +42,80 @@ public class OrderController extends Controller {
      * Show active orders
      */
     public static Result active() {
-        User.MemberType memberType = User.find.byId(request().username()).memberType;
-        if (memberType == User.MemberType.Сook || memberType == User.MemberType.Cashier) {
-            List<OrderTCFS> orders = OrderTCFS.findAllActive();
-            return ok(views.html.activeOrders.render(User.find.byId(request().username()), orders));
-        } else if (memberType == User.MemberType.Admin) {
-            List<OrderTCFS> orders = OrderTCFS.findAll();
-            return ok(views.html.activeOrders.render(User.find.byId(request().username()), orders));
-        } else {
-            List<OrderTCFS> orders = OrderTCFS.findActiveByUser(User.find.byId(request().username()));
-            return ok(views.html.activeOrders.render(User.find.byId(request().username()), orders));
-        }
+        return ok(activeOrders.render(User.find.byId(request().username())));
     }
 
+    public static Result list() {
+        /**
+         * Get needed params
+         */
+        Map<String, String[]> params = request().queryString();
+
+        Integer iTotalRecords = OrderTCFS.find.findRowCount();
+        String filter = params.get("sSearch")[0];
+        Integer pageSize = Integer.valueOf(params.get("iDisplayLength")[0]);
+        Integer page = Integer.valueOf(params.get("iDisplayStart")[0]) / pageSize;
+
+        /**
+         * Get sorting order and column
+         */
+        String sortBy = "id";
+        String order = params.get("sSortDir_0")[0];
+
+        switch(Integer.valueOf(params.get("iSortCol_0")[0])) {
+            case 0 : sortBy = "Waiter"; break;
+            case 1 : sortBy = "OrderStatus"; break;
+            case 2 : sortBy = "Table"; break;
+        }
+
+        /**
+         * Get page to show from database
+         * It is important to set setFetchAhead to false, since it doesn't benefit a stateless application at all.
+         */
+        Page<OrderTCFS> contactsPage = OrderTCFS.find.where(
+                Expr.or(
+                        Expr.ilike("Waiter", "%"+filter+"%"),
+                        Expr.or(
+                                Expr.ilike("OrderStatus", "%"+filter+"%"),
+                                Expr.ilike("Table", "%"+filter+"%")
+                        )
+                )
+        )       .where().eq("OrderStatus", "Active").where().eq("saved", "true")
+                .orderBy(sortBy + " " + order + ", id " + order)
+                .findPagingList(pageSize).setFetchAhead(false)
+                .getPage(page);
+
+        Integer iTotalDisplayRecords = contactsPage.getTotalRowCount();
+
+        /**
+         * Construct the JSON to return
+         */
+        ObjectNode result = Json.newObject();
+
+        result.put("sEcho", Integer.valueOf(params.get("sEcho")[0]));
+        result.put("iTotalRecords", iTotalRecords);
+        result.put("iTotalDisplayRecords", iTotalDisplayRecords);
+
+        ArrayNode an = result.putArray("aaData");
+
+        for(OrderTCFS c : contactsPage.getList()) {
+            ObjectNode row = Json.newObject();
+            row.put("0", c.id);
+            row.put("1", User.findByEmail(c.Waiter).toString());
+            row.put("2", c.guestsCount);
+            row.put("3", c.Table);
+            row.put("4", c.OrderStatus);
+            row.put("5", NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
+            an.add(row);
+        }
+
+        return ok(result);
+    }
     /**
      * Filtering orders
      */
     public static Result sort(Integer tableId) {
-        return ok(views.html.activeOrders.render(User.find.byId(request().username()), OrderTCFS.findAllActiveByTable(tableId, request().username())));
+        return ok(activeOrders.render(User.find.byId(request().username())));
     }
 
     /**

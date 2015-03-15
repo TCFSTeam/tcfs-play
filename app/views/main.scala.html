@@ -4,7 +4,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Main</title>
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/bootstrap.min.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/plugins/metisMenu/metisMenu.min.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/plugins/timeline.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/tcfs.css") ">
@@ -12,11 +11,26 @@
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("font-awesome/css/font-awesome.min.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/select2.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/select-bootstrap.css") ">
-        <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/css/bootstrap-editable.css") ">
+        <link rel= "stylesheet" media = "screen" href = "http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/css/bootstrap-editable.css">
+        <link rel= "stylesheet" media="screen" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel= "stylesheet" media="screen" href="http://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css">
+        <link rel= "stylesheet" media="screen" href="@routes.Assets.at("stylesheets/dataTables.bootstrap.css") ">
+
+        <script src="@routes.Assets.at("javascripts/dataTables.bootstrap.js")" type="text/javascript"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="http://cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/tcfs.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/plugins/metisMenu/metisMenu.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/placeOrder.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/select/select2.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="@routes.ApplicationController.javascriptRoutes()"></script>
     </head>
     <body>
         <div id="wrapper">
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom : 0">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom:0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -38,10 +52,10 @@
                     <div class="sidebar-nav navbar-collapse">
                         <div class="media">
                             <a class="media-left" href="#">
-                                <img src="@user.imagePath" class="img-rounded" style="margin : 0.5 em">
+                                <img src="@user.imagePath" class="img-rounded" style="margin:0.5em">
                             </a>
                             <div class="media-body">
-                                <h4 class="media-heading" style="margin-top : 2.25 em">@user.name</h4>
+                                <h4 class="media-heading" style="margin-top:2.25em">@user.name</h4>
                                 <span>@user.memberType</span>
                             </div>
                         </div>
@@ -74,15 +88,5 @@
                 </div>
             </div>
         </div>
-        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/jquery.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/tcfs.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/plugins/metisMenu/metisMenu.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/placeOrder.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/select/select2.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js")" type="text/javascript"></script>
-        <script type="text/javascript" src="@routes.ApplicationController.javascriptRoutes()"></script>
-
     </body>
 </html>
