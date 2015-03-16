@@ -24,7 +24,6 @@ GET         /place                           controllers.OrderController.place()
 GET         /active                          controllers.OrderController.active()
 GET         /search                         controllers.OrderController.list()
 POST        /add                             controllers.OrderController.add()
-GET         /table/:id                       controllers.OrderController.sort(id: Integer)
 GET         /edit/:id                        controllers.OrderController.edit(id: Integer)
 PUT         /edit/:id/:item                  controllers.OrderController.setReady(id: Integer, item: Integer)
 

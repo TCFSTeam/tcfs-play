@@ -100,22 +100,18 @@ public class OrderController extends Controller {
 
         for(OrderTCFS c : contactsPage.getList()) {
             ObjectNode row = Json.newObject();
-            row.put("0", c.id);
-            row.put("1", User.findByEmail(c.Waiter).toString());
-            row.put("2", c.guestsCount);
-            row.put("3", c.Table);
-            row.put("4", c.OrderStatus);
-            row.put("5", NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
+            // starts from 1 because 0 column - link to edit/view order
+            row.put("0", "<a href=\"/edit/" +c.id+"\" ><i class=\"fa fa-edit fa-fw\"></i></a>");
+            row.put("1", c.id);
+            row.put("2", User.findByEmail(c.Waiter).toString());
+            row.put("3", c.guestsCount);
+            row.put("4", c.Table);
+            row.put("5", c.OrderStatus);
+            row.put("6", NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
             an.add(row);
         }
 
         return ok(result);
-    }
-    /**
-     * Filtering orders
-     */
-    public static Result sort(Integer tableId) {
-        return ok(activeOrders.render(User.find.byId(request().username())));
     }
 
     /**
