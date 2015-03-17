@@ -22,8 +22,13 @@ GET         /logout                          controllers.ApplicationController.l
 GET         /                                controllers.OrderController.active()
 GET         /place                           controllers.OrderController.place()
 GET         /active                          controllers.OrderController.active()
-GET         /search                         controllers.OrderController.list()
+GET         /search                          controllers.OrderController.list()
 POST        /add                             controllers.OrderController.add()
 GET         /edit/:id                        controllers.OrderController.edit(id: Integer)
-PUT         /edit/:id/:item                  controllers.OrderController.setReady(id: Integer, item: Integer)
+GET         /edit/ready/:id/:item            controllers.OrderController.setReady(id: Integer, item: Integer)
+GET         /edit/table/:id/:table           controllers.OrderController.setTable(id: Integer, table: Integer)
+GET         /edit/guests/:id/:guests                 controllers.OrderController.setGuests(id: Integer, guests: Integer)
+
+
+
 

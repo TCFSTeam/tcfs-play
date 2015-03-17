@@ -3,6 +3,10 @@
  */
 
 import com.avaje.ebean.Ebean;
+import models.MenuItem;
+import models.OrderItem;
+import models.OrderTCFS;
+import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.libs.Yaml;
@@ -16,10 +20,14 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
         @SuppressWarnings("unchecked")
         Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
-        Ebean.save(all.get("users"));
-        Ebean.save(all.get("menuitems"));
-        Ebean.save(all.get("orderitems"));
-        Ebean.save(all.get("orders"));
+        if(User.findAll().isEmpty())
+            Ebean.save(all.get("users"));
+        if(MenuItem.findAll().isEmpty())
+            Ebean.save(all.get("menuitems"));
+        if(OrderItem.findAll().isEmpty())
+            Ebean.save(all.get("orderitems"));
+        if(OrderTCFS.findAll().isEmpty())
+            Ebean.save(all.get("orders"));
     }
 
 }

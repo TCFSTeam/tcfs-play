@@ -38,8 +38,10 @@ public class ApplicationController extends Controller {
     public static Result javascriptRoutes() {
         response().setContentType("text/javascript");
         return ok(Routes.javascriptRouter("jsRoutes",
-                controllers.routes.javascript.OrderController.setReady()
-        ));
+                controllers.routes.javascript.OrderController.setReady(),
+                controllers.routes.javascript.OrderController.setTable(),
+                controllers.routes.javascript.OrderController.setGuests()
+                ));
     }
 
     /**

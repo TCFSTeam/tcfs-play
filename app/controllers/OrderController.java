@@ -115,10 +115,29 @@ public class OrderController extends Controller {
     }
 
     /**
-     * Work on readiness status for order items
+     * AJAX Work on readiness status for order items
      */
     public static Result setReady(Integer orderId, Integer orderItemId) {
         if (OrderTCFS.setReadinessStatus(orderId, orderItemId))
+            return ok();
+        else
+            return internalServerError();
+    }
+    /**
+     * AJAX setting table for order
+     */
+    public static Result setTable(Integer orderId, Integer tableId) {
+        if (OrderTCFS.setTable(orderId, tableId))
+            return ok();
+        else
+            return internalServerError();
+    }
+
+    /**
+     * AJAX set guests count on table
+     */
+    public static Result setGuests(Integer orderId, Integer guestsCount) {
+        if (OrderTCFS.setGuests(orderId, guestsCount))
             return ok();
         else
             return internalServerError();

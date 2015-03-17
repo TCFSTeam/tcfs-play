@@ -1,15 +1,18 @@
 @(user: User, order: OrderTCFS)
 @import models.User.MemberType
 @main(user) {
-    <div class="row">
+<div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Edit order №@order.id</h1>
         </div>
     </div>
+    <input type="hidden" id="orderId" name="orderId" @if(order != null) {
+        value="@order.id"
+    } else {
+        value="0"} >
     <div class="row-fluid">Table: @order.Table</div>
     <div class="row-fluid">Guests count: @order.guestsCount</div>
     <div class="row-fluid">Active time: @OrderTCFS.getActiveTime(order.id) minutes</div>
-    <div class="row-fluid">Waiter: @User.findByEmail(order.Waiter).name</div>
     @if(order == null) {
         <div class="row">
             <div class="col-lg-12">
@@ -47,7 +50,7 @@
                     <td>@orderItem.id</td>
                     <td>@MenuItem.findById(orderItem.menuItemId).itemDescription</td>
                     <td>@MenuItem.findById(orderItem.menuItemId).itemPrice</td>
-                    <td><input type="checkbox" id="chkReady@orderItem.id" onchange="setReadinessStatus ( @order.id,@orderItem.id)" value="@orderItem.id" @if(user.memberType != MemberType.Сook) {
+                    <td><input type="checkbox" class="ready" id="chkReady@orderItem.id"  value="@orderItem.id" @if(user.memberType != MemberType.Сook) {
                         disabled="true"
                     } @if(orderItem.isReady) {
                         checked="true" disabled="true"}>

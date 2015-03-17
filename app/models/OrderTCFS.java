@@ -33,6 +33,24 @@ public class OrderTCFS extends Model {
     public List<OrderItem> items = new ArrayList<OrderItem>();
 
     /**
+     * Setters
+     */
+    public void setTable(int table) {
+        this.Table = table;
+    }
+    public void setGuests(int guests) {
+        this.guestsCount = guests;
+    }
+
+    public void setSaved() {
+        this.saved = true;
+    }
+
+    public void setNotSaved() {
+        this.saved = false;
+    }
+
+    /**
      * Retrieve all orders.
      */
     public static List<OrderTCFS> findAll() {
@@ -74,20 +92,6 @@ public class OrderTCFS extends Model {
             return 0;
     }
 
-    public static boolean setReadinessStatus(int orderId, int orderItemId) {
-        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
-        boolean redinessSetted = false;
-        for (OrderItem item : orderTCFS.items) {
-            if (item.id == orderItemId) {
-                redinessSetted = item.isReady = true;
-                Ebean.save(item);
-                Ebean.save(orderTCFS);
-                break;
-            }
-        }
-        return redinessSetted;
-    }
-
     /**
      * Retrieve order by waiter email and with active status.
      */
@@ -102,10 +106,20 @@ public class OrderTCFS extends Model {
         return find.where().eq("OrderStatus", "Active").where().eq("saved", "true").orderBy("id").findList();
     }
 
+    /**
+     * Retrieve all active orders by table
+     * @param table
+     * @param waiterId
+     * @return
+     */
     public static List<OrderTCFS> findAllActiveByTable(int table, String waiterId) {
         return find.where().eq("OrderStatus", "Active").where().eq("Table", table).where().eq("Waiter", waiterId).where().eq("saved", "true").orderBy("id").findList();
     }
 
+    /**
+     * Delete all not saved orders
+     * @return
+     */
     public static boolean removeNonSavedOrders() {
         List<OrderTCFS> ordersForDelete = find.where().eq("saved", "true").findList();
         for (OrderTCFS orderForDelete : ordersForDelete) {
@@ -114,15 +128,34 @@ public class OrderTCFS extends Model {
         return true;
     }
 
-    public void setTable(int table) {
-        this.Table = table;
+
+    /**
+     *  External actions
+     */
+    public static boolean setReadinessStatus(int orderId, int orderItemId) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        boolean redinessSetted = false;
+        for (OrderItem item : orderTCFS.items) {
+            if (item.id == orderItemId) {
+                redinessSetted = item.isReady = true;
+                Ebean.save(item);
+                Ebean.save(orderTCFS);
+                break;
+            }
+        }
+        return redinessSetted;
+    }
+    public static boolean setTable(Integer orderId, Integer tableId) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        orderTCFS.setTable(tableId);
+        Ebean.save(orderTCFS);
+        return true;
+    }
+    public static boolean setGuests(Integer orderId, Integer guestsCount) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        orderTCFS.setGuests(guestsCount);
+        Ebean.save(orderTCFS);
+        return true;
     }
 
-    public void setSaved() {
-        this.saved = true;
-    }
-
-    public void setNotSaved() {
-        this.saved = false;
-    }
 }

@@ -8,7 +8,7 @@
     @helper.form(routes.OrderController.add) {
         <div class="form-group">
             <div class="input-group select2-bootstrap-append">
-                <input type="hidden" name="orderId" @if(order != null) {
+                <input type="hidden" id="orderId" name="orderId" @if(order != null) {
                     value="@order.id"
                 } else {
                     value="0"} >
@@ -30,17 +30,17 @@
                         value="@order.Table"
                     } else {
                         value="0"} >
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 1) {btn-success}" name="table" value="1">
+                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 1) {btn-success}" id="table1" value="1">
                         1</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 2) {btn-success}" name="table" value="2">
+                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 2) {btn-success}" id="table2" value="2">
                         2</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 3) {btn-success}" name="table" value="3">
+                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 3) {btn-success}" id="table3" value="3">
                         3</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 4) {btn-success}" name="table" value="4">
+                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 4) {btn-success}" id="table4" value="4">
                         4</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 5) {btn-success}" name="table" value="5">
+                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 5) {btn-success}" id="table5" value="5">
                         5</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 6) {btn-success}" name="table" value="6">
+                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 6) {btn-success}" id="table6" value="6">
                         6</button>
                 </div></div>
             <div class="col-md-4"><span><h3>Waiter</h3></span>
@@ -56,6 +56,25 @@
                         <li>@userTCFS.name</li>
                     }
                     </ul>
+                </div></div>
+            <div class="col-md-4"><span><h3>Guests count</h3></span>
+                <div class="btn-group" role="group" aria-label="...">
+                    <input type="hidden" id="tableId" name="tableId" @if(order != null) {
+                        value="@order.guestsCount"
+                    } else {
+                        value="0"} >
+                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 1) {btn-success}" id="guests1" value="1">
+                        1</button>
+                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 2) {btn-success}" id="guests2" value="2">
+                        2</button>
+                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 3) {btn-success}" id="guests3" value="3">
+                        3</button>
+                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 4) {btn-success}" id="guests4" value="4">
+                        4</button>
+                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 5) {btn-success}" id="guests5" value="5">
+                        5</button>
+                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 6) {btn-success}" id="guests6" value="6">
+                        6</button>
                 </div></div>
         </div>
     @if(order == null){
@@ -100,16 +119,5 @@
         <div class="row-fluid">
             <div class="span6 offset6"><h2 class="page-header">Amount: @OrderTCFS.getOrderCost(order.id).toString()$</h2></div>
         </div>
-        @*<div class="row-fluid">
-            <div class="span6 offset6"><div class="input-group pull-right">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="isCorrectOrder"> Order is correct
-                    </label>
-                </div>
-                <button type="submit" id="saveOrder" value="save" class="btn btn-default disabled">Save order</button>
-                <button type="button" id="payOrder" class="btn btn-default disabled">Pay order</button>
-                <button type="button" class="btn btn-default">Cancel</button>
-            </div></div>
-            </div>*@ }
+}
     }
