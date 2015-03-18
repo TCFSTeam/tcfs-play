@@ -154,7 +154,6 @@ public class OrderController extends Controller {
         } else {
             MenuItem menuItem = MenuItem.findById(Integer.parseInt(formData.data().get("menuItemId").toString()));
             int orderId = (Integer.parseInt(formData.data().get("orderId").toString()));
-            int table = (Integer.parseInt(formData.data().get("tableId").toString()));
             if (orderId > 0)
                 order = OrderTCFS.findById(orderId);
             else {
@@ -171,7 +170,6 @@ public class OrderController extends Controller {
             }
             if (order != null) {
                 order.setSaved();
-                order.setTable(table);
                 Ebean.save(order);
             }
             return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), order));
