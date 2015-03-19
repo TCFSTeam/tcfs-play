@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.annotation.EnumValue;
 import org.joda.time.DateTime;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -24,7 +25,7 @@ public class OrderTCFS extends Model {
     public int id;
     public int guestsCount = 1;
     public String Waiter;
-    public String OrderStatus;
+    public String OrderStatus = "Active";
     public int Table;
     public boolean saved = false;
     @Formats.DateTime(pattern = "MMM ddd HH:mm")
@@ -40,6 +41,9 @@ public class OrderTCFS extends Model {
     }
     public void setGuests(int guests) {
         this.guestsCount = guests;
+    }
+    public void setStatus(String status) {
+        this.OrderStatus = status;
     }
 
     public void setSaved() {
@@ -128,9 +132,16 @@ public class OrderTCFS extends Model {
         return true;
     }
 
+    public static boolean proceedToPay(int orderId) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        orderTCFS.setStatus("WaitForPay");
+        Ebean.save(orderTCFS);
+        return true;
+    }
+
 
     /**
-     *  External actions
+     *  External AJAX actions
      */
     public static boolean setReadinessStatus(int orderId, int orderItemId) {
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
@@ -157,5 +168,9 @@ public class OrderTCFS extends Model {
         Ebean.save(orderTCFS);
         return true;
     }
+
+    /*
+    * Some additional types
+     */
 
 }

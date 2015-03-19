@@ -7,11 +7,24 @@
     var table = $('#contacts_table').dataTable( {
     "paging":   false,
     "bProcessing": true,
-    "aaSorting": [[ 0, "asc" ]],
+    "aaSorting": [[ 3, "asc" ]],
     "bServerSide": true,
     "bJQueryUI": true,
     "sPaginationType": "full_numbers",
-    "sAjaxSource": "@routes.OrderController.list()"
+    "bStateSave": true,
+    "bAutoWidth": true,
+    "sAjaxSource": "@routes.OrderController.list()",
+    "fnCreatedRow": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+    // Bold the grade for all 'A' grade browsers
+    if ( aData[6] == "Complete" )
+    {
+    $('td:eq(2)', nRow).parent( ).addClass("success");
+    }
+    if ( aData[6] == "WaitForPay" )
+    {
+    $('td:eq(2)', nRow).parent( ).addClass("info");
+    }
+    }
     });
 
     });
@@ -56,13 +69,17 @@
     <table id="contacts_table" cellpadding="0" cellspacing="0" border="0" class="table table-hover">
         <thead>
             <tr>
-                <th></th>
+                <th>Edit</th>
+                <th>Pay</th>
                 <th>ID</th>
                 <th>Waiter</th>
                 <th>Guests count</th>
                 <th>Table</th>
                 <th>Order status</th>
                 <th>Readiness</th>
+                @if(user.memberType == User.MemberType.Admin){
+                    <th>Saved</th>
+                }
             </tr>
         </thead>
         <tbody>

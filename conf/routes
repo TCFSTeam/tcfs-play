@@ -21,13 +21,14 @@ GET         /logout                          controllers.ApplicationController.l
 # Map order actions
 GET         /                                controllers.OrderController.active()
 GET         /place                           controllers.OrderController.place()
+GET         /pay/:id                         controllers.OrderController.pay(id: Integer)
 GET         /active                          controllers.OrderController.active()
 GET         /search                          controllers.OrderController.list()
 POST        /add                             controllers.OrderController.add()
 GET         /edit/:id                        controllers.OrderController.edit(id: Integer)
 GET         /edit/ready/:id/:item            controllers.OrderController.setReady(id: Integer, item: Integer)
 GET         /edit/table/:id/:table           controllers.OrderController.setTable(id: Integer, table: Integer)
-GET         /edit/guests/:id/:guests                 controllers.OrderController.setGuests(id: Integer, guests: Integer)
+GET         /edit/guests/:id/:guests         controllers.OrderController.setGuests(id: Integer, guests: Integer)
 
 
 

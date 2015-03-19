@@ -16,6 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.activeOrders;
+
 import java.util.Map;
 
 /**
@@ -62,29 +63,52 @@ public class OrderController extends Controller {
         String sortBy = "id";
         String order = params.get("sSortDir_0")[0];
 
-        switch(Integer.valueOf(params.get("iSortCol_0")[0])) {
-            case 0 : sortBy = "Waiter"; break;
-            case 1 : sortBy = "OrderStatus"; break;
-            case 2 : sortBy = "Table"; break;
+        switch (Integer.valueOf(params.get("iSortCol_0")[0])) {
+            case 0:
+                sortBy = "Waiter";
+                break;
+            case 1:
+                sortBy = "OrderStatus";
+                break;
+            case 2:
+                sortBy = "Table";
+                break;
         }
 
         /**
          * Get page to show from database
          * It is important to set setFetchAhead to false, since it doesn't benefit a stateless application at all.
          */
-        Page<OrderTCFS> contactsPage = OrderTCFS.find.where(
-                Expr.or(
-                        Expr.ilike("Waiter", "%"+filter+"%"),
-                        Expr.or(
-                                Expr.ilike("OrderStatus", "%"+filter+"%"),
-                                Expr.ilike("Table", "%"+filter+"%")
-                        )
-                )
-        )       .where().eq("OrderStatus", "Active").where().eq("saved", "true")
-                .orderBy(sortBy + " " + order + ", id " + order)
-                .findPagingList(pageSize).setFetchAhead(false)
-                .getPage(page);
+        User currentUser = User.find.byId(request().username());
+        Page<OrderTCFS> contactsPage = null;
+        if (currentUser.memberType == User.MemberType.Admin
+                || currentUser.memberType == User.MemberType.Cashier
+                || currentUser.memberType == User.MemberType.Сook) {
+            contactsPage = OrderTCFS.find.where(
+                    Expr.or(
+                            Expr.ilike("Waiter", "%" + filter + "%"),
+                            Expr.or(
+                                    Expr.ilike("OrderStatus", "%" + filter + "%"),
+                                    Expr.ilike("Table", "%" + filter + "%")
+                            )
+                    )
+            )
+                    .findPagingList(pageSize).setFetchAhead(false)
+                    .getPage(page);
+        } else {
 
+
+            contactsPage = OrderTCFS.find.where(
+                    Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
+                            Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
+                                    Expr.ilike("Table", "%" + filter + "%")))
+            ).where().eq("OrderStatus", "Active").where().eq("Waiter", request().username())
+                    .findPagingList(pageSize).setFetchAhead(false)
+                    .getPage(page);
+        }
+
+        if (contactsPage == null)
+            return internalServerError();
         Integer iTotalDisplayRecords = contactsPage.getTotalRowCount();
 
         /**
@@ -98,16 +122,32 @@ public class OrderController extends Controller {
 
         ArrayNode an = result.putArray("aaData");
 
-        for(OrderTCFS c : contactsPage.getList()) {
+        for (OrderTCFS c : contactsPage.getList()) {
             ObjectNode row = Json.newObject();
             // starts from 1 because 0 column - link to edit/view order
-            row.put("0", "<a href=\"/edit/" +c.id+"\" ><i class=\"fa fa-edit fa-fw\"></i></a>");
-            row.put("1", c.id);
-            row.put("2", User.findByEmail(c.Waiter).toString());
-            row.put("3", c.guestsCount);
-            row.put("4", c.Table);
-            row.put("5", c.OrderStatus);
-            row.put("6", NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
+            row.put("0", "<a href=\"/edit/" + c.id + "\" ><i class=\"fa fa-edit fa-fw\"></i></a>");
+
+            //set pay action for waiter and admin
+            if (currentUser.memberType == User.MemberType.Admin || currentUser.memberType == User.MemberType.Waiter) {
+                if (c.saved) {
+                    row.put("1", "<a href=\"/pay/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
+                } else {
+                    row.put("1", "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
+                }
+            }
+
+            row.put("2", c.id);
+            row.put("3", User.findByEmail(c.Waiter).toString());
+            row.put("4", c.guestsCount);
+            row.put("5", c.Table);
+            row.put("6", c.OrderStatus.toString());
+            row.put("7", NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
+            if (currentUser.memberType == User.MemberType.Admin) {
+                if (c.saved)
+                    row.put("8", "Saved");
+                else
+                    row.put("8", "Not saved");
+            }
             an.add(row);
         }
 
@@ -123,6 +163,7 @@ public class OrderController extends Controller {
         else
             return internalServerError();
     }
+
     /**
      * AJAX setting table for order
      */
@@ -180,7 +221,15 @@ public class OrderController extends Controller {
      * Edit order form
      */
     public static Result edit(Integer id) {
-        return ok(views.html.edit.render(User.find.byId(request().username()), OrderTCFS.findById((id))));
+        return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), OrderTCFS.findById(id)));
+    }
+
+    /**
+     * Edit order form
+     */
+    public static Result pay(Integer id) {
+        OrderTCFS.proceedToPay(id);
+        return ok(activeOrders.render(User.find.byId(request().username())));
     }
 }
 
