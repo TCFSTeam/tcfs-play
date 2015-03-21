@@ -66,7 +66,8 @@ public class OrderTCFS extends Model {
         OrderTCFS orderTCFS = OrderTCFS.findById(id);
         if (orderTCFS != null) {
             for (OrderItem item : orderTCFS.items) {
-                cost += (MenuItem.findById(item.menuItemId).itemPrice);
+                if(!item.isReturned)
+                    cost += (MenuItem.findById(item.menuItemId).itemPrice);
             }
             return cost;
         } else
@@ -81,10 +82,13 @@ public class OrderTCFS extends Model {
     public static double getReadinessStatus(int orderId) {
         double readyCount = 0;
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
-        double allItemsCount = orderTCFS.items.size();
+        double allItemsCount = 0;
         for (OrderItem item : orderTCFS.items) {
-            if (item.isReady)
-                readyCount++;
+            if (!item.isReturned){
+                allItemsCount++;
+                if(item.isReady)
+                    readyCount++;
+            }
         }
         if (readyCount > 0 && allItemsCount > 0) {
             return (readyCount / allItemsCount) * 100;
@@ -135,6 +139,35 @@ public class OrderTCFS extends Model {
         return true;
     }
 
+    public static boolean haveReturnedItems(int orderId) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        boolean returnedState = false;
+        for (OrderItem item : orderTCFS.items) {
+            if (item.isReturned) {
+                returnedState = item.isReady = true;
+                break;
+            }
+        }
+
+        return returnedState;
+    }
+
+    public static List<OrderItem>  getAllReturnedItems(int orderId) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        List<OrderItem>  returnedItems = new ArrayList<OrderItem>();
+        for (OrderItem item : orderTCFS.items) {
+            if (item.isReturned) {
+                returnedItems.add(item);
+            }
+        }
+        return returnedItems ;
+    }
+
+    public static void returnItem(int itemId) {
+        OrderItem item = OrderItem.findById(itemId);
+        item.setReturned(true);
+        Ebean.save(item);
+    }
 
     /**
      *  External AJAX actions

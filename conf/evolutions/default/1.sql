@@ -15,6 +15,7 @@ create table order_item (
   id                        integer not null,
   menu_item_id              integer,
   is_ready                  boolean,
+  is_returned               boolean,
   constraint pk_order_item primary key (id))
 ;
 

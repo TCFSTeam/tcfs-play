@@ -254,6 +254,14 @@ public class OrderController extends Controller {
     }
 
     /**
+     * Return item from order
+     */
+    public static Result returnItem(Integer orderId, Integer itemId) {
+        OrderTCFS.returnItem(itemId);
+        return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), OrderTCFS.findById(orderId)));
+    }
+
+    /**
      * Pay order action
      */
     public static Result table(Integer id) {

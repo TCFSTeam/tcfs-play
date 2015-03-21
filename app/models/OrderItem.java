@@ -21,12 +21,22 @@ public class OrderItem {
     public int id;
     public int menuItemId;
     public boolean isReady = false;
+    public boolean isReturned = false;
 
     public OrderItem(int menuItemId, boolean isready) {
         this.id = findAll().size() + 1;
         this.isReady = isready;
         this.menuItemId = menuItemId;
     }
+
+    /**
+     * Setters
+     */
+    public void setReady(boolean ready) { this.isReady = ready; }
+    public void setReturned(boolean returned) {
+        this.isReturned = returned;
+    }
+
     public static List<OrderItem> findAll() {
         return find.all();
     }

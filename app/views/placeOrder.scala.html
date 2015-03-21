@@ -97,6 +97,7 @@
         </thead>
         <tbody>
         @for(orderItem <- order.items) {
+            @if(!orderItem.isReturned){
             <tr class="@if(orderItem.isReady){success}">
                 <td>@orderItem.id</td>
                 <td>@MenuItem.findById(orderItem.menuItemId).itemDescription</td>
@@ -107,15 +108,41 @@
                     checked="true" disabled="true"}>
                 </td>
                 @if(user.memberType == User.MemberType.Admin && !orderItem.isReady) {
-                    <td><a title="Remove this item from system" href="/delete/@orderItem.id"> <i class="fa fa-trash-o fa-lg"></i></a></td>
+                    <td><a title="Move order to returned" href="/return/@order.id/@orderItem.id"> <i class="fa fa-trash-o fa-lg"></i></a></td>
                 }else {
                     <td><i class="fa fa-trash-o fa-lg"></i></td>
                 }
-            </tr>
+            </tr>}
         }
         </tbody>
     </table>
     }
+        @if(order != null && OrderTCFS.haveReturnedItems(order.id)){
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Returned order items</h2>
+                </div>
+            </div>
+            <table class="table table-hover disabled">
+                <thead>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th data-checkbox="true">Readiness</th>
+                </thead>
+                <tbody>
+                @for(orderItem <- OrderTCFS.getAllReturnedItems(order.id)) {
+                    <tr class="warning">
+                        <td>@orderItem.id</td>
+                        <td>@MenuItem.findById(orderItem.menuItemId).itemDescription</td>
+                        <td>@MenuItem.findById(orderItem.menuItemId).itemPrice</td>
+                        <td><input type="checkbox"  disabled="true">
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
         <div class="row-fluid">
             <div class="span6 offset6"><h2 class="page-header">Amount: @OrderTCFS.getOrderCost(order.id).toString()$</h2></div>
         </div>
