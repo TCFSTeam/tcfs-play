@@ -67,7 +67,9 @@
         <thead>
             <tr>
                 <th>Edit</th>
-                <th>Pay</th>
+                @if(user.memberType != User.MemberType.Сook){
+                    <th>Pay</th>
+                }
                 <th>ID</th>
                 <th>Waiter</th>
                 <th>Guests count</th>

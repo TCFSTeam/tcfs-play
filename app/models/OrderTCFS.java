@@ -36,20 +36,16 @@ public class OrderTCFS extends Model {
     /**
      * Setters
      */
-    public void setTable(int table) {
-        this.Table = table;
-    }
+    public void setTable(int table) { this.Table = table; }
     public void setGuests(int guests) {
         this.guestsCount = guests;
     }
     public void setStatus(String status) {
         this.OrderStatus = status;
     }
-
     public void setSaved() {
         this.saved = true;
     }
-
     public void setNotSaved() {
         this.saved = false;
     }
@@ -154,11 +150,20 @@ public class OrderTCFS extends Model {
                 break;
             }
         }
+        if(OrderTCFS.getReadinessStatus(orderId) >=100)
+            orderTCFS.setStatus("Ready");
         return redinessSetted;
     }
     public static boolean setTable(Integer orderId, Integer tableId) {
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
         orderTCFS.setTable(tableId);
+        Ebean.save(orderTCFS);
+        return true;
+    }
+
+    public static boolean setStatus(Integer orderId, String status) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        orderTCFS.setStatus(status);
         Ebean.save(orderTCFS);
         return true;
     }

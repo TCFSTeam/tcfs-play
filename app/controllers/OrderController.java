@@ -81,9 +81,7 @@ public class OrderController extends Controller {
          */
         User currentUser = User.find.byId(request().username());
         Page<OrderTCFS> contactsPage = null;
-        if (currentUser.memberType == User.MemberType.Admin
-                || currentUser.memberType == User.MemberType.Cashier
-                || currentUser.memberType == User.MemberType.Сook) {
+        if (currentUser.memberType == User.MemberType.Admin) {
             contactsPage = OrderTCFS.find.where(
                     Expr.or(
                             Expr.ilike("Waiter", "%" + filter + "%"),
@@ -95,9 +93,30 @@ public class OrderController extends Controller {
             )
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
-        } else {
+        } else if(currentUser.memberType == User.MemberType.Сook){
 
+            contactsPage = OrderTCFS.find.where(
+                    Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
+                            Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
+                                    Expr.ilike("Table", "%" + filter + "%")))
+            ).where().eq("OrderStatus", "Active")
+                    .findPagingList(pageSize).setFetchAhead(false)
+                    .getPage(page);
 
+        }
+        else if(currentUser.memberType == User.MemberType.Cashier){
+
+            contactsPage = OrderTCFS.find.where(
+                    Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
+                            Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
+                                    Expr.ilike("Table", "%" + filter + "%")))
+            ).where().eq("OrderStatus", "WaitForPay")
+                    .findPagingList(pageSize).setFetchAhead(false)
+                    .getPage(page);
+
+        }
+        else
+        {
             contactsPage = OrderTCFS.find.where(
                     Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
                             Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
@@ -121,32 +140,34 @@ public class OrderController extends Controller {
         result.put("iTotalDisplayRecords", iTotalDisplayRecords);
 
         ArrayNode an = result.putArray("aaData");
-
+        int rowIndex = 0;
         for (OrderTCFS c : contactsPage.getList()) {
+            if(currentUser.memberType == User.MemberType.Сook
+                    && OrderTCFS.getReadinessStatus(c.id) >= 100)
+                continue;
             ObjectNode row = Json.newObject();
             // starts from 1 because 0 column - link to edit/view order
-            row.put("0", "<a href=\"/edit/" + c.id + "\" ><i class=\"fa fa-edit fa-fw\"></i></a>");
-
+            rowIndex = 0;
+            row.put(String.valueOf(rowIndex++), "<a href=\"/edit/" + c.id + "\" ><i class=\"fa fa-edit fa-fw\"></i></a>");
             //set pay action for waiter and admin
             if (currentUser.memberType == User.MemberType.Admin || currentUser.memberType == User.MemberType.Waiter) {
                 if (c.saved) {
-                    row.put("1", "<a href=\"/pay/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
+                    row.put(String.valueOf(rowIndex++), "<a href=\"/pay/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
                 } else {
-                    row.put("1", "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
+                    row.put(String.valueOf(rowIndex++), "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
                 }
             }
-
-            row.put("2", c.id);
-            row.put("3", User.findByEmail(c.Waiter).toString());
-            row.put("4", c.guestsCount);
-            row.put("5", c.Table);
-            row.put("6", c.OrderStatus.toString());
-            row.put("7", NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
+            row.put(String.valueOf(rowIndex++), c.id);
+            row.put(String.valueOf(rowIndex++), User.findByEmail(c.Waiter).toString());
+            row.put(String.valueOf(rowIndex++), c.guestsCount);
+            row.put(String.valueOf(rowIndex++), c.Table);
+            row.put(String.valueOf(rowIndex++), c.OrderStatus.toString());
+            row.put(String.valueOf(rowIndex++), NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
             if (currentUser.memberType == User.MemberType.Admin) {
                 if (c.saved)
-                    row.put("8", "Saved");
+                    row.put(String.valueOf(rowIndex++), "Saved");
                 else
-                    row.put("8", "Not saved");
+                    row.put(String.valueOf(rowIndex++), "Not saved");
             }
             an.add(row);
         }

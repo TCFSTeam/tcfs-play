@@ -2,7 +2,12 @@
     @main(user) {
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Place new order @if(order != null && order.id > 0) {#@order.id}</h1>
+                @if(order.saved){
+                    <h1 class="page-header">Edit order @if(order != null && order.id > 0) {#@order.id}</h1>
+
+                } else{
+                    <h1 class="page-header">Place new order @if(order != null && order.id > 0) {#@order.id}</h1>
+                }
             </div>
         </div>
     @helper.form(routes.OrderController.add) {
@@ -30,18 +35,9 @@
                         value="@order.Table"
                     } else {
                         value="0"} >
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 1) {btn-success}" id="table1" value="1">
-                        1</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 2) {btn-success}" id="table2" value="2">
-                        2</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 3) {btn-success}" id="table3" value="3">
-                        3</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 4) {btn-success}" id="table4" value="4">
-                        4</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 5) {btn-success}" id="table5" value="5">
-                        5</button>
-                    <button type="button" class="btn btn-default table-button @if(order != null && order.Table == 6) {btn-success}" id="table6" value="6">
-                        6</button>
+                    @for(i <- 1 to 6 ){
+                        <button type="button" class="btn @if(user.memberType == User.MemberType.Сook) {disabled} btn-default table-button @if(order != null && order.Table == i) {btn-success}" id="table@i" value="@i">@i</button>
+                }
                 </div></div>
             <div class="col-md-4"><span><h3>Waiter</h3></span>
                 <div class="dropdown" >
@@ -63,19 +59,11 @@
                         value="@order.guestsCount"
                     } else {
                         value="0"} >
-                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 1) {btn-success}" id="guests1" value="1">
-                        1</button>
-                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 2) {btn-success}" id="guests2" value="2">
-                        2</button>
-                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 3) {btn-success}" id="guests3" value="3">
-                        3</button>
-                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 4) {btn-success}" id="guests4" value="4">
-                        4</button>
-                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 5) {btn-success}" id="guests5" value="5">
-                        5</button>
-                    <button type="button" class="guests-button btn btn-default @if(order != null && order.guestsCount == 6) {btn-success}" id="guests6" value="6">
-                        6</button>
-                </div></div>
+                    @for(i <- 1 to 6 ){
+                        <button type="button" class="guests-button btn @if(user.memberType == User.MemberType.Сook) {disabled} btn-default @if(order != null && order.guestsCount == i) {btn-success}" id="guests@i" value="@i">@i</button>
+                    }
+                </div>
+            </div>
         </div>
     @if(order == null){
         <div class="row">
@@ -102,14 +90,22 @@
             <th>ID</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Delete</th>
+            <th data-checkbox="true">Readiness</th>
+            @if(user.memberType != User.MemberType.Сook || user.memberType != User.MemberType.Cashier) {
+                <th>Delete</th>
+            }
         </thead>
         <tbody>
         @for(orderItem <- order.items) {
-            <tr>
+            <tr class="@if(orderItem.isReady){success}">
                 <td>@orderItem.id</td>
                 <td>@MenuItem.findById(orderItem.menuItemId).itemDescription</td>
                 <td>@MenuItem.findById(orderItem.menuItemId).itemPrice</td>
+                <td><input type="checkbox" class="ready" id="chkReady@orderItem.id"  value="@orderItem.id" @if(user.memberType != User.MemberType.Сook) {
+                    disabled="true"
+                } @if(orderItem.isReady) {
+                    checked="true" disabled="true"}>
+                </td>
                 <td><a title="Remove"> <i class="fa fa-trash-o fa-lg"></i></a></td>
             </tr>
         }
