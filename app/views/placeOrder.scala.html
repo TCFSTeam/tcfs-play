@@ -23,7 +23,7 @@
                 }
                 </select>
                 <span class="input-group-btn">
-                    <button class="btn btn-default" data-select2-open="single-append-text" type="submit" value="add">
+                    <button class="btn btn-default @if(user.memberType != User.MemberType.Admin && user.memberType != User.MemberType.Waiter) {disabled}" data-select2-open="single-append-text" type="submit" value="add">
                         Add</button>
                 </span>
             </div>
@@ -106,7 +106,11 @@
                 } @if(orderItem.isReady) {
                     checked="true" disabled="true"}>
                 </td>
-                <td><a title="Remove"> <i class="fa fa-trash-o fa-lg"></i></a></td>
+                @if(user.memberType == User.MemberType.Admin && !orderItem.isReady) {
+                    <td><a title="Remove this item from system" href="/delete/@orderItem.id"> <i class="fa fa-trash-o fa-lg"></i></a></td>
+                }else {
+                    <td><i class="fa fa-trash-o fa-lg"></i></td>
+                }
             </tr>
         }
         </tbody>
