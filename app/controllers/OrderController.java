@@ -225,9 +225,17 @@ public class OrderController extends Controller {
     }
 
     /**
-     * Edit order form
+     * Pay order action
      */
     public static Result pay(Integer id) {
+        OrderTCFS.proceedToPay(id);
+        return ok(activeOrders.render(User.find.byId(request().username())));
+    }
+
+    /**
+     * Pay order action
+     */
+    public static Result table(Integer id) {
         OrderTCFS.proceedToPay(id);
         return ok(activeOrders.render(User.find.byId(request().username())));
     }

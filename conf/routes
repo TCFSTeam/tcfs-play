@@ -22,6 +22,7 @@ GET         /logout                          controllers.ApplicationController.l
 GET         /                                controllers.OrderController.active()
 GET         /place                           controllers.OrderController.place()
 GET         /pay/:id                         controllers.OrderController.pay(id: Integer)
+GET         /table/:id                       controllers.OrderController.table(id: Integer)
 GET         /active                          controllers.OrderController.active()
 GET         /search                          controllers.OrderController.list()
 POST        /add                             controllers.OrderController.add()

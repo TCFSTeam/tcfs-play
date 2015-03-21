@@ -5,14 +5,12 @@
     <script type="text/javascript">
     $(document).ready(function() {
     var table = $('#contacts_table').dataTable( {
-    "paging":   false,
+    "paging": false,
     "bProcessing": true,
-    "aaSorting": [[ 3, "asc" ]],
+    "aaSorting": [[ 0, "asc" ]],
     "bServerSide": true,
     "bJQueryUI": true,
     "sPaginationType": "full_numbers",
-    "bStateSave": true,
-    "bAutoWidth": true,
     "sAjaxSource": "@routes.OrderController.list()",
     "fnCreatedRow": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
     // Bold the grade for all 'A' grade browsers
@@ -26,7 +24,6 @@
     }
     }
     });
-
     });
     </script>
 
