@@ -3,20 +3,31 @@
  */
 
 import com.avaje.ebean.Ebean;
+import models.MenuItem;
+import models.OrderItem;
+import models.OrderTCFS;
 import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.libs.Yaml;
 
 import java.util.List;
+import java.util.Map;
 
 public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
-        if (User.find.findRowCount() == 0) {
-            Ebean.save((List) Yaml.load("initial-data.yml"));
-        }
+        @SuppressWarnings("unchecked")
+        Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
+        if(User.findAll().isEmpty())
+            Ebean.save(all.get("users"));
+        if(MenuItem.findAll().isEmpty())
+            Ebean.save(all.get("menuitems"));
+        if(OrderItem.findAll().isEmpty())
+            Ebean.save(all.get("orderitems"));
+        if(OrderTCFS.findAll().isEmpty())
+            Ebean.save(all.get("orders"));
     }
 
 }

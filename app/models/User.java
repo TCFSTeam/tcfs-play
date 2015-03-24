@@ -1,32 +1,25 @@
 package models;
 
-import play.data.format.Formats;
-import play.data.validation.Constraints;
+import com.avaje.ebean.annotation.EnumValue;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.List;
-
 /**
  * User entity managed by Ebean
  */
 @Entity
-@Table(name = "account")
 public class User extends Model {
 
     private static final long serialVersionUID = 1L;
     public static Model.Finder<String, User> find = new Model.Finder<String, User>(String.class, User.class);
     @Id
-    @Constraints.Required
-    @Formats.NonEmpty
     public String email;
-    @Constraints.Required
     public String name;
-    @Constraints.Required
     public String password;
-    // -- Queries
+    public String imagePath;
+    public MemberType memberType;
 
     public User(String email, String name, String password) {
         this.email = email;
@@ -58,10 +51,16 @@ public class User extends Model {
                 .findUnique();
     }
 
-    // --
+    public String getEmail() {
+        return email;
+    }
 
     public String toString() {
-        return "User(" + email + ")";
+        return name;
+    }
+
+    public enum MemberType {
+        @EnumValue("W")Waiter, @EnumValue("CK")Сook, @EnumValue("A")Admin, @EnumValue("CASH")Cashier
     }
 
 }

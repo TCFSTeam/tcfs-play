@@ -1,6 +1,10 @@
 package controllers;
+/**
+ * Created by alexander on 10/12/14.
+ */
 
 import models.User;
+import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -8,23 +12,36 @@ import views.html.login;
 
 import static play.data.Form.form;
 
-public class Application extends Controller {
+public class ApplicationController extends Controller {
 
     public static Result GO_HOME = redirect(
-            routes.Application.login()
+            controllers.routes.ApplicationController.login()
     );
 
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
-        if (loginForm.hasErrors()) {
+        User user = User.findByEmail(loginForm.data().get("email").toString());
+        if (user == null) {
             return badRequest(login.render(loginForm));
         } else {
             session().clear();
-            session("email", loginForm.get().email);
+            session("email", loginForm.data().get("email"));
             return redirect(
-                    routes.UserPage.index()
+                    routes.OrderController.active()
             );
         }
+    }
+
+    /*
+    * Custom javascript reverse-routing
+     */
+    public static Result javascriptRoutes() {
+        response().setContentType("text/javascript");
+        return ok(Routes.javascriptRouter("jsRoutes",
+                controllers.routes.javascript.OrderController.setReady(),
+                controllers.routes.javascript.OrderController.setTable(),
+                controllers.routes.javascript.OrderController.setGuests()
+                ));
     }
 
     /**
@@ -48,7 +65,6 @@ public class Application extends Controller {
         return GO_HOME;
     }
 
-
     public static class Login {
 
         public String email;
@@ -56,10 +72,9 @@ public class Application extends Controller {
 
         public String validate() {
             if (User.authenticate(email, password) == null) {
-                return "Invalid user or password";
+                return "Invalid username or password";
             }
             return null;
         }
-
     }
 }

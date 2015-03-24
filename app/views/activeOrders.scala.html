@@ -1,10 +1,87 @@
 @(user: User)
 
-    @main(user) {
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Active orders</h1>
+@main(user) {
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+    var table = $('#contacts_table').dataTable( {
+    "paging": false,
+    "bProcessing": true,
+    "aaSorting": [[ 0, "asc" ]],
+    "bServerSide": true,
+    "bJQueryUI": true,
+    "sPaginationType": "full_numbers",
+    "sAjaxSource": "@routes.OrderController.list()",
+    "fnCreatedRow": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+    // Bold the grade for all 'A' grade browsers
+    if ( aData[6] == "Complete" )
+    {
+    $('td:eq(2)', nRow).parent( ).addClass("success");
+    }
+    if ( aData[6] == "WaitForPay" )
+    {
+    $('td:eq(2)', nRow).parent( ).addClass("info");
+    }
+    }
+    });
+    });
+    </script>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Active orders</h1>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <span class="col-xs-6 col-md-8 col-lg-10 vcenter" style="text-align:center"><h4>Tables</h4></span>
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-default btn-table" name="1">1</a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-default btn-table">2</a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-default btn-table">3</a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-default btn-table">4</a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-default btn-table">5</a>
+                </div>
+                <div class="btn-group" role="group">
+                    <a role="button" class="btn btn-default btn-table">6</a>
+                </div>
             </div>
         </div>
-    }
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Order list</h2>
+        </div>
+    </div>
 
+    <table id="contacts_table" cellpadding="0" cellspacing="0" border="0" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Edit</th>
+                @if(user.memberType != User.MemberType.Сook){
+                    <th>Pay</th>
+                }
+                <th>ID</th>
+                <th>Waiter</th>
+                <th>Guests count</th>
+                <th>Table</th>
+                <th>Order status</th>
+                <th>Readiness</th>
+                @if(user.memberType == User.MemberType.Admin){
+                    <th>Saved</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+}

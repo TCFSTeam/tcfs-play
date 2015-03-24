@@ -1,11 +1,116 @@
-# User
-
-- &penny !!models.User
+# Users
+users:
+- !!models.User
     email:      penny@tcfs.com
     name:       Penny
     password:   pass
+    imagePath: /assets/images/penny.jpg
+    memberType: Waiter
 
-- &joe !!models.User
+- !!models.User
         email:      joe@tcfs.com
         name:       Joe
         password:   joe123
+        imagePath: /assets/images/joe.jpg
+        memberType: Admin
+- !!models.User
+        email:      liza@tcfs.com
+        name:       Liza
+        password:   liza
+        imagePath: /assets/images/liza.jpg
+        memberType:  Waiter
+- !!models.User
+        email:      jack@tcfs.com
+        name:       Jack
+        password:   jack
+        imagePath: /assets/images/jack.jpg
+        memberType:  Сook
+
+#OrderTCFS Menu Items
+menuitems:
+- &menuItem1 !!models.MenuItem
+       itemPrice: 10
+       itemDescription: Sandwich
+- &menuItem2 !!models.MenuItem
+       itemPrice: 20
+       itemDescription: Coffee
+- &menuItem3 !!models.MenuItem
+       itemPrice: 14
+       itemDescription: Tea
+       isDeleted: false
+- &menuItem4 !!models.MenuItem
+       itemPrice: 75
+       itemDescription: Cheesecake
+- &menuItem5 !!models.MenuItem
+        itemPrice: 43
+        itemDescription: Pasta
+
+#OrderTCFS Order Items
+orderitems:
+- &orderItem1 !!models.OrderItem
+        menuItemId: 1
+        isReady: false
+- &orderItem2 !!models.OrderItem
+        menuItemId: 2
+        isReady: false
+- &orderItem3 !!models.OrderItem
+        menuItemId: 3
+        isReady: true
+- &orderItem4 !!models.OrderItem
+        menuItemId: 4
+        isReady: false
+- &orderItem5 !!models.OrderItem
+        menuItemId: 4
+        isReady: true
+- &orderItem6 !!models.OrderItem
+        menuItemId: 3
+        isReady: true
+- &orderItem7 !!models.OrderItem
+        menuItemId: 1
+        isReady: true
+- &orderItem8 !!models.OrderItem
+        menuItemId: 1
+        isReady: true
+#Orders
+orders:
+- &order !!models.OrderTCFS
+        Waiter:     penny@tcfs.com
+        Table:       1
+        OrderStatus:   Complete
+        items:
+              - *orderItem1
+              - *orderItem3
+        guestsCount: 1
+        saved: true
+- &order1 !!models.OrderTCFS
+       Waiter:      penny@tcfs.com
+       Table:       5
+       OrderStatus:   Active
+       items:
+             - *orderItem2
+             - *orderItem7
+             - *orderItem8
+       guestsCount: 2
+       saved: true
+- &order2 !!models.OrderTCFS
+     Waiter:      liza@tcfs.com
+     Table:       3
+     OrderStatus:   Active
+     guestsCount: 1
+     saved: true
+- &order3 !!models.OrderTCFS
+     Waiter:     penny@tcfs.com
+     Table:       4
+     OrderStatus:   Complete
+     guestsCount: 3
+     saved: true
+- &order4 !!models.OrderTCFS
+     Waiter:     penny@tcfs.com
+     Table:       6
+     OrderStatus:   Active
+     items:
+           - *orderItem4
+           - *orderItem5
+           - *orderItem6
+     guestsCount: 2
+     saved: true

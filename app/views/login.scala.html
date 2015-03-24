@@ -1,4 +1,4 @@
-@(form: Form[Application.Login])
+@(form: Form[ApplicationController.Login])
 <html>
     <head>
         <title>Login</title>
@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row vertical-offset-100">
                 <div class="col-md-4 col-md-offset-4">
-                @helper.form(routes.Application.authenticate) {
+                @helper.form(routes.ApplicationController.authenticate) {
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">Please sign in</h3>

@@ -2,9 +2,9 @@ import com.github.play2war.plugin._
 import play.Project._
 import sbt.Keys._
 
+name := "tcfs-play"
 
-
-version := "1.0-SNAPSHOT"
+version := "1.0"
 
 playJavaSettings
 
@@ -20,7 +20,3 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies += "postgresql" % "postgresql" % "9.1-901-1.jdbc4"
-
-Play2WarPlugin.play2WarSettings
-
-Play2WarKeys.servletVersion := "3.0"
