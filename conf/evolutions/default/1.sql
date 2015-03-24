@@ -5,7 +5,7 @@
 
 create table menu_item (
   id                        integer not null,
-  item_price                double,
+  item_price                float,
   is_deleted                boolean,
   item_description          varchar(255),
   constraint pk_menu_item primary key (id))
@@ -57,25 +57,21 @@ create sequence user_seq;
 
 
 
-alter table order_tcfs_order_item add constraint fk_order_tcfs_order_item_orde_01 foreign key (order_tcfs_id) references order_tcfs (id) on delete restrict on update restrict;
+alter table order_tcfs_order_item add constraint fk_order_tcfs_order_item_orde_01 foreign key (order_tcfs_id) references order_tcfs (id);
 
-alter table order_tcfs_order_item add constraint fk_order_tcfs_order_item_orde_02 foreign key (order_item_id) references order_item (id) on delete restrict on update restrict;
+alter table order_tcfs_order_item add constraint fk_order_tcfs_order_item_orde_02 foreign key (order_item_id) references order_item (id);
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+drop table if exists menu_item cascade;
 
-drop table if exists menu_item;
+drop table if exists order_item cascade;
 
-drop table if exists order_item;
+drop table if exists order_tcfs cascade;
 
-drop table if exists order_tcfs;
+drop table if exists order_tcfs_order_item cascade;
 
-drop table if exists order_tcfs_order_item;
-
-drop table if exists user;
-
-SET REFERENTIAL_INTEGRITY TRUE;
+drop table if exists user cascade;
 
 drop sequence if exists menu_item_seq;
 
