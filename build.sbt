@@ -1,4 +1,6 @@
+import com.github.play2war.plugin._
 import play.Project._
+import sbt.Keys._
 
 name := "tcfs-play"
 

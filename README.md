@@ -1,2 +1,25 @@
 # The CheeseCake Factory Simplificator
-### Current bulid status <a href="https://travis-ci.org/TCFSTeam/tcfs-play"><img src="https://travis-ci.org/TCFSTeam/tcfs-play.svg?branch=master"></a>
+##Current bulid status <a href="https://travis-ci.org/TCFSTeam/tcfs-play"><img src="https://travis-ci.org/TCFSTeam/tcfs-play.svg?branch=master"></a>
+##Environment Requirements
+-----------
+* Java 7
+* Intellij IDEA Ultimate
+* Scala plugin for IDEA
+* SBT plugin for IDEA
+* Play 2.0 plugin for IDEA
+
+##Setting up environment
+### Method 1 (simple)
+-----------
+* Install VMWare Workstation 10+ 
+* Connect to vmware.p-hosting.ru
+* Enjoy using Elementary OS
+
+### Method 2 (developer mode)
+-----------
+* Install Java 7
+* Install Intellij IDEA Ultimate (get this from you student license)
+* Install Scala plugin for IDEA
+* Install SBT plugin for IDEA
+* Install Play 2.0 plugin for IDEA
+* Clone this repo, open project and start develop
