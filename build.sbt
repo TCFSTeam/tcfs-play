@@ -4,7 +4,11 @@ import sbt.Keys._
 
 name := "tcfs-play"
 
-version := "1.0"
+version := "1.0-SNAPSHOT"
+
+Play2WarPlugin.play2WarSettings
+
+Play2WarKeys.servletVersion := "3.0"
 
 playJavaSettings
 
