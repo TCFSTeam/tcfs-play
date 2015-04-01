@@ -157,6 +157,11 @@ public class OrderController extends Controller {
                     row.put(String.valueOf(rowIndex++), "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
                 }
             }
+            else if(currentUser.memberType == User.MemberType.Cashier){
+                if (c.saved) {
+                    row.put(String.valueOf(rowIndex++), "<a href=\"/payclose/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
+                }
+            }
             row.put(String.valueOf(rowIndex++), c.id);
             row.put(String.valueOf(rowIndex++), User.findByEmail(c.Waiter).toString());
             row.put(String.valueOf(rowIndex++), c.guestsCount);

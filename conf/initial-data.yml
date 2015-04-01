@@ -25,6 +25,12 @@ users:
         password:   jack
         imagePath: /assets/images/jack.jpg
         memberType:  Сook
+- !!models.User
+        email:      megan@tcfs.com
+        name:       Megan
+        password:   megan
+        imagePath: /assets/images/megan.jpg
+        memberType:  Cashier
 
 #OrderTCFS Menu Items
 menuitems:
