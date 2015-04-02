@@ -50,6 +50,15 @@ menuitems:
 - &menuItem5 !!models.MenuItem
         itemPrice: 43
         itemDescription: Pasta
+- &menuItem6 !!models.MenuItem
+        itemPrice: 33
+        itemDescription: Tofel
+- &menuItem7 !!models.MenuItem
+        itemPrice: 10
+        itemDescription: Burger
+- &menuItem8 !!models.MenuItem
+        itemPrice: 50
+        itemDescription: Pizza
 
 #OrderTCFS Order Items
 orderitems:
@@ -74,8 +83,22 @@ orderitems:
 - &orderItem7 !!models.OrderItem
         menuItemId: 1
         isReady: true
+        isReturned: true
 - &orderItem8 !!models.OrderItem
         menuItemId: 1
+        isReady: true
+- &orderItem9 !!models.OrderItem
+        menuItemId: 2
+        isReady: true
+- &orderItem10 !!models.OrderItem
+        menuItemId: 7
+        isReady: true
+- &orderItem11 !!models.OrderItem
+        menuItemId: 8
+        isReady: true
+        isReturned: true
+- &orderItem12 !!models.OrderItem
+        menuItemId: 2
         isReady: true
 #Orders
 orders:
@@ -102,12 +125,17 @@ orders:
      Waiter:      liza@tcfs.com
      Table:       3
      OrderStatus:   Active
+     items:
+       - *orderItem10
+       - *orderItem11
      guestsCount: 1
      saved: true
 - &order3 !!models.OrderTCFS
      Waiter:     penny@tcfs.com
      Table:       4
      OrderStatus:   Complete
+     items:
+          - *orderItem12
      guestsCount: 3
      saved: true
 - &order4 !!models.OrderTCFS

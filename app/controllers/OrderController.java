@@ -152,14 +152,17 @@ public class OrderController extends Controller {
             //set pay action for waiter and admin
             if (currentUser.memberType == User.MemberType.Admin || currentUser.memberType == User.MemberType.Waiter) {
                 if (c.saved) {
-                    row.put(String.valueOf(rowIndex++), "<a href=\"/pay/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
+                    if(!c.OrderStatus.equals("Complete"))
+                        row.put(String.valueOf(rowIndex++), "<a href=\"/pay/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
+                    else
+                        row.put(String.valueOf(rowIndex++), "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
                 } else {
                     row.put(String.valueOf(rowIndex++), "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
                 }
             }
             else if(currentUser.memberType == User.MemberType.Cashier){
                 if (c.saved) {
-                    row.put(String.valueOf(rowIndex++), "<a href=\"/payclose/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
+                    row.put(String.valueOf(rowIndex++), "<a href=\"/payclose/" + c.id + "\"><i class=\"fa fa-credit-card fa-fw\"></i></a>");
                 }
             }
             row.put(String.valueOf(rowIndex++), c.id);

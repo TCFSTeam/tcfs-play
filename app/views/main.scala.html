@@ -64,7 +64,7 @@
                         <li>
                             <a @if(request().uri().contains("active")) {
                                 class="active"
-                            } href="/active"><i class="fa fa-bar-chart-o fa-fw"></i> @if(user.memberType == models.User.MemberType.Admin) {Show orders} @if(user.memberType == models.User.MemberType.Cashier) {Waiting for payment} else {Active orders}</a>
+                            } href="/active"><i class="fa fa-bar-chart-o fa-fw"></i> @if(user.memberType == models.User.MemberType.Admin || user.memberType == models.User.MemberType.Cashier) {Show orders} else {Active orders}</a>
                         </li>
                         @if(user.memberType == models.User.MemberType.Admin || user.memberType == models.User.MemberType.Waiter) {
                             <li>
@@ -84,7 +84,7 @@
                                 <a @if(request().uri().contains("/dailyProfit")) {
                                     class="active"
                                 } href="/dailyProfit"
-                                ><i class="fa fa-bar-chart fa-fw"></i> Daily profit report</a>
+                                ><i class="fa fa-money fa-fw"></i> Daily profit report</a>
                             </li>
                         }
                     </ul>
