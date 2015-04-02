@@ -32,6 +32,9 @@ GET         /edit/ready/:id/:item            controllers.OrderController.setRead
 GET         /edit/table/:id/:table           controllers.OrderController.setTable(id: Integer, table: Integer)
 GET         /edit/guests/:id/:guests         controllers.OrderController.setGuests(id: Integer, guests: Integer)
 
+# Payment processing
+GET         /dailyProfit                    controllers.PaymentController.dailyProfit()
+
 
 
 
