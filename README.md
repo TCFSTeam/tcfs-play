@@ -31,7 +31,7 @@ activator|sbt dist
 ```
 For Play 2.0.x and 2.1.x use the start script (Unix Only) in the extracted zip:
 ```
-start -Dhttp.port=8080
+start -Dhttp.port=8080 -Dapplication.secret="QCY?tAnf"  -DapplyEvolutions.default=true
 ```
 For Play 2.2.x use the appropriate script in the [appname]-[version]/bin directory:
 ```
