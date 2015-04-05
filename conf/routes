@@ -35,6 +35,8 @@ GET         /edit/guests/:id/:guests         controllers.OrderController.setGues
 # Payment processing
 GET         /dailyProfit                    controllers.PaymentController.dailyProfit()
 
+# Reporting
+GET         /getOrdersStatistics            controllers.ReportingController.getOrdersStatistics()
 
 
 
