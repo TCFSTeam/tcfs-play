@@ -1,9 +1,40 @@
 @(user: User)
 
 @main(user) {
+    <script>
+    $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: 'Jane',
+            data: [1, 0, 4]
+        }, {
+            name: 'John',
+            data: [5, 7, 3]
+        }],
+    });
+});
+    </script>
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Current profit</h1>
         </div>
     </div>
+    <div class="row">
+        <div id="container" style="height: 300px"></div>
+    </div><!-- /row -->
+
 }

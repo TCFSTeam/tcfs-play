@@ -100,4 +100,3 @@ $( ".ready" ).change(function() {
         ($(this).addClass("btn-success"));
     });
 });
-
