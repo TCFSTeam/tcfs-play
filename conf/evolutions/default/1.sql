@@ -27,7 +27,14 @@ create table order_tcfs (
   table                     integer,
   saved                     boolean,
   created_at                timestamp,
+  closed_at                 timestamp,
   constraint pk_order_tcfs primary key (id))
+;
+
+create table system_settings (
+  id                        integer not null,
+  number_of_tables          integer,
+  constraint pk_system_settings primary key (id))
 ;
 
 create table user (
@@ -52,6 +59,8 @@ create sequence order_item_seq;
 
 create sequence order_tcfs_seq;
 
+create sequence system_settings_seq;
+
 create sequence user_seq;
 
 
@@ -73,6 +82,8 @@ drop table if exists order_tcfs;
 
 drop table if exists order_tcfs_order_item;
 
+drop table if exists system_settings;
+
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
@@ -82,6 +93,8 @@ drop sequence if exists menu_item_seq;
 drop sequence if exists order_item_seq;
 
 drop sequence if exists order_tcfs_seq;
+
+drop sequence if exists system_settings_seq;
 
 drop sequence if exists user_seq;
 

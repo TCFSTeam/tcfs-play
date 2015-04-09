@@ -33,10 +33,11 @@ GET         /edit/table/:id/:table           controllers.OrderController.setTabl
 GET         /edit/guests/:id/:guests         controllers.OrderController.setGuests(id: Integer, guests: Integer)
 
 # Payment processing
-GET         /dailyProfit                    controllers.PaymentController.dailyProfit()
+GET         /dailyProfit                     controllers.PaymentController.dailyProfit()
 
 # Reporting
-GET         /getOrdersStatistics            controllers.ReportingController.getOrdersStatistics()
+GET         /getOrdersStatistics             controllers.ReportingController.getOrdersStatistics()
+GET         /getTablesStatistics            controllers.ReportingController.getTablesStatistics()
 
 
 

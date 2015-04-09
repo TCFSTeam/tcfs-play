@@ -11,6 +11,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -19,15 +20,30 @@ import java.util.Map;
 @Security.Authenticated(SecuredController.class)
 public class ReportingController extends Controller {
     /**
-     * Place new order
+     * Get statistic for each waiter
      */
     public static Result getOrdersStatistics() {
         ObjectNode result = Json.newObject();
-        result.put("Penny", 10);
-        result.put("Liza", 4);
-        result.put("Megan", 5);
-        result.put("Joe", 9);
+        Map<String, Integer> map = OrderTCFS.getOrdersByWaiterForADay();
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            result.put((String)pair.getKey(), (Integer)pair.getValue());
+        }
+        return ok(result);
+    }
 
+    /**
+     * Get statistic for each table
+     */
+    public static Result getTablesStatistics() {
+        ObjectNode result = Json.newObject();
+        Map<String, Integer> map = OrderTCFS.getOrdersByTableForADay();
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            result.put((String)pair.getKey(), (Integer)pair.getValue());
+        }
         return ok(result);
     }
 }
