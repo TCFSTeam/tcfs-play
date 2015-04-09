@@ -8,7 +8,7 @@ $(document).ready(function() {
             type: 'spline'
         },
         title: {
-            text: 'Waiter\'s orders'
+            text: 'Waiter\'s completed orders'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -22,10 +22,10 @@ $(document).ready(function() {
             type: 'spline'
         },
         title: {
-            text: 'Orders by table'
+            text: 'Completed orders by table'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' {point.per}
         },
         series: [{}]
     };

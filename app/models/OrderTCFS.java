@@ -1,8 +1,6 @@
 package models;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.annotation.EnumValue;
-import helpers.DateTimeHelper;
 import org.joda.time.DateTime;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -68,6 +66,12 @@ public class OrderTCFS extends Model {
                 .between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay()).findList();
     }
 
+    public static List<OrderTCFS> findTodaysCompleted() {
+        return find.where().eq("OrderStatus", "Complete")
+                .where().between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
+                .findList();
+    }
+
     public static double getOrderCost(int id) {
         double cost = 0;
         OrderTCFS orderTCFS = OrderTCFS.findById(id);
@@ -81,6 +85,27 @@ public class OrderTCFS extends Model {
             return 0;
     }
 
+    /*
+    * Get completed orders cost for day\all
+    */
+    public static double getCompletedOrdersCost(Boolean forADay) {
+        double cost = 0;
+        List<OrderTCFS> orderList;
+        if(forADay)
+            orderList = OrderTCFS.findTodaysCompleted();
+        else
+            orderList = OrderTCFS.findAllCompleted();
+        for(OrderTCFS orderTCFS : orderList){
+            if (orderTCFS != null) {
+                for (OrderItem item : orderTCFS.items) {
+                    if(!item.isReturned)
+                        cost += (MenuItem.findById(item.menuItemId).itemPrice);
+                }
+            }
+        }
+        return cost;
+    }
+
     public static Map<String, Integer> getOrdersByWaiterForADay(){
         Map<String, Integer> map = new HashMap<String, Integer>();
         List<OrderTCFS> orderlist = findTodays();
@@ -89,10 +114,11 @@ public class OrderTCFS extends Model {
             int ordersCout = 0;
             if(user.memberType == User.MemberType.Waiter || user.memberType == User.MemberType.Admin){
                 for(OrderTCFS order : orderlist){
-                    if(order.Waiter == user.email)
+                    if(order.OrderStatus.equals("Complete") && order.Waiter == user.email)
                         ordersCout++;
                 }
-                map.put(user.name, ordersCout);
+                if(ordersCout>0)
+                    map.put(user.name, ordersCout);
             }
         }
         return map;
@@ -104,9 +130,10 @@ public class OrderTCFS extends Model {
          for (int tableNumber = 1; tableNumber <=6; tableNumber++){
             int ordersCout = 0;
                 for(OrderTCFS order : orderlist){
-                    if(order.Table == tableNumber)
+                    if(order.OrderStatus.equals("Complete") && order.Table == tableNumber)
                         ordersCout++;
                 }
+             if(ordersCout>0)
                 map.put("Table " + tableNumber, ordersCout);
             }
         return map;
@@ -147,7 +174,12 @@ public class OrderTCFS extends Model {
     public static List<OrderTCFS> findAllActive() {
         return find.where().eq("OrderStatus", "Active").where().eq("saved", "true").orderBy("id").findList();
     }
-
+    /**
+     * Retrieve all completed orders.
+     */
+    public static List<OrderTCFS> findAllCompleted() {
+        return find.where().eq("OrderStatus", "Complete").where().eq("saved", "true").orderBy("id").findList();
+    }
     /**
      * Retrieve all active orders by table
      * @param table
