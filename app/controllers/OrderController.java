@@ -254,14 +254,6 @@ public class OrderController extends Controller {
     }
 
     /**
-     * Pay order action
-     */
-    public static Result pay(Integer id) {
-        OrderTCFS.proceedToPay(id);
-        return ok(activeOrders.render(User.find.byId(request().username())));
-    }
-
-    /**
      * Return item from order
      */
     public static Result returnItem(Integer orderId, Integer itemId) {

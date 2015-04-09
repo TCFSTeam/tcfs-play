@@ -1,6 +1,3 @@
-/**
- * Created by alexander on 09.04.15.
- */
 $(document).ready(function() {
     var optionsForPieChart = {
         chart: {
@@ -25,7 +22,7 @@ $(document).ready(function() {
             text: 'Completed orders by table'
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' {point.per}
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
         series: [{}]
     };

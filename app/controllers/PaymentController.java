@@ -5,8 +5,7 @@ import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
-
-import java.util.List;
+import views.html.activeOrders;
 
 /**
  * Created by Alexander on 4/1/2015.
@@ -16,8 +15,16 @@ public class PaymentController extends Controller {
     /**
      * Pay order
      */
-    public static Result dailyProfit() {
-        List<OrderTCFS> orderList = OrderTCFS.findAllCompleted();
-        return ok(views.html.dailyProfit.render(User.find.byId(request().username()), orderList));
+    public static Result payClose(Integer orderId) {
+        OrderTCFS.pay(orderId);
+        return ok(activeOrders.render(User.find.byId(request().username())));
+    }
+
+    /**
+     * Proceed to pay order
+     */
+    public static Result pay(Integer id) {
+        OrderTCFS.proceedToPay(id);
+        return ok(activeOrders.render(User.find.byId(request().username())));
     }
 }

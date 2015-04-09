@@ -209,6 +209,13 @@ public class OrderTCFS extends Model {
         return true;
     }
 
+    public static boolean pay(int orderId) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        orderTCFS.setStatus("Complete");
+        Ebean.save(orderTCFS);
+        return true;
+    }
+
     public static boolean haveReturnedItems(int orderId) {
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
         boolean returnedState = false;

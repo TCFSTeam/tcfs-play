@@ -1,8 +1,6 @@
 package controllers;
 
-import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.MenuItem;
 import models.OrderTCFS;
 import models.User;
 import play.libs.Json;
@@ -10,8 +8,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +17,13 @@ import java.util.Map;
  */
 @Security.Authenticated(SecuredController.class)
 public class ReportingController extends Controller {
+    /**
+     * Show statistic for current day
+     */
+    public static Result dailyProfit() {
+        List<OrderTCFS> orderList = OrderTCFS.findAllCompleted();
+        return ok(views.html.dailyProfit.render(User.find.byId(request().username()), orderList));
+    }
     /**
      * Get statistic for each waiter
      */
