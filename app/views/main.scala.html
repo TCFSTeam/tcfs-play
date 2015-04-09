@@ -1,31 +1,36 @@
-@(user: User)(body: Html)
+@(user: models.User)(body: Html)
+<!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Main</title>
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        @*CSS frameworks*@
+        <link rel= "stylesheet" media="screen" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("font-awesome/css/font-awesome.min.css") ">
+        @*CSS plugins*@
+        <link rel= "stylesheet" media = "screen" href = "http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/css/bootstrap-editable.css">
+        <link rel= "stylesheet" media="screen" href="http://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css">
+        <link rel= "stylesheet" media="screen" href="@routes.Assets.at("stylesheets/dataTables.bootstrap.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/plugins/metisMenu/metisMenu.min.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/plugins/timeline.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/tcfs.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/plugins/morris.css") ">
-        <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("font-awesome/css/font-awesome.min.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/select2.css") ">
         <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("stylesheets/select-bootstrap.css") ">
-        <link rel= "stylesheet" media = "screen" href = "http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/css/bootstrap-editable.css">
-        <link rel= "stylesheet" media="screen" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <link rel= "stylesheet" media="screen" href="http://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css">
-        <link rel= "stylesheet" media="screen" href="@routes.Assets.at("stylesheets/dataTables.bootstrap.css") ">
-
+        @*Main JS Frameworks*@
+        <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js" type="text/javascript"></script>
+        @*Highcharts plugin*@
+        <script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
+        @*JS plugins*@
         <script src="@routes.Assets.at("javascripts/dataTables.bootstrap.js")" type="text/javascript"></script>
-        <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
         <script src="http://cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/tcfs.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/plugins/metisMenu/metisMenu.min.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/placeOrder.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/select/select2.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/bootstrap-dropdown.js")" type="text/javascript"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.5/bootstrap-editable/js/bootstrap-editable.min.js" type="text/javascript"></script>
+        @*Internal JS routing*@
         <script type="text/javascript" src="@routes.ApplicationController.javascriptRoutes()"></script>
     </head>
     <body>

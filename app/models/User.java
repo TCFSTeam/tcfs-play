@@ -35,6 +35,12 @@ public class User extends Model {
     }
 
     /**
+     * Retrieve all users by type.
+     */
+    public static List<User> findAllByType(MemberType memberType) {
+        return find.where().eq("MemberType", memberType).findList();
+    }
+    /**
      * Retrieve a User from email.
      */
     public static User findByEmail(String email) {

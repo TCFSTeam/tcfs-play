@@ -1,6 +1,7 @@
 @(user: User, menuItems: List[MenuItem], order: OrderTCFS)
     @main(user) {
-        <div class="row">
+    <script src="@routes.Assets.at("javascripts/tcfs.js")" type="text/javascript"></script>
+    <div class="row">
             <div class="col-lg-12">
                 @if(order.saved){
                     <h1 class="page-header">Edit order @if(order != null && order.id > 0) {#@order.id}</h1>

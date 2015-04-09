@@ -1,7 +1,6 @@
 package models;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.annotation.EnumValue;
 import org.joda.time.DateTime;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -10,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.joda.time.DateTime.now;
 
@@ -30,6 +31,8 @@ public class OrderTCFS extends Model {
     public boolean saved = false;
     @Formats.DateTime(pattern = "MMM ddd HH:mm")
     public DateTime createdAt = new DateTime();
+    @Formats.DateTime(pattern = "MMM ddd HH:mm")
+    public DateTime closedAt = new DateTime();
     @ManyToMany
     public List<OrderItem> items = new ArrayList<OrderItem>();
 
@@ -37,9 +40,7 @@ public class OrderTCFS extends Model {
      * Setters
      */
     public void setTable(int table) { this.Table = table; }
-    public void setGuests(int guests) {
-        this.guestsCount = guests;
-    }
+    public void setGuests(int guests) { this.guestsCount = guests; }
     public void setStatus(String status) {
         this.OrderStatus = status;
     }
@@ -60,6 +61,16 @@ public class OrderTCFS extends Model {
     public static OrderTCFS findById(int id) {
         return find.where().eq("id", id).findUnique();
     }
+    public static List<OrderTCFS> findTodays() {
+        return find.where()
+                .between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay()).findList();
+    }
+
+    public static List<OrderTCFS> findTodaysCompleted() {
+        return find.where().eq("OrderStatus", "Complete")
+                .where().between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
+                .findList();
+    }
 
     public static double getOrderCost(int id) {
         double cost = 0;
@@ -72,6 +83,60 @@ public class OrderTCFS extends Model {
             return cost;
         } else
             return 0;
+    }
+
+    /*
+    * Get completed orders cost for day\all
+    */
+    public static double getCompletedOrdersCost(Boolean forADay) {
+        double cost = 0;
+        List<OrderTCFS> orderList;
+        if(forADay)
+            orderList = OrderTCFS.findTodaysCompleted();
+        else
+            orderList = OrderTCFS.findAllCompleted();
+        for(OrderTCFS orderTCFS : orderList){
+            if (orderTCFS != null) {
+                for (OrderItem item : orderTCFS.items) {
+                    if(!item.isReturned)
+                        cost += (MenuItem.findById(item.menuItemId).itemPrice);
+                }
+            }
+        }
+        return cost;
+    }
+
+    public static Map<String, Integer> getOrdersByWaiterForADay(){
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        List<OrderTCFS> orderlist = findTodays();
+        List<User> waiters = User.findAll();
+        for (User user : waiters){
+            int ordersCout = 0;
+            if(user.memberType == User.MemberType.Waiter || user.memberType == User.MemberType.Admin){
+                for(OrderTCFS order : orderlist){
+                    if(order.OrderStatus.equals("Complete") && order.Waiter == user.email)
+                        ordersCout++;
+                }
+                if(ordersCout>0)
+                    map.put(user.name, ordersCout);
+            }
+        }
+        return map;
+    }
+
+    public static Map<String, Integer> getOrdersByTableForADay(){
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        List<OrderTCFS> orderlist = findTodays();
+         for (int tableNumber = 1; tableNumber <=6; tableNumber++){
+            int ordersCout = 0;
+                for(OrderTCFS order : orderlist){
+                    if(order.OrderStatus.equals("Complete") && order.Table == tableNumber)
+                        ordersCout++;
+                }
+             if(ordersCout>0)
+                map.put("Table " + tableNumber, ordersCout);
+            }
+        return map;
     }
 
     public static long getActiveTime(int orderId) {
@@ -109,7 +174,12 @@ public class OrderTCFS extends Model {
     public static List<OrderTCFS> findAllActive() {
         return find.where().eq("OrderStatus", "Active").where().eq("saved", "true").orderBy("id").findList();
     }
-
+    /**
+     * Retrieve all completed orders.
+     */
+    public static List<OrderTCFS> findAllCompleted() {
+        return find.where().eq("OrderStatus", "Complete").where().eq("saved", "true").orderBy("id").findList();
+    }
     /**
      * Retrieve all active orders by table
      * @param table

@@ -27,6 +27,7 @@ create table order_tcfs (
   table                     integer,
   saved                     boolean,
   created_at                timestamp,
+  closed_at                 timestamp,
   constraint pk_order_tcfs primary key (id))
 ;
 
