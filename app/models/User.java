@@ -65,8 +65,24 @@ public class User extends Model {
         return name;
     }
 
+    public boolean isAdmin() {
+        return this.memberType == MemberType.Admin;
+    }
+
+    public boolean isWaiter() {
+        return this.memberType == MemberType.Waiter;
+    }
+
+    public boolean isCook() {
+        return this.memberType == MemberType.Сook;
+    }
+
+    public boolean isCashier() {
+        return this.memberType == MemberType.Cashier;
+    }
+
     public enum MemberType {
-        @EnumValue("W")Waiter, @EnumValue("CK")Сook, @EnumValue("A")Admin, @EnumValue("CASH")Cashier
+        @EnumValue("WT")Waiter, @EnumValue("CK")Сook, @EnumValue("ADM")Admin, @EnumValue("CASH")Cashier
     }
 
 }
