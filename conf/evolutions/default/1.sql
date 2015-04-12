@@ -33,7 +33,8 @@ create table order_tcfs (
 
 create table reservation (
   id                        integer not null,
-  reservation_id            integer,
+  is_active                 boolean,
+  reservator                varchar(255),
   created_at                timestamp,
   start_at                  timestamp,
   constraint pk_reservation primary key (id))
@@ -41,7 +42,7 @@ create table reservation (
 
 create table table (
   id                        integer not null,
-  table_id                  integer,
+  is_active                 boolean,
   constraint pk_table primary key (id))
 ;
 

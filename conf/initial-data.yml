@@ -1,4 +1,3 @@
-# Users
 users:
 - !!models.User
     email:      penny@tcfs.com
@@ -32,7 +31,7 @@ users:
         imagePath: /assets/images/megan.jpg
         memberType:  Cashier
 
-#OrderTCFS Menu Items
+#MenuItems
 menuitems:
 - &menuItem1 !!models.MenuItem
        itemPrice: 10
@@ -60,7 +59,7 @@ menuitems:
         itemPrice: 50
         itemDescription: Pizza
 
-#OrderTCFS Order Items
+#OrderItems
 orderitems:
 - &orderItem1 !!models.OrderItem
         menuItemId: 1
@@ -99,6 +98,12 @@ orderitems:
         isReturned: true
 - &orderItem12 !!models.OrderItem
         menuItemId: 2
+        isReady: true
+- &orderItem13 !!models.OrderItem
+        menuItemId: 1
+        isReady: true
+- &orderItem14 !!models.OrderItem
+        menuItemId: 6
         isReady: true
 #Orders
 orders:
@@ -148,3 +153,37 @@ orders:
            - *orderItem6
      guestsCount: 2
      saved: true
+- &order5 !!models.OrderTCFS
+     Waiter:     liza@tcfs.com
+     Table:       2
+     OrderStatus:   Complete
+     items:
+           - *orderItem13
+           - *orderItem14
+     guestsCount: 1
+     saved: true
+#Tables
+tables:
+- &table1 !!models.Table
+     isActive: true
+- &table2 !!models.Table
+     isActive: true
+- &table3 !!models.Table
+     isActive: true
+- &table4 !!models.Table
+     isActive: true
+- &table5 !!models.Table
+     isActive: true
+- &table6 !!models.Table
+     isActive: true
+#Reservations
+reservations:
+- &reserv1 !!models.Reservation
+     isActive: true
+     reservator: John Edvard
+- &reserv2 !!models.Reservation
+     isActive: true
+     reservator: Ant Wood
+- &reserv3 !!models.Reservation
+     isActive: true
+     reservator: Jasse

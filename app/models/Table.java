@@ -18,12 +18,22 @@ import java.util.List;
 public class Table extends Model {
 
     private static final long serialVersionUID = 1L;
-    public static Model.Finder<String, Table> find = new Model.Finder<String, Table>(String.class, Table.class);
-
     @Id
     @GeneratedValue
     public int id;
-    public int tableId;
+    public boolean isActive;
     @ManyToMany
     public List<Reservation> reservations = new ArrayList<Reservation>();
+
+    public static Model.Finder<String, Table> find = new Model.Finder<String, Table>(String.class, Table.class);
+    /**
+     * Retrieve all tables.
+     */
+    public static List<Table> findAll() {
+        return find.all();
+    }
+    public static int findAllCount() {
+        return find.all().size();
+    }
+
 }

@@ -3,10 +3,7 @@
  */
 
 import com.avaje.ebean.Ebean;
-import models.MenuItem;
-import models.OrderItem;
-import models.OrderTCFS;
-import models.User;
+import models.*;
 import play.Application;
 import play.GlobalSettings;
 import play.libs.Yaml;
@@ -28,6 +25,10 @@ public class Global extends GlobalSettings {
             Ebean.save(all.get("orderitems"));
         if(OrderTCFS.findAll().isEmpty())
             Ebean.save(all.get("orders"));
+        if(Table.findAll().isEmpty())
+            Ebean.save(all.get("tables"));
+        if(Reservation.findAll().isEmpty())
+            Ebean.save(all.get("reservations"));
     }
 
 }
