@@ -19,6 +19,13 @@ public class DateTimeHelper {
             return "now";
         else if (minutesAgo == 1)
             return minutesAgo + " minute ago";
+        else if(minutesAgo > 60){
+            int hoursAgo = minutesAgo/60;
+            if(hoursAgo < 2)
+                return " about hour ago";
+            else
+                return hoursAgo + " hours ago";
+        }
         else
             return minutesAgo + " minutes ago";
     }

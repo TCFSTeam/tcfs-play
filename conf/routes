@@ -32,7 +32,7 @@ GET         /edit/guests/:id/:guests         controllers.OrderController.setGues
 
 #Reservation
 GET         /reserve                         controllers.ReservationController.reserve()
-
+GET         /getreservation/:id             controllers.ReservationController.getreservation(id: Integer)
 
 # Payment processing
 GET         /pay/:id                         controllers.PaymentController.pay(id: Integer)

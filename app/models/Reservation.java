@@ -36,9 +36,16 @@ public class Reservation extends Model {
     }
     public static Model.Finder<String, Reservation> find = new Model.Finder<String, Reservation>(String.class, Reservation.class);
     /**
-     * Retrieve all tables.
+     * Retrieve all reservations.
      */
     public static List<Reservation> findAll() {
         return find.all();
+    }
+
+    /**
+     * Retrieve reservation by id.
+     */
+    public static Reservation findById(int id) {
+        return find.where().eq("id", id).findUnique();
     }
 }
