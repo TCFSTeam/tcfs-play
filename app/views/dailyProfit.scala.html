@@ -1,4 +1,4 @@
-@(user: User, orders: List[OrderTCFS])
+@(user: UserTCFS, orders: List[OrderTCFS])
 
 @main(user) {
     @*Highcharts plugin*@
@@ -45,7 +45,7 @@
             <thead>
                 <th>ID</th>
                 <th>Waiter</th>
-                <th>Table</th>
+                <th>TableTCFS</th>
                 <th>Order Status</th>
                 <th>Created</th>
                 <th>Cost</th>
@@ -54,8 +54,8 @@
             @for(order <- orders) {
                 <tr>
                     <td>@order.id</td>
-                    <td>@User.findByEmail(order.Waiter).name</td>
-                    <td>@order.Table</td>
+                    <td>@UserTCFS.findByEmail(order.Waiter).name</td>
+                    <td>@order.TableId</td>
                     <td>@order.OrderStatus</td>
                     <td>@helpers.DateTimeHelper.getDateTimeInAgoFormat(order.createdAt.toDateTime())</td>
                     <td>@OrderTCFS.getOrderCost(order.id)</td>

@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Created by Alexander on 4/12/2015.
- * Table entity managed by Ebean
+ * TableTCFS entity managed by Ebean
  */
 @Entity
 public class Reservation extends Model {

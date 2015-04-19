@@ -1,30 +1,30 @@
 users:
-- !!models.User
+- !!models.UserTCFS
     email:      penny@tcfs.com
     name:       Penny
     password:   pass
     imagePath: /assets/images/penny.jpg
     memberType: Waiter
 
-- !!models.User
+- !!models.UserTCFS
         email:      joe@tcfs.com
         name:       Joe
         password:   joe123
         imagePath: /assets/images/joe.jpg
         memberType: Admin
-- !!models.User
+- !!models.UserTCFS
         email:      liza@tcfs.com
         name:       Liza
         password:   liza
         imagePath: /assets/images/liza.jpg
         memberType:  Waiter
-- !!models.User
+- !!models.UserTCFS
         email:      jack@tcfs.com
         name:       Jack
         password:   jack
         imagePath: /assets/images/jack.jpg
         memberType:  Сook
-- !!models.User
+- !!models.UserTCFS
         email:      megan@tcfs.com
         name:       Megan
         password:   megan
@@ -109,7 +109,7 @@ orderitems:
 orders:
 - &order !!models.OrderTCFS
         Waiter:     penny@tcfs.com
-        Table:       1
+        TableId:       1
         OrderStatus:   Complete
         items:
               - *orderItem1
@@ -118,7 +118,7 @@ orders:
         saved: true
 - &order1 !!models.OrderTCFS
        Waiter:      penny@tcfs.com
-       Table:       5
+       TableId:       5
        OrderStatus:   Active
        items:
              - *orderItem2
@@ -128,7 +128,7 @@ orders:
        saved: true
 - &order2 !!models.OrderTCFS
      Waiter:      liza@tcfs.com
-     Table:       3
+     TableId:       3
      OrderStatus:   Active
      items:
        - *orderItem10
@@ -137,7 +137,7 @@ orders:
      saved: true
 - &order3 !!models.OrderTCFS
      Waiter:     penny@tcfs.com
-     Table:       4
+     TableId:       4
      OrderStatus:   Complete
      items:
           - *orderItem12
@@ -145,7 +145,7 @@ orders:
      saved: true
 - &order4 !!models.OrderTCFS
      Waiter:     penny@tcfs.com
-     Table:       6
+     TableId:       6
      OrderStatus:   Active
      items:
            - *orderItem4
@@ -155,7 +155,7 @@ orders:
      saved: true
 - &order5 !!models.OrderTCFS
      Waiter:     liza@tcfs.com
-     Table:       2
+     TableId:       2
      OrderStatus:   Complete
      items:
            - *orderItem13
@@ -164,17 +164,17 @@ orders:
      saved: true
 #Tables
 tables:
-- &table1 !!models.Table
+- &table1 !!models.TableTCFS
      isActive: true
-- &table2 !!models.Table
+- &table2 !!models.TableTCFS
      isActive: true
-- &table3 !!models.Table
+- &table3 !!models.TableTCFS
      isActive: true
-- &table4 !!models.Table
+- &table4 !!models.TableTCFS
      isActive: true
-- &table5 !!models.Table
+- &table5 !!models.TableTCFS
      isActive: true
-- &table6 !!models.Table
+- &table6 !!models.TableTCFS
      isActive: true
 #Reservations
 reservations:

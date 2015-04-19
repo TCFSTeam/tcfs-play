@@ -17,7 +17,7 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
         @SuppressWarnings("unchecked")
         Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
-        if(User.findAll().isEmpty())
+        if(UserTCFS.findAll().isEmpty())
             Ebean.save(all.get("users"));
         if(MenuItem.findAll().isEmpty())
             Ebean.save(all.get("menuitems"));
@@ -25,7 +25,7 @@ public class Global extends GlobalSettings {
             Ebean.save(all.get("orderitems"));
         if(OrderTCFS.findAll().isEmpty())
             Ebean.save(all.get("orders"));
-        if(Table.findAll().isEmpty())
+        if(TableTCFS.findAll().isEmpty())
             Ebean.save(all.get("tables"));
         if(Reservation.findAll().isEmpty())
             Ebean.save(all.get("reservations"));

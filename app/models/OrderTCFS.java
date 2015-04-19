@@ -27,7 +27,7 @@ public class OrderTCFS extends Model {
     public int guestsCount = 1;
     public String Waiter;
     public String OrderStatus = "Active";
-    public int Table;
+    public int TableId;
     public boolean saved = false;
     @Formats.DateTime(pattern = "MMM ddd HH:mm")
     public DateTime createdAt = new DateTime();
@@ -39,7 +39,7 @@ public class OrderTCFS extends Model {
     /**
      * Setters
      */
-    public void setTable(int table) { this.Table = table; }
+    public void setTable(int tableId) { this.TableId = tableId; }
     public void setGuests(int guests) { this.guestsCount = guests; }
     public void setStatus(String status) {
         this.OrderStatus = status;
@@ -49,27 +49,6 @@ public class OrderTCFS extends Model {
     }
     public void setNotSaved() {
         this.saved = false;
-    }
-
-    /**
-     * Retrieve all orders.
-     */
-    public static List<OrderTCFS> findAll() {
-        return find.all();
-    }
-
-    public static OrderTCFS findById(int id) {
-        return find.where().eq("id", id).findUnique();
-    }
-    public static List<OrderTCFS> findTodays() {
-        return find.where()
-                .between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay()).findList();
-    }
-
-    public static List<OrderTCFS> findTodaysCompleted() {
-        return find.where().eq("OrderStatus", "Complete")
-                .where().between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
-                .findList();
     }
 
     public static double getOrderCost(int id) {
@@ -92,7 +71,7 @@ public class OrderTCFS extends Model {
         double cost = 0;
         List<OrderTCFS> orderList;
         if(forADay)
-            orderList = OrderTCFS.findTodaysCompleted();
+            orderList = OrderTCFS.findTodaysCompletedAll();
         else
             orderList = OrderTCFS.findAllCompleted();
         for(OrderTCFS orderTCFS : orderList){
@@ -108,33 +87,21 @@ public class OrderTCFS extends Model {
 
     public static Map<String, Integer> getOrdersByWaiterForADay(){
         Map<String, Integer> map = new HashMap<String, Integer>();
-        List<OrderTCFS> orderlist = findTodays();
-        List<User> waiters = User.findAll();
-        for (User user : waiters){
-            int ordersCout = 0;
-            if(user.memberType == User.MemberType.Waiter || user.memberType == User.MemberType.Admin){
-                for(OrderTCFS order : orderlist){
-                    if(order.OrderStatus.equals("Complete") && order.Waiter == user.email)
-                        ordersCout++;
-                }
-                if(ordersCout>0)
-                    map.put(user.name, ordersCout);
-            }
+        List<UserTCFS> waiters = UserTCFS.findAll();
+        for (UserTCFS userTCFS : waiters){
+            List<OrderTCFS> orders = findTodaysCompletedByWaiter(userTCFS.email);
+            if(orders.size() > 0)
+                map.put(userTCFS.name, orders.size());
         }
         return map;
     }
 
     public static Map<String, Integer> getOrdersByTableForADay(){
         Map<String, Integer> map = new HashMap<String, Integer>();
-        List<OrderTCFS> orderlist = findTodays();
-         for (int tableNumber = 1; tableNumber <=6; tableNumber++){
-            int ordersCout = 0;
-                for(OrderTCFS order : orderlist){
-                    if(order.OrderStatus.equals("Complete") && order.Table == tableNumber)
-                        ordersCout++;
-                }
-             if(ordersCout>0)
-                map.put("Table " + tableNumber, ordersCout);
+         for (TableTCFS table: TableTCFS.findAll()){
+             List<OrderTCFS> orderlist = findTodaysCompletedByTable(table.id);
+             if(orderlist.size() > 0)
+                map.put("Table" + table.id + " ", orderlist.size());
             }
         return map;
     }
@@ -164,21 +131,21 @@ public class OrderTCFS extends Model {
     /**
      * Retrieve order by waiter email and with active status.
      */
-    public static List<OrderTCFS> findActiveByUser(User user) {
-        return find.where().eq("Waiter", user.email).where().eq("OrderStatus", "Active").where().eq("saved", "true").orderBy("id").findList();
+    public static List<OrderTCFS> findActiveByUser(UserTCFS userTCFS) {
+        return find.where().eq("Waiter", userTCFS.email).where().eq("OrderStatus", "Active").where().eq("saved", true).orderBy("id").findList();
     }
 
     /**
      * Retrieve all active orders.
      */
     public static List<OrderTCFS> findAllActive() {
-        return find.where().eq("OrderStatus", "Active").where().eq("saved", "true").orderBy("id").findList();
+        return find.where().eq("OrderStatus", "Active").where().eq("saved", true).orderBy("id").findList();
     }
     /**
      * Retrieve all completed orders.
      */
     public static List<OrderTCFS> findAllCompleted() {
-        return find.where().eq("OrderStatus", "Complete").where().eq("saved", "true").orderBy("id").findList();
+        return find.where().eq("OrderStatus", "Complete").where().eq("saved", true).orderBy("id").findList();
     }
     /**
      * Retrieve all active orders by table
@@ -187,15 +154,44 @@ public class OrderTCFS extends Model {
      * @return
      */
     public static List<OrderTCFS> findAllActiveByTable(int table, String waiterId) {
-        return find.where().eq("OrderStatus", "Active").where().eq("Table", table).where().eq("Waiter", waiterId).where().eq("saved", "true").orderBy("id").findList();
+        return find.where().eq("OrderStatus", "Active").where().eq("TableId", table).where().eq("Waiter", waiterId).where().eq("saved", true).orderBy("id").findList();
+    }
+    /**
+     * Retrieve all orders.
+     */
+    public static List<OrderTCFS> findAll() {
+        return find.all();
     }
 
+    public static OrderTCFS findById(int id) {
+        return find.where().eq("id", id).findUnique();
+    }
+
+    public static List<OrderTCFS> findTodaysCompletedByWaiter(String waiter) {
+        return find.where()
+                .where().eq("OrderStatus", "Complete")
+                .where().eq("Waiter", waiter)
+                .between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay()).findList();
+    }
+
+    public static List<OrderTCFS> findTodaysCompletedByTable(Integer tableId) {
+        return find.where().eq("OrderStatus", "Complete")
+                .where().eq("TableId", tableId)
+                .where().between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
+                .findList();
+    }
+
+    public static List<OrderTCFS> findTodaysCompletedAll() {
+        return find.where().eq("OrderStatus", "Complete")
+                .where().between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
+                .findList();
+    }
     /**
      * Delete all not saved orders
      * @return
      */
     public static boolean removeNonSavedOrders() {
-        List<OrderTCFS> ordersForDelete = find.where().eq("saved", "true").findList();
+        List<OrderTCFS> ordersForDelete = find.where().eq("saved", true).findList();
         for (OrderTCFS orderForDelete : ordersForDelete) {
             Ebean.delete(orderForDelete);
         }

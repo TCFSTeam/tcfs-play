@@ -11,7 +11,7 @@ import java.util.List;
  * Created by alexander on 12/27/14.
  */
 @Entity
-public class OrderItem {
+public class OrderItem extends Model{
 
     private static final long serialVersionUID = 1L;
     public static Model.Finder<String, OrderItem> find = new Model.Finder<String, OrderItem>(String.class, OrderItem.class);

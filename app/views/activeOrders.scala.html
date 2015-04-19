@@ -1,6 +1,6 @@
-@(user: User)
+@(userTCFS: UserTCFS)
 
-@main(user) {
+@main(userTCFS) {
     <script src="@routes.Assets.at("javascripts/tcfs.js")" type="text/javascript"></script>
     <script>
     /**
@@ -69,16 +69,16 @@
         <thead>
             <tr>
                 <th>Edit</th>
-                @if(user.memberType != User.MemberType.Сook) {
+                @if(userTCFS.memberType != UserTCFS.MemberType.Сook) {
                     <th>Pay</th>
                 }
                 <th>ID</th>
                 <th>Waiter</th>
                 <th>Guests count</th>
-                <th>Table</th>
+                <th>TableTCFS</th>
                 <th>Order status</th>
                 <th>Readiness</th>
-                @if(user.memberType == User.MemberType.Admin) {
+                @if(userTCFS.memberType == UserTCFS.MemberType.Admin) {
                     <th>Saved</th>
                 }
             </tr>

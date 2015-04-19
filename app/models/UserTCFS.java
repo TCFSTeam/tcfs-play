@@ -7,13 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
 /**
- * User entity managed by Ebean
+ * UserTCFS entity managed by Ebean
  */
 @Entity
-public class User extends Model {
+public class UserTCFS extends Model {
 
     private static final long serialVersionUID = 1L;
-    public static Model.Finder<String, User> find = new Model.Finder<String, User>(String.class, User.class);
+    public static Model.Finder<String, UserTCFS> find = new Model.Finder<String, UserTCFS>(String.class, UserTCFS.class);
     @Id
     public String email;
     public String name;
@@ -21,7 +21,7 @@ public class User extends Model {
     public String imagePath;
     public MemberType memberType;
 
-    public User(String email, String name, String password) {
+    public UserTCFS(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
@@ -30,27 +30,27 @@ public class User extends Model {
     /**
      * Retrieve all users.
      */
-    public static List<User> findAll() {
+    public static List<UserTCFS> findAll() {
         return find.all();
     }
 
     /**
      * Retrieve all users by type.
      */
-    public static List<User> findAllByType(MemberType memberType) {
+    public static List<UserTCFS> findAllByType(MemberType memberType) {
         return find.where().eq("MemberType", memberType).findList();
     }
     /**
-     * Retrieve a User from email.
+     * Retrieve a UserTCFS from email.
      */
-    public static User findByEmail(String email) {
+    public static UserTCFS findByEmail(String email) {
         return find.where().eq("email", email).findUnique();
     }
 
     /**
-     * Authenticate a User.
+     * Authenticate a UserTCFS.
      */
-    public static User authenticate(String email, String password) {
+    public static UserTCFS authenticate(String email, String password) {
         return find.where()
                 .eq("email", email)
                 .eq("password", password)

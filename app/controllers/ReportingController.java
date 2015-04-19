@@ -2,7 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.OrderTCFS;
-import models.User;
+import models.UserTCFS;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -15,15 +15,16 @@ import java.util.Map;
 /**
  * Created by Alexander on 4/5/2015.
  */
-@Security.Authenticated(SecuredController.class)
+@Security.Authenticated(controllers.SecuredController.class)
 public class ReportingController extends Controller {
     /**
      * Show statistic for current day
      */
     public static Result dailyProfit() {
         List<OrderTCFS> orderList = OrderTCFS.findAllCompleted();
-        return ok(views.html.dailyProfit.render(User.find.byId(request().username()), orderList));
+        return ok(views.html.dailyProfit.render(UserTCFS.find.byId(request().username()), orderList));
     }
+
     /**
      * Get statistic for each waiter
      */
@@ -32,8 +33,8 @@ public class ReportingController extends Controller {
         Map<String, Integer> map = OrderTCFS.getOrdersByWaiterForADay();
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            result.put((String)pair.getKey(), (Integer)pair.getValue());
+            Map.Entry pair = (Map.Entry) it.next();
+            result.put((String) pair.getKey(), (Integer) pair.getValue());
         }
         return ok(result);
     }
@@ -46,8 +47,8 @@ public class ReportingController extends Controller {
         Map<String, Integer> map = OrderTCFS.getOrdersByTableForADay();
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            result.put((String)pair.getKey(), (Integer)pair.getValue());
+            Map.Entry pair = (Map.Entry) it.next();
+            result.put((String) pair.getKey(), (Integer) pair.getValue());
         }
         return ok(result);
     }

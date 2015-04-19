@@ -3,7 +3,7 @@ package controllers;
  * Created by alexander on 10/12/14.
  */
 
-import models.User;
+import models.UserTCFS;
 import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
@@ -20,8 +20,8 @@ public class ApplicationController extends Controller {
 
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
-        User user = User.findByEmail(loginForm.data().get("email").toString());
-        if (user == null) {
+        UserTCFS userTCFS = UserTCFS.findByEmail(loginForm.data().get("email").toString());
+        if (userTCFS == null) {
             return badRequest(login.render(loginForm));
         } else {
             session().clear();
@@ -41,7 +41,7 @@ public class ApplicationController extends Controller {
                 controllers.routes.javascript.OrderController.setReady(),
                 controllers.routes.javascript.OrderController.setTable(),
                 controllers.routes.javascript.OrderController.setGuests()
-                ));
+        ));
     }
 
     /**
@@ -71,7 +71,7 @@ public class ApplicationController extends Controller {
         public String password;
 
         public String validate() {
-            if (User.authenticate(email, password) == null) {
+            if (UserTCFS.authenticate(email, password) == null) {
                 return "Invalid username or password";
             }
             return null;

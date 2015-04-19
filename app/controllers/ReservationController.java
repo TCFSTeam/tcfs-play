@@ -1,8 +1,7 @@
 package controllers;
 
-import models.MenuItem;
 import models.Reservation;
-import models.User;
+import models.UserTCFS;
 import play.mvc.Controller;
 import play.mvc.Security;
 
@@ -12,11 +11,11 @@ import java.util.List;
 /**
  * Created by Alexander on 4/12/2015.
  */
-@Security.Authenticated(SecuredController.class)
+@Security.Authenticated(controllers.SecuredController.class)
 public class ReservationController extends Controller {
     public static play.mvc.Result reserve() {
-        User currentUser = User.find.byId(request().username());
-        if(!currentUser.isAdmin())
+        UserTCFS currentUser = UserTCFS.find.byId(request().username());
+        if (!currentUser.isAdmin())
             return unauthorized();
         List<Reservation> reservations = new ArrayList<>();
         reservations = Reservation.findAll();

@@ -9,7 +9,7 @@ import helpers.NumbersHelper;
 import models.MenuItem;
 import models.OrderItem;
 import models.OrderTCFS;
-import models.User;
+import models.UserTCFS;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by alexander on 12/20/14.
  */
-@Security.Authenticated(SecuredController.class)
+@Security.Authenticated(controllers.SecuredController.class)
 public class OrderController extends Controller {
 
     /**
@@ -31,19 +31,19 @@ public class OrderController extends Controller {
     public static Result place() {
         OrderTCFS order = new OrderTCFS();
         order.Waiter = request().username();
-        order.Table = 1;
+        order.TableId = 1;
         order.id = OrderTCFS.findAll().size() + 1;
         order.OrderStatus = "Active";
         order.setNotSaved();
         Ebean.save(order);
-        return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), order));
+        return ok(views.html.placeOrder.render(UserTCFS.find.byId(request().username()), MenuItem.findAll(), order));
     }
 
     /**
      * Show active orders
      */
     public static Result active() {
-        return ok(activeOrders.render(User.find.byId(request().username())));
+        return ok(activeOrders.render(UserTCFS.find.byId(request().username())));
     }
 
     public static Result list() {
@@ -71,7 +71,7 @@ public class OrderController extends Controller {
                 sortBy = "OrderStatus";
                 break;
             case 2:
-                sortBy = "Table";
+                sortBy = "TableId";
                 break;
         }
 
@@ -79,49 +79,26 @@ public class OrderController extends Controller {
          * Get page to show from database
          * It is important to set setFetchAhead to false, since it doesn't benefit a stateless application at all.
          */
-        User currentUser = User.find.byId(request().username());
+        UserTCFS currentUserTCFS = UserTCFS.find.byId(request().username());
         Page<OrderTCFS> contactsPage = null;
-        if (currentUser.memberType == User.MemberType.Admin) {
-            contactsPage = OrderTCFS.find.where(
-                    Expr.or(
-                            Expr.ilike("Waiter", "%" + filter + "%"),
-                            Expr.or(
-                                    Expr.ilike("OrderStatus", "%" + filter + "%"),
-                                    Expr.ilike("Table", "%" + filter + "%")
-                            )
-                    )
-            )
+        if(currentUserTCFS.isWaiter() || currentUserTCFS.isCook()){
+            contactsPage = OrderTCFS.find
+                    .where(Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"), Expr.ilike("Waiter", "%" + filter + "%")))
+                    .where().eq("OrderStatus", "Active")
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
-        } else if(currentUser.memberType == User.MemberType.Сook){
-
-            contactsPage = OrderTCFS.find.where(
-                    Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
-                            Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
-                                    Expr.ilike("Table", "%" + filter + "%")))
-            ).where().eq("OrderStatus", "Active")
-                    .findPagingList(pageSize).setFetchAhead(false)
-                    .getPage(page);
-
         }
-        else if(currentUser.memberType == User.MemberType.Cashier){
-
+        else if (currentUserTCFS.isCashier()) {
             contactsPage = OrderTCFS.find.where(
                     Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
                             Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
-                                    Expr.ilike("Table", "%" + filter + "%")))
+                                    Expr.ilike("TableId", "%" + filter + "%")))
             ).where().eq("OrderStatus", "WaitForPay")
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
-
         }
-        else
-        {
-            contactsPage = OrderTCFS.find.where(
-                    Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
-                            Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
-                                    Expr.ilike("Table", "%" + filter + "%")))
-            ).where().eq("OrderStatus", "Active").where().eq("Waiter", request().username())
+        else {
+            contactsPage = OrderTCFS.find.where()
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
         }
@@ -142,7 +119,7 @@ public class OrderController extends Controller {
         ArrayNode an = result.putArray("aaData");
         int rowIndex = 0;
         for (OrderTCFS c : contactsPage.getList()) {
-            if(currentUser.memberType == User.MemberType.Сook
+            if (currentUserTCFS.isCook()
                     && OrderTCFS.getReadinessStatus(c.id) >= 100)
                 continue;
             ObjectNode row = Json.newObject();
@@ -150,28 +127,27 @@ public class OrderController extends Controller {
             rowIndex = 0;
             row.put(String.valueOf(rowIndex++), "<a href=\"/edit/" + c.id + "\" ><i class=\"fa fa-edit fa-fw\"></i></a>");
             //set pay action for waiter and admin
-            if (currentUser.memberType == User.MemberType.Admin || currentUser.memberType == User.MemberType.Waiter) {
+            if (currentUserTCFS.isAdmin() || currentUserTCFS.isWaiter()) {
                 if (c.saved) {
-                    if(!c.OrderStatus.equals("Complete"))
+                    if (!c.OrderStatus.equals("Complete"))
                         row.put(String.valueOf(rowIndex++), "<a href=\"/pay/" + c.id + "\"><i class=\"fa fa-shopping-cart fa-fw\"></i></a>");
                     else
                         row.put(String.valueOf(rowIndex++), "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
                 } else {
                     row.put(String.valueOf(rowIndex++), "<i class=\"fa fa-shopping-cart fa-fw\"></i>");
                 }
-            }
-            else if(currentUser.memberType == User.MemberType.Cashier){
+            } else if (currentUserTCFS.isCashier()) {
                 if (c.saved) {
                     row.put(String.valueOf(rowIndex++), "<a href=\"/payclose/" + c.id + "\"><i class=\"fa fa-credit-card fa-fw\"></i></a>");
                 }
             }
             row.put(String.valueOf(rowIndex++), c.id);
-            row.put(String.valueOf(rowIndex++), User.findByEmail(c.Waiter).toString());
+            row.put(String.valueOf(rowIndex++), UserTCFS.findByEmail(c.Waiter).toString());
             row.put(String.valueOf(rowIndex++), c.guestsCount);
-            row.put(String.valueOf(rowIndex++), c.Table);
+            row.put(String.valueOf(rowIndex++), c.TableId);
             row.put(String.valueOf(rowIndex++), c.OrderStatus.toString());
             row.put(String.valueOf(rowIndex++), NumbersHelper.getReadinessString(OrderTCFS.getReadinessStatus(c.id)).toString() + "%");
-            if (currentUser.memberType == User.MemberType.Admin) {
+            if (currentUserTCFS.memberType == UserTCFS.MemberType.Admin) {
                 if (c.saved)
                     row.put(String.valueOf(rowIndex++), "Saved");
                 else
@@ -242,7 +218,7 @@ public class OrderController extends Controller {
                 order.setSaved();
                 Ebean.save(order);
             }
-            return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), order));
+            return ok(views.html.placeOrder.render(UserTCFS.find.byId(request().username()), MenuItem.findAll(), order));
         }
     }
 
@@ -250,7 +226,7 @@ public class OrderController extends Controller {
      * Edit order form
      */
     public static Result edit(Integer id) {
-        return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), OrderTCFS.findById(id)));
+        return ok(views.html.placeOrder.render(UserTCFS.find.byId(request().username()), MenuItem.findAll(), OrderTCFS.findById(id)));
     }
 
     /**
@@ -258,7 +234,7 @@ public class OrderController extends Controller {
      */
     public static Result returnItem(Integer orderId, Integer itemId) {
         OrderTCFS.returnItem(itemId);
-        return ok(views.html.placeOrder.render(User.find.byId(request().username()), MenuItem.findAll(), OrderTCFS.findById(orderId)));
+        return ok(views.html.placeOrder.render(UserTCFS.find.byId(request().username()), MenuItem.findAll(), OrderTCFS.findById(orderId)));
     }
 
     /**
@@ -266,7 +242,7 @@ public class OrderController extends Controller {
      */
     public static Result table(Integer id) {
         OrderTCFS.proceedToPay(id);
-        return ok(activeOrders.render(User.find.byId(request().username())));
+        return ok(activeOrders.render(UserTCFS.find.byId(request().username())));
     }
 }
 
