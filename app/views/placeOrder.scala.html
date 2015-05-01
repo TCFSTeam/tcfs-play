@@ -1,4 +1,4 @@
-@(userTCFS: UserTCFS, menuItems: List[MenuItem], order: OrderTCFS)
+@(userTCFS: UserTCFS, menuItems: java.util.List[MenuItem], order: OrderTCFS)
     @main(userTCFS) {
     @*Internal JS routing*@
     <script type="text/javascript" src="@routes.OrderController.orderJavascriptRoutes()"></script>
@@ -13,7 +13,7 @@
                     <h1 class="page-header">Place new order @if(order != null && order.id > 0) {#@order.id}</h1>
                 }
             </div>
-        </div>kjk
+        </div>
     @helper.form(routes.OrderController.add) {
         <div class="form-group">
             <div class="input-group select2-bootstrap-append">

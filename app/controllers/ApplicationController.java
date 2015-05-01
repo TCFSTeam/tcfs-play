@@ -27,7 +27,7 @@ public class ApplicationController extends Controller {
             session().clear();
             session("email", loginForm.data().get("email"));
             return redirect(
-                    routes.OrderController.active()
+                    controllers.routes.OrderController.active()
             );
         }
     }
