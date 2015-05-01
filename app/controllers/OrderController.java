@@ -36,8 +36,9 @@ public class OrderController extends Controller {
                 controllers.routes.javascript.OrderController.setWaiter(),
                 controllers.routes.javascript.OrderController.setTable(),
                 controllers.routes.javascript.OrderController.setGuests()
-                ));
+        ));
     }
+
     /**
      * Place new order
      */
@@ -94,22 +95,45 @@ public class OrderController extends Controller {
          */
         UserTCFS currentUserTCFS = UserTCFS.find.byId(request().username());
         Page<OrderTCFS> contactsPage = null;
-        if(currentUserTCFS.isWaiter() || currentUserTCFS.isCook()){
+        if (currentUserTCFS.isWaiter() || currentUserTCFS.isCook()) {
             contactsPage = OrderTCFS.find
-                    .where(Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"), Expr.ilike("Waiter", "%" + filter + "%")))
+                    .where(
+                            Expr.or(
+                                    Expr.ilike("OrderStatus", "%" + filter + "%"),
+                                    Expr.or(
+                                            Expr.ilike("Waiter", "%" + filter + "%"),
+                                            Expr.ilike("Waiter", "%" + filter + "%")
+                                    )
+                            )
+                    )
                     .where().eq("OrderStatus", "Active")
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
-        }
-        else if (currentUserTCFS.isCashier()) {
+        } else if (currentUserTCFS.isCashier()) {
             contactsPage = OrderTCFS.find
-                    .where(Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"), Expr.ilike("Waiter", "%" + filter + "%")))
+                    .where(
+                            Expr.or(
+                                    Expr.ilike("OrderStatus", "%" + filter + "%"),
+                                    Expr.or(
+                                            Expr.ilike("Waiter", "%" + filter + "%"),
+                                            Expr.ilike("Waiter", "%" + filter + "%")
+                                    )
+                            )
+                    )
                     .where().eq("OrderStatus", "WaitForPay")
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
-        }
-        else {
-            contactsPage = OrderTCFS.find.where()
+        } else {
+            contactsPage = OrderTCFS.find
+                    .where(
+                            Expr.or(
+                                    Expr.ilike("OrderStatus", "%" + filter + "%"),
+                                    Expr.or(
+                                            Expr.ilike("Waiter", "%" + filter + "%"),
+                                            Expr.ilike("Waiter", "%" + filter + "%")
+                                    )
+                            )
+                    )
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
         }
