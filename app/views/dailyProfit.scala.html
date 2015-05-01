@@ -9,6 +9,10 @@
             <h1 class="page-header">Current profit</h1>
         </div>
     </div>
+    @if(orders == null || orders.length == 0) {
+        <h3>No completed orders today</h3>
+    }
+    @if(orders.length > 0){
     <div class="row">
         <div class="col-lg-6">
             <div class="panel panel-default">
@@ -40,34 +44,31 @@
             <h2 class="page-header">Completed orders</h2>
         </div>
     </div>
-    @if(orders.length > 0){
-        <table class="table table-hover" id="activeList">
-            <thead>
-                <th>ID</th>
-                <th>Waiter</th>
-                <th>TableTCFS</th>
-                <th>Order Status</th>
-                <th>Created</th>
-                <th>Cost</th>
-            </thead>
-            <tbody>
-            @for(order <- orders) {
-                <tr>
-                    <td>@order.id</td>
-                    <td>@UserTCFS.findByEmail(order.Waiter).name</td>
-                    <td>@order.TableId</td>
-                    <td>@order.OrderStatus</td>
-                    <td>@helpers.DateTimeHelper.getDateTimeInAgoFormat(order.createdAt.toDateTime())</td>
-                    <td>@OrderTCFS.getOrderCost(order.id)</td>
-                </tr>
-            }
-            </tbody>
-        </table>}
-    @if(orders == null || orders.length == 0) {
-        <h3>No active orders</h3>
-    }
+    <table class="table table-hover" id="activeList">
+        <thead>
+            <th>ID</th>
+            <th>Waiter</th>
+            <th>TableTCFS</th>
+            <th>Order Status</th>
+            <th>Created</th>
+            <th>Cost</th>
+        </thead>
+        <tbody>
+        @for(order <- orders) {
+            <tr>
+                <td>@order.id</td>
+                <td>@UserTCFS.findByEmail(order.Waiter).name</td>
+                <td>@order.TableId</td>
+                <td>@order.OrderStatus</td>
+                <td>@helpers.DateTimeHelper.getDateTimeInAgoFormat(order.createdAt.toDateTime())</td>
+                <td>@OrderTCFS.getOrderCost(order.id)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
     <div class="row-fluid">
         <div class="col-lg-4 pull-right"><h2 class="page-header">
             Amount: @OrderTCFS.getCompletedOrdersCost(true).toString()$</h2></div>
     </div>
+}
 }

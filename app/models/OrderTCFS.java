@@ -44,6 +44,9 @@ public class OrderTCFS extends Model {
     public void setStatus(String status) {
         this.OrderStatus = status;
     }
+    public void setWaiter(String waiter) {
+        this.Waiter = waiter;
+    }
     public void setSaved() {
         this.saved = true;
     }
@@ -146,6 +149,14 @@ public class OrderTCFS extends Model {
      */
     public static List<OrderTCFS> findAllCompleted() {
         return find.where().eq("OrderStatus", "Complete").where().eq("saved", true).orderBy("id").findList();
+    }
+    /**
+     * Retrieve all orders today.
+     */
+    public static List<OrderTCFS> findAllCompletedToday() {
+        return find.where().eq("OrderStatus", "Complete").where().eq("saved", true)
+                .between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
+                .orderBy("id").findList();
     }
     /**
      * Retrieve all active orders by table
@@ -276,6 +287,13 @@ public class OrderTCFS extends Model {
     public static boolean setGuests(Integer orderId, Integer guestsCount) {
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
         orderTCFS.setGuests(guestsCount);
+        Ebean.save(orderTCFS);
+        return true;
+    }
+
+    public static boolean setWaiter(Integer orderId, String waiter) {
+        OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
+        orderTCFS.setWaiter(waiter);
         Ebean.save(orderTCFS);
         return true;
     }

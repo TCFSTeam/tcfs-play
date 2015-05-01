@@ -21,6 +21,14 @@ public class DateTimeHelper {
             return minutesAgo + " minute ago";
         else if(minutesAgo > 60){
             int hoursAgo = minutesAgo/60;
+            if(hoursAgo > 24)
+            {
+                int daysAgo = hoursAgo /24;
+                if (hoursAgo < 2)
+                    return " about day ago";
+                else
+                    return daysAgo + " days ago";
+            }
             if(hoursAgo < 2)
                 return " about hour ago";
             else

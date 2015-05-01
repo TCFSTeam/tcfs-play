@@ -38,7 +38,7 @@ public class UserTCFS extends Model {
      * Retrieve all users by type.
      */
     public static List<UserTCFS> findAllByType(MemberType memberType) {
-        return find.where().eq("MemberType", memberType).findList();
+        return find.where().eq("MemberType", memberType.name()).findList();
     }
     /**
      * Retrieve a UserTCFS from email.

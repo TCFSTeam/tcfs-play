@@ -1,6 +1,9 @@
 @(userTCFS: UserTCFS, menuItems: List[MenuItem], order: OrderTCFS)
     @main(userTCFS) {
+    @*Internal JS routing*@
+    <script type="text/javascript" src="@routes.OrderController.orderJavascriptRoutes()"></script>
     <script src="@routes.Assets.at("javascripts/tcfs.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/place.js")" type="text/javascript"></script>
     <div class="row">
             <div class="col-lg-12">
                 @if(order.saved){
@@ -10,7 +13,7 @@
                     <h1 class="page-header">Place new order @if(order != null && order.id > 0) {#@order.id}</h1>
                 }
             </div>
-        </div>
+        </div>kjk
     @helper.form(routes.OrderController.add) {
         <div class="form-group">
             <div class="input-group select2-bootstrap-append">
@@ -18,7 +21,7 @@
                     value="@order.id"
                 } else {
                     value="0"} >
-                <select id="single-append-text" class="form-control select2-allow-clear" name="menuItemId">
+                <select id="select_order_item" class="form-control select2-allow-clear" name="menuItemId">
                 @for(menuItem <- menuItems) {
                     <option value="@menuItem.id">@menuItem.itemDescription</option>
                 }
@@ -41,16 +44,16 @@
                 }
                 </div></div>
             <div class="col-md-4"><span><h3>Waiter</h3></span>
-                <div class="dropdown" >
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" @if(userTCFS.memberType != models.UserTCFS.MemberType.Admin) {
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" @if(userTCFS.memberType != models.UserTCFS.MemberType.Admin) {
                         disabled="true"
                     } data-toggle="dropdown" aria-expanded="true">
                         @UserTCFS.findByEmail(order.Waiter).name
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <ul class="dropdown-menu" id="waiterOnOrder" role="waiterChange">
                     @for(userTCFS <- UserTCFS.findAll()) {
-                        <li>@userTCFS.name</li>
+                        @if(userTCFS.isWaiter || userTCFS.isAdmin){<li value="@userTCFS.email"><a>@userTCFS.name</a></li>}
                     }
                     </ul>
                 </div></div>

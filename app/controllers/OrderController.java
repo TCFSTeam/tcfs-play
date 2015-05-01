@@ -10,6 +10,7 @@ import models.MenuItem;
 import models.OrderItem;
 import models.OrderTCFS;
 import models.UserTCFS;
+import play.Routes;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -25,6 +26,18 @@ import java.util.Map;
 @Security.Authenticated(controllers.SecuredController.class)
 public class OrderController extends Controller {
 
+    /*
+    * Custom javascript reverse-routing
+     */
+    public static Result orderJavascriptRoutes() {
+        response().setContentType("text/javascript");
+        return ok(Routes.javascriptRouter("oJsRoutes",
+                controllers.routes.javascript.OrderController.setReady(),
+                controllers.routes.javascript.OrderController.setWaiter(),
+                controllers.routes.javascript.OrderController.setTable(),
+                controllers.routes.javascript.OrderController.setGuests()
+                ));
+    }
     /**
      * Place new order
      */
@@ -89,11 +102,9 @@ public class OrderController extends Controller {
                     .getPage(page);
         }
         else if (currentUserTCFS.isCashier()) {
-            contactsPage = OrderTCFS.find.where(
-                    Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"),
-                            Expr.or(Expr.ilike("guestsCount", "%" + filter + "%"),
-                                    Expr.ilike("TableId", "%" + filter + "%")))
-            ).where().eq("OrderStatus", "WaitForPay")
+            contactsPage = OrderTCFS.find
+                    .where(Expr.or(Expr.ilike("OrderStatus", "%" + filter + "%"), Expr.ilike("Waiter", "%" + filter + "%")))
+                    .where().eq("OrderStatus", "WaitForPay")
                     .findPagingList(pageSize).setFetchAhead(false)
                     .getPage(page);
         }
@@ -184,6 +195,16 @@ public class OrderController extends Controller {
      */
     public static Result setGuests(Integer orderId, Integer guestsCount) {
         if (OrderTCFS.setGuests(orderId, guestsCount))
+            return ok();
+        else
+            return internalServerError();
+    }
+
+    /**
+     * AJAX set waiter
+     */
+    public static Result setWaiter(Integer orderId, String waiter) {
+        if (OrderTCFS.setWaiter(orderId, waiter))
             return ok();
         else
             return internalServerError();

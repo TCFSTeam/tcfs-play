@@ -21,7 +21,7 @@ public class ReportingController extends Controller {
      * Show statistic for current day
      */
     public static Result dailyProfit() {
-        List<OrderTCFS> orderList = OrderTCFS.findAllCompleted();
+        List<OrderTCFS> orderList = OrderTCFS.findAllCompletedToday();
         return ok(views.html.dailyProfit.render(UserTCFS.find.byId(request().username()), orderList));
     }
 

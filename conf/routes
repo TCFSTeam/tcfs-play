@@ -10,7 +10,7 @@ GET         /home                            controllers.ApplicationController.l
 GET         /assets/*file                    controllers.Assets.at(path="/public", file)
 
 # JS ROUTES
-GET         /public/javascript/routes        controllers.ApplicationController.javascriptRoutes()
+GET         /public/javascript/oroutes        controllers.OrderController.orderJavascriptRoutes()
 
 # Map ApplicationController actions
 GET         /login                           controllers.ApplicationController.login()
@@ -29,10 +29,12 @@ GET         /edit/:id                        controllers.OrderController.edit(id
 GET         /edit/ready/:id/:item            controllers.OrderController.setReady(id: Integer, item: Integer)
 GET         /edit/table/:id/:table           controllers.OrderController.setTable(id: Integer, table: Integer)
 GET         /edit/guests/:id/:guests         controllers.OrderController.setGuests(id: Integer, guests: Integer)
+GET         /edit/waiter/:id/:waiter         controllers.OrderController.setWaiter(id: Integer, waiter: String)
+
 
 #Reservation
 GET         /reserve                         controllers.ReservationController.reserve()
-GET         /getreservation/:id             controllers.ReservationController.getreservation(id: Integer)
+GET         /getreservation/:id              controllers.ReservationController.getreservation(id: Integer)
 
 # Payment processing
 GET         /pay/:id                         controllers.PaymentController.pay(id: Integer)
