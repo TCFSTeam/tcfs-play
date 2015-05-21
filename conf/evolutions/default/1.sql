@@ -33,6 +33,7 @@ create table order_tcfs (
 
 create table reservation (
   id                        integer not null,
+  table_id                  integer,
   is_active                 boolean,
   reservator                varchar(255),
   created_at                timestamp,

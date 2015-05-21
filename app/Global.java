@@ -3,6 +3,7 @@
  */
 
 import com.avaje.ebean.Ebean;
+import helpers.DateTimeHelper;
 import models.*;
 import play.Application;
 import play.GlobalSettings;
@@ -29,6 +30,11 @@ public class Global extends GlobalSettings {
             Ebean.save(all.get("tables"));
         if(Reservation.findAll().isEmpty())
             Ebean.save(all.get("reservations"));
+        List<Reservation> reservations = Reservation.findAll();
+        for (Reservation reservation: reservations){
+            reservation.setStartAt(DateTimeHelper.getRandomDateTime());
+            Ebean.save(reservation);
+        }
     }
 
 }

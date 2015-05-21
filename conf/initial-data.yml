@@ -181,9 +181,12 @@ reservations:
 - &reserv1 !!models.Reservation
      isActive: true
      reservator: John Edvard
+     tableId: 1
 - &reserv2 !!models.Reservation
      isActive: true
      reservator: Ant Wood
+     tableId: 4
 - &reserv3 !!models.Reservation
      isActive: true
      reservator: Jasse
+     tableId: 2

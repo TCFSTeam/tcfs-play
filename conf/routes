@@ -3,48 +3,51 @@
 # ~~~~
 
 # Home page
-GET         /settings                        controllers.UserController.settings()
-GET         /home                            controllers.ApplicationController.login()
+GET         /settings                         controllers.UserController.settings()
+GET         /home                             controllers.ApplicationController.login()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+GET         /assets/*file                     controllers.Assets.at(path="/public", file)
 
 # JS ROUTES
 GET         /public/javascript/oroutes        controllers.OrderController.orderJavascriptRoutes()
+GET         /public/javascript/rroutes        controllers.ReservationController.reservationJavascriptRoutes()
+
 
 # Map ApplicationController actions
-GET         /login                           controllers.ApplicationController.login()
-POST        /login                           controllers.ApplicationController.authenticate()
-GET         /logout                          controllers.ApplicationController.logout()
+GET         /login                            controllers.ApplicationController.login()
+POST        /login                            controllers.ApplicationController.authenticate()
+GET         /logout                           controllers.ApplicationController.logout()
 
 # Map order actions
-GET         /                                controllers.OrderController.active()
-GET         /place                           controllers.OrderController.place()
-GET         /return/:orderid/:itemid         controllers.OrderController.returnItem(orderid: Integer,itemid: Integer)
-GET         /table/:id                       controllers.OrderController.table(id: Integer)
-GET         /active                          controllers.OrderController.active()
-GET         /search                          controllers.OrderController.list()
-POST        /add                             controllers.OrderController.add()
-GET         /edit/:id                        controllers.OrderController.edit(id: Integer)
-GET         /edit/ready/:id/:item            controllers.OrderController.setReady(id: Integer, item: Integer)
-GET         /edit/table/:id/:table           controllers.OrderController.setTable(id: Integer, table: Integer)
-GET         /edit/guests/:id/:guests         controllers.OrderController.setGuests(id: Integer, guests: Integer)
-GET         /edit/waiter/:id/:waiter         controllers.OrderController.setWaiter(id: Integer, waiter: String)
+GET         /                                 controllers.OrderController.active()
+GET         /place                            controllers.OrderController.place()
+GET         /return/:orderid/:itemid          controllers.OrderController.returnItem(orderid: Integer,itemid: Integer)
+GET         /table/:id                        controllers.OrderController.table(id: Integer)
+GET         /active                           controllers.OrderController.active()
+GET         /search                           controllers.OrderController.list()
+POST        /add                              controllers.OrderController.add()
+GET         /edit/:id                         controllers.OrderController.edit(id: Integer)
+GET         /edit/ready/:id/:item             controllers.OrderController.setReady(id: Integer, item: Integer)
+GET         /edit/table/:id/:table            controllers.OrderController.setTable(id: Integer, table: Integer)
+GET         /edit/guests/:id/:guests          controllers.OrderController.setGuests(id: Integer, guests: Integer)
+GET         /edit/waiter/:id/:waiter          controllers.OrderController.setWaiter(id: Integer, waiter: String)
 
 
 #Reservation
-GET         /reserve                         controllers.ReservationController.reserve()
-GET         /getreservation/:id              controllers.ReservationController.getreservation(id: Integer)
+GET         /reserve                          controllers.ReservationController.reserve()
+POST        /addreserv                        controllers.ReservationController.addreserv()
+GET         /getreservation/:id               controllers.ReservationController.getreservation(id: Integer)
 
 # Payment processing
-GET         /pay/:id                         controllers.PaymentController.pay(id: Integer)
-GET         /payclose/:id                    controllers.PaymentController.payClose(id: Integer)
+GET         /pay/:id                          controllers.PaymentController.pay(id: Integer)
+GET         /payclose/:id                     controllers.PaymentController.payClose(id: Integer)
 
 
 # Reporting
-GET         /dailyProfit                     controllers.ReportingController.dailyProfit()
-GET         /getOrdersStatistics             controllers.ReportingController.getOrdersStatistics()
-GET         /getTablesStatistics             controllers.ReportingController.getTablesStatistics()
+GET         /dailyProfit                      controllers.ReportingController.dailyProfit()
+GET         /getOrdersStatistics              controllers.ReportingController.getOrdersStatistics()
+GET         /getTablesStatistics              controllers.ReportingController.getTablesStatistics()
 
 
 

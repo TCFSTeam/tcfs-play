@@ -1,9 +1,17 @@
 package controllers;
 
+import akka.util.Helpers;
+import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import helpers.DateTimeHelper;
 import models.OrderTCFS;
 import models.Reservation;
 import models.UserTCFS;
+import org.joda.time.DateTime;
+import play.Routes;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,16 +27,53 @@ import java.util.Map;
  */
 @Security.Authenticated(controllers.SecuredController.class)
 public class ReservationController extends Controller {
-    public static play.mvc.Result reserve() {
+
+    /*
+    * Custom javascript reverse-routing
+     */
+    public static Result reservationJavascriptRoutes() {
+        response().setContentType("text/javascript");
+        return ok(Routes.javascriptRouter("rJsRoutes",
+                controllers.routes.javascript.ReservationController.addreserv()
+        ));
+    }
+    public static Result reserve() {
         UserTCFS currentUser = UserTCFS.find.byId(request().username());
         if (!currentUser.isAdmin())
             return unauthorized();
-        List<Reservation> reservations = new ArrayList<>();
-        reservations = Reservation.findAll();
+        List<Reservation> reservations = Reservation.findAll();
         return ok(views.html.reserv.render(currentUser, reservations));
     }
     public static Result getreservation(Integer reservId) {
         Reservation reserv = Reservation.findById(reservId);
         return ok(Json.toJson(reserv));
+    }
+
+    public static Result addreserv() {
+        try {
+            UserTCFS currentUser = UserTCFS.find.byId(request().username());
+            if (!currentUser.isAdmin())
+                return unauthorized();
+            DynamicForm data = Form.form().bindFromRequest();
+            int reservId = Integer.parseInt(data.get("reservId"));
+            Reservation reservation;
+            if(reservId > 0){
+                reservation = Reservation.findById(reservId);
+            }
+            else{
+                reservation = new Reservation();
+            }
+            String startAt = data.get("startAt");
+            reservation.setReservator(data.get("reservator"));
+            reservation.setStartAt(DateTimeHelper.parseDateString(startAt));
+            reservation.setCreatedAt(DateTime.now());
+            reservation.setTableId(Integer.parseInt(data.get("tableId")));
+            Ebean.save(reservation);
+            List<Reservation> reservations = Reservation.findAll();
+            return ok(views.html.reserv.render(currentUser, reservations));
+        }
+        catch (Exception ex){
+            return internalServerError();
+        }
     }
 }
