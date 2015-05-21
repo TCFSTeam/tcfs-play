@@ -27,7 +27,7 @@
                                     <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                     @if(form.hasGlobalErrors) {
                                         <p class="error">
-                                        @form.globalError.message
+                                        @form.globalError.toString
                                         </p>
                                     }
                                 </fieldset>

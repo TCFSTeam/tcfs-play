@@ -3,10 +3,8 @@
  */
 
 import com.avaje.ebean.Ebean;
-import models.MenuItem;
-import models.OrderItem;
-import models.OrderTCFS;
-import models.User;
+import helpers.DateTimeHelper;
+import models.*;
 import play.Application;
 import play.GlobalSettings;
 import play.libs.Yaml;
@@ -20,7 +18,7 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
         @SuppressWarnings("unchecked")
         Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
-        if(User.findAll().isEmpty())
+        if(UserTCFS.findAll().isEmpty())
             Ebean.save(all.get("users"));
         if(MenuItem.findAll().isEmpty())
             Ebean.save(all.get("menuitems"));
@@ -28,6 +26,15 @@ public class Global extends GlobalSettings {
             Ebean.save(all.get("orderitems"));
         if(OrderTCFS.findAll().isEmpty())
             Ebean.save(all.get("orders"));
+        if(TableTCFS.findAll().isEmpty())
+            Ebean.save(all.get("tables"));
+        if(Reservation.findAll().isEmpty())
+            Ebean.save(all.get("reservations"));
+        List<Reservation> reservations = Reservation.findAll();
+        for (Reservation reservation: reservations){
+            reservation.setStartAt(DateTimeHelper.getRandomDateTime());
+            Ebean.save(reservation);
+        }
     }
 
 }

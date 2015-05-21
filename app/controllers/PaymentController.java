@@ -1,7 +1,7 @@
 package controllers;
 
 import models.OrderTCFS;
-import models.User;
+import models.UserTCFS;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -17,7 +17,7 @@ public class PaymentController extends Controller {
      */
     public static Result payClose(Integer orderId) {
         OrderTCFS.pay(orderId);
-        return ok(activeOrders.render(User.find.byId(request().username())));
+        return ok(activeOrders.render(UserTCFS.find.byId(request().username())));
     }
 
     /**
@@ -25,6 +25,6 @@ public class PaymentController extends Controller {
      */
     public static Result pay(Integer id) {
         OrderTCFS.proceedToPay(id);
-        return ok(activeOrders.render(User.find.byId(request().username())));
+        return ok(activeOrders.render(UserTCFS.find.byId(request().username())));
     }
 }

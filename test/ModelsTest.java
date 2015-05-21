@@ -2,7 +2,7 @@
  * Created by test on 10/12/14.
  */
 
-import models.User;
+import models.UserTCFS;
 import org.junit.*;
 import play.test.WithApplication;
 
@@ -18,18 +18,18 @@ public class ModelsTest extends WithApplication {
 
     @Test
     public void createAndRetrieveUser() {
-        new User("bob@gmail.com", "Bob", "secret").save();
-        User bob = User.find.where().eq("email", "bob@gmail.com").findUnique();
+        new UserTCFS("bob@gmail.com", "Bob", "secret").save();
+        UserTCFS bob = UserTCFS.find.where().eq("email", "bob@gmail.com").findUnique();
         assertNotNull(bob);
         assertEquals("Bob", bob.name);
     }
 
     @Test
     public void tryAuthenticateUser() {
-        new User("bob@gmail.com", "Bob", "secret").save();
+        new UserTCFS("bob@gmail.com", "Bob", "secret").save();
 
-        assertNotNull(User.authenticate("bob@gmail.com", "secret"));
-        assertNull(User.authenticate("bob@gmail.com", "badpassword"));
-        assertNull(User.authenticate("tom@gmail.com", "secret"));
+        assertNotNull(UserTCFS.authenticate("bob@gmail.com", "secret"));
+        assertNull(UserTCFS.authenticate("bob@gmail.com", "badpassword"));
+        assertNull(UserTCFS.authenticate("tom@gmail.com", "secret"));
     }
 }
