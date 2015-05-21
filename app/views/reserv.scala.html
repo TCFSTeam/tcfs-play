@@ -62,6 +62,7 @@
                             <td>@reservation.getReservator</td>
                             <td>@reservation.getTableId</td>
                             <td>@helpers.DateTimeHelper.getDateString(reservation.getStartAt)</td>
+                            <td><a title="Deactivate reservation" href="/reserve/delete/@reservation.getId"> <i class="fa fa-trash-o fa-lg"></i></a></td>
                         </tr>
                     }
                     </tbody>
@@ -103,7 +104,27 @@
                 }
             });
         });
-
+        $( "#updreserv" ).click(function() {
+            var date = $("#startAt").data('date');
+            var o = {
+                reservator: $("#name").val(),
+                startAt: new Date(date).toJSON(),
+                tableId: tableId,
+                reservId: reservId
+            };
+            $.ajax({
+                type : 'POST',
+                url : '/reserve/update/'+reservId,
+                data : o,
+                success : function(data) {
+                    console.log("Done");
+                    window.location.reload();
+                },
+                error : function(data) {
+                    alert("Unable to add reservation");
+                }
+            });
+        });
         var date = new Date();
         date.setDate(date.getDate()-1);
         $(".datetimepicker").datetimepicker({

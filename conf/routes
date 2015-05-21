@@ -37,7 +37,9 @@ GET         /edit/waiter/:id/:waiter          controllers.OrderController.setWai
 #Reservation
 GET         /reserve                          controllers.ReservationController.reserve()
 POST        /addreserv                        controllers.ReservationController.addreserv()
+POST        /reserve/update/:id               controllers.ReservationController.update(id: Integer)
 GET         /getreservation/:id               controllers.ReservationController.getreservation(id: Integer)
+GET         /reserve/delete/:id               controllers.ReservationController.delete(id: Integer)
 
 # Payment processing
 GET         /pay/:id                          controllers.PaymentController.pay(id: Integer)

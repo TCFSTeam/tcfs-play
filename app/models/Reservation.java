@@ -20,7 +20,7 @@ public class Reservation extends Model {
     @GeneratedValue
     private int id;
     private int tableId;
-    private boolean isActive;
+    private boolean isActive = true;
     private String reservator;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
     private DateTime createdAt = new DateTime();
@@ -41,6 +41,9 @@ public class Reservation extends Model {
      */
     public static List<Reservation> findAll() {
         return find.all();
+    }
+    public static List<Reservation> findAllActive() {
+        return find.where().eq("isActive", true).findList();
     }
 
     /**
