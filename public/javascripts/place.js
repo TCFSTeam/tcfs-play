@@ -37,8 +37,7 @@ $(document).ready(function () {
      */
     $( ".ready" ).change(function() {
         item = $('#orderId').val();
-        alert( "Handler for .change() called." + item );
-
+        console.log( "Handler for .change() called." + item );
         $.ajax({
             url: oJsRoutes.controllers.OrderController.setReady(item, $(this).val()),
             context: document.body

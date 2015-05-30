@@ -2,8 +2,9 @@
 
 @main(user) {
     <link rel= "stylesheet" media = "screen" href = " @routes.Assets.at("plugins/datepicker/css/bootstrap-datetimepicker.min.css") ">
-    <script src="@routes.Assets.at("plugins/datepicker/js/bootstrap-datetimepicker.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/plugins/datepicker/js/bootstrap-datetimepicker.min.js")" type="text/javascript"></script>
     <script type="text/javascript" src='@routes.ReservationController.reservationJavascriptRoutes()'></script>
+    <script src="@routes.Assets.at("javascripts/reservation.js")" type="text/javascript"></script>
     <div class="row">
         <div class="col-md-4">
             <h2>Reserve table</h2>
@@ -46,7 +47,7 @@
         <div class="col-md-8">
             <h2>List of reservatios</h2>
             @if(reservations != null){
-                <table id="reservations" class="table table-hover disabled">
+                <table id="reservations" class="table table-hover">
                     <thead>
                         <th>ID</th>
                         <th>Created</th>
@@ -57,12 +58,12 @@
                     <tbody>
                     @for(reservation <- reservations) {
                         <tr >
-                            <td>@reservation.getId</td>
-                            <td>@helpers.DateTimeHelper.getDateTimeInAgoFormat(reservation.getCreatedAt)</td>
-                            <td>@reservation.getReservator</td>
-                            <td>@reservation.getTableId</td>
-                            <td>@helpers.DateTimeHelper.getDateString(reservation.getStartAt)</td>
-                            <td><a title="Deactivate reservation" href="/reserve/delete/@reservation.getId"> <i class="fa fa-trash-o fa-lg"></i></a></td>
+                            <td>@reservation.getId()</td>
+                            <td>@helpers.DateTimeHelper.getDateTimeInAgoFormat(reservation.getCreatedAt())</td>
+                            <td>@reservation.getReservator()</td>
+                            <td>@reservation.getTableId()</td>
+                            <td>@helpers.DateTimeHelper.getDateString(reservation.getStartAt())</td>
+                            <td><a title="Deactivate reservation" href="/reserve/delete/@reservation.getId()"> <i class="fa fa-trash-o fa-lg"></i></a></td>
                         </tr>
                     }
                     </tbody>
@@ -70,88 +71,14 @@
             }
         </div>
         }
-<script type="text/javascript">
-
-        $(document).ready(function() {
-
-        var tableId = 0;
-        var reservId = 0;
-
-        $(".table-button").click(function () {
-            tableId = $(this).attr("value");
-            $(".table-button").removeClass("btn-success");
-            $("#table" + tableId).addClass("btn-success");
-        });
-
-        $( "#addreserv" ).click(function() {
-            var date = $("#startAt").data('date');
-            var o = {
-                reservator: $("#name").val(),
-                startAt: new Date(date).toJSON(),
-                tableId: tableId,
-                reservId: reservId
-            };
-            $.ajax({
-                type : 'POST',
-                url : '@routes.ReservationController.addreserv()',
-                data : o,
-                success : function(data) {
-                    console.log("Done");
-                    window.location.reload();
-                },
-                error : function(data) {
-                    alert("Unable to add reservation");
-                }
-            });
-        });
-        $( "#updreserv" ).click(function() {
-            var date = $("#startAt").data('date');
-            var o = {
-                reservator: $("#name").val(),
-                startAt: new Date(date).toJSON(),
-                tableId: tableId,
-                reservId: reservId
-            };
-            $.ajax({
-                type : 'POST',
-                url : '/reserve/update/'+reservId,
-                data : o,
-                success : function(data) {
-                    console.log("Done");
-                    window.location.reload();
-                },
-                error : function(data) {
-                    alert("Unable to add reservation");
-                }
-            });
-        });
-        var date = new Date();
-        date.setDate(date.getDate()-1);
-        $(".datetimepicker").datetimepicker({
-                format: "dd/MM/yyyy HH:mm",
-                showMeridian: true,
-                autoclose: true,
-                todayBtn: true,
-                startDate: date
-            });
-
-        $('#reservations tr').click(function() {
-                reservId = $(this).find("td").eq(0).html();
-                var tablesStatistic =  "/getreservation/"+reservId;
-                $.getJSON( tablesStatistic )
-                  .done(function( json ) {
-                    $("#name").val(json.reservator);
-                    tableId = json.tableId;
-                    $(".table-button").removeClass("btn-success");
-                    $("#table" + tableId).addClass("btn-success");
-                    $('.datetimepicker').datetimepicker('update', new Date(json.startAt.year,json.startAt.monthOfYear,json.startAt.dayOfMonth));
-                    console.log( "Reservator: " + json.reservator );
-                  })
-                  .fail(function( jqxhr, textStatus, error ) {
-                    var err = textStatus + ", " + error;
-                    alert("Request Failed: " + err)
-                    console.log( "Request Failed: " + err );
-                });
-            });
-        });
+<script>
+    var date = new Date();
+    date.setDate(date.getDate()-1);
+     $(".datetimepicker").datetimepicker({
+        format: "dd/MM/yyyy HH:mm",
+        showMeridian: true,
+        autoclose: true,
+        todayBtn: true,
+        startDate: date
+    });
 </script>

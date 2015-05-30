@@ -1,5 +1,7 @@
 package models;
 
+import com.avaje.ebean.annotation.ConcurrencyMode;
+import com.avaje.ebean.annotation.EntityConcurrencyMode;
 import org.joda.time.DateTime;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -14,6 +16,7 @@ import java.util.List;
  * TableTCFS entity managed by Ebean
  */
 @Entity
+@EntityConcurrencyMode(ConcurrencyMode.NONE)
 public class Reservation extends Model {
     private static final long serialVersionUID = 1L;
     @Id
