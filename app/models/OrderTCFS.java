@@ -55,8 +55,15 @@ public class OrderTCFS extends Model {
     }
 
     public static double getOrderCost(int id) {
-        double cost = 0;
         OrderTCFS orderTCFS = OrderTCFS.findById(id);
+        if (orderTCFS != null) {
+            return getOrderCost(orderTCFS);
+        } else
+            return 0;
+    }
+
+    public static double getOrderCost(OrderTCFS orderTCFS) {
+        double cost = 0;
         if (orderTCFS != null) {
             for (OrderItem item : orderTCFS.items) {
                 if(!item.isReturned)
@@ -297,9 +304,4 @@ public class OrderTCFS extends Model {
         Ebean.save(orderTCFS);
         return true;
     }
-
-    /*
-    * Some additional types
-     */
-
 }
