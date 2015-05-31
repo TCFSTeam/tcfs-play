@@ -40,7 +40,7 @@ $(document).ready(function() {
         };
         $.ajax({
             type : 'POST',
-            url : '@routes.ReservationController.addreserv()',
+            url : '/addreserv',
             data : o,
             success : function(data) {
                 console.log("Done");
