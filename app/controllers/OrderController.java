@@ -18,6 +18,8 @@ import play.mvc.Result;
 import play.mvc.Security;
 import views.html.activeOrders;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,9 +34,9 @@ public class OrderController extends Controller {
     public static Result orderJavascriptRoutes() {
         response().setContentType("text/javascript");
         return ok(Routes.javascriptRouter("oJsRoutes",
+                controllers.routes.javascript.OrderController.setTable(),
                 controllers.routes.javascript.OrderController.setReady(),
                 controllers.routes.javascript.OrderController.setWaiter(),
-                controllers.routes.javascript.OrderController.setTable(),
                 controllers.routes.javascript.OrderController.setGuests()
         ));
     }
@@ -102,7 +104,7 @@ public class OrderController extends Controller {
                                     Expr.ilike("OrderStatus", "%" + filter + "%"),
                                     Expr.or(
                                             Expr.ilike("Waiter", "%" + filter + "%"),
-                                            Expr.ilike("Waiter", "%" + filter + "%")
+                                            Expr.ilike("TableId", "%" + filter + "%")
                                     )
                             )
                     )
@@ -116,7 +118,7 @@ public class OrderController extends Controller {
                                     Expr.ilike("OrderStatus", "%" + filter + "%"),
                                     Expr.or(
                                             Expr.ilike("Waiter", "%" + filter + "%"),
-                                            Expr.ilike("Waiter", "%" + filter + "%")
+                                            Expr.ilike("TableId", "%" + filter + "%")
                                     )
                             )
                     )
@@ -130,7 +132,7 @@ public class OrderController extends Controller {
                                     Expr.ilike("OrderStatus", "%" + filter + "%"),
                                     Expr.or(
                                             Expr.ilike("Waiter", "%" + filter + "%"),
-                                            Expr.ilike("Waiter", "%" + filter + "%")
+                                            Expr.ilike("TableId", "%" + filter + "%")
                                     )
                             )
                     )

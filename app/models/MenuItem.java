@@ -1,5 +1,7 @@
 package models;
 
+import com.avaje.ebean.annotation.ConcurrencyMode;
+import com.avaje.ebean.annotation.EntityConcurrencyMode;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import java.util.List;
  * Created by alexander on 12/21/14.
  */
 @Entity
+@EntityConcurrencyMode(ConcurrencyMode.NONE)
 public class MenuItem extends Model {
     private static final long serialVersionUID = 1L;
     public static Model.Finder<String, MenuItem> find = new Model.Finder<String, MenuItem>(String.class, MenuItem.class);

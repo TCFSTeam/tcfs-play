@@ -1,6 +1,8 @@
 package models;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.annotation.ConcurrencyMode;
+import com.avaje.ebean.annotation.EntityConcurrencyMode;
 import org.joda.time.DateTime;
 import play.data.format.Formats;
 import play.db.ebean.Model;
@@ -19,6 +21,7 @@ import static org.joda.time.DateTime.now;
  * Created by alexander on 12/20/14.
  */
 @Entity
+@EntityConcurrencyMode(ConcurrencyMode.NONE)
 public class OrderTCFS extends Model {
     private static final long serialVersionUID = 1L;
     public static Model.Finder<String, OrderTCFS> find = new Model.Finder<String, OrderTCFS>(String.class, OrderTCFS.class);

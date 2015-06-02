@@ -1,5 +1,7 @@
 package models;
 
+import com.avaje.ebean.annotation.ConcurrencyMode;
+import com.avaje.ebean.annotation.EntityConcurrencyMode;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import java.util.List;
  * Created by alexander on 12/27/14.
  */
 @Entity
+@EntityConcurrencyMode(ConcurrencyMode.NONE)
 public class OrderItem extends Model{
 
     private static final long serialVersionUID = 1L;

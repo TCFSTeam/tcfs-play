@@ -1,5 +1,7 @@
 package models;
 
+import com.avaje.ebean.annotation.ConcurrencyMode;
+import com.avaje.ebean.annotation.EntityConcurrencyMode;
 import com.avaje.ebean.annotation.EnumValue;
 import play.db.ebean.Model;
 
@@ -10,6 +12,7 @@ import java.util.List;
  * UserTCFS entity managed by Ebean
  */
 @Entity
+@EntityConcurrencyMode(ConcurrencyMode.NONE)
 public class UserTCFS extends Model {
 
     private static final long serialVersionUID = 1L;
