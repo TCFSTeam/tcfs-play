@@ -19,7 +19,11 @@ $(document).ready(function() {
             })
             .fail(function( jqxhr, textStatus, error ) {
                 var err = textStatus + ", " + error;
-                alert("Request Failed: " + err)
+                $.notify({
+                    message: 'Request failed' + err
+                },{
+                    type: 'danger'
+                });
                 console.log( "Request Failed: " + err );
             });
     });
@@ -47,7 +51,11 @@ $(document).ready(function() {
                 window.location.reload();
             },
             error : function(data) {
-                alert("Unable to add reservation");
+                $.notify({
+                    message: 'Unable to add reservation!'
+                },{
+                    type: 'danger'
+                });
             }
         });
     });
@@ -68,7 +76,11 @@ $(document).ready(function() {
                 window.location.reload();
             },
             error : function(data) {
-                alert("Unable to add reservation");
+                $.notify({
+                    message: 'Unable to update reservation!'
+                },{
+                    type: 'danger'
+                });
             }
         });
     });
