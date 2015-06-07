@@ -21,7 +21,7 @@ public class ApplicationController extends Controller {
     public static Result authenticate() {
         Form<Login> loginForm = form(Login.class).bindFromRequest();
         UserTCFS userTCFS = UserTCFS.findByEmail(loginForm.data().get("email").toString());
-        if (userTCFS == null) {
+        if (userTCFS == null || loginForm.hasErrors()) {
             return badRequest(login.render(loginForm));
         } else {
             session().clear();

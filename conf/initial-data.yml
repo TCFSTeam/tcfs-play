@@ -2,14 +2,14 @@ users:
 - !!models.UserTCFS
     email:      penny@tcfs.com
     name:       Penny
-    password:   pass
+    password:   penny
     imagePath: /assets/images/penny.jpg
     memberType: Waiter
 
 - !!models.UserTCFS
         email:      joe@tcfs.com
         name:       Joe
-        password:   joe123
+        password:   joe
         imagePath: /assets/images/joe.jpg
         memberType: Admin
 - !!models.UserTCFS
