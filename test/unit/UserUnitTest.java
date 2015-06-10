@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class UserTest extends CommonTest {
+public class UserUnitTest extends CommonUnitTest {
 
     @Test
     public void findById() {

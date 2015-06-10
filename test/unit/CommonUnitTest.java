@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by Alexander on 5/31/2015.
  */
-public class CommonTest {
+public class CommonUnitTest {
     FakeApplication fakeAppWithGlobal;
     @Before
     public void onStart() {
@@ -19,6 +19,7 @@ public class CommonTest {
         settings.put("db.default.driver", "org.h2.Driver");
         settings.put("db.default.url", "jdbc:h2:mem:play-test;MODE=MySQL");
         settings.put("ebean.default", "models.*");
+        settings.put("application.secret","QCY?tAnf");
         fakeAppWithGlobal = Helpers.fakeApplication(settings);
     }
 }

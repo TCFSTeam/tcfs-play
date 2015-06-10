@@ -21,6 +21,8 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "postgresql" % "postgresql" % "9.1-901-1.jdbc4"
 
+libraryDependencies += "org.seleniumhq.selenium" % "selenium-java" % "2.35.0" % "test"
+
 Play2WarPlugin.play2WarSettings
 
 Play2WarKeys.servletVersion := "3.0"

@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class OrderTest extends CommonTest{
+public class OrderUnitTest extends CommonUnitTest {
 
     @Test
     public void checkCost() {
