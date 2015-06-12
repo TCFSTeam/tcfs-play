@@ -3,6 +3,7 @@ package unit;
 import com.avaje.ebean.Ebean;
 import models.UserTCFS;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import play.libs.Yaml;
 import play.test.Helpers;
 
@@ -11,16 +12,17 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-public class UserUnitTest extends CommonUnitTest {
+
+public class UserTCFSTest extends CommonUnitTest {
 
     @Test
-    public void findById() {
+    public void authenticate() {
         Helpers.running(fakeAppWithGlobal, new Runnable() {
             public void run() {
-                Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("initial-data.yml");
-                if (UserTCFS.findAll().isEmpty())
-                    Ebean.save(all.get("users"));
+                loadAllData();
                 String email = "joe@tcfs.com";
                 UserTCFS user = UserTCFS.findByEmail(email);
                 assertEquals(user.email, email);

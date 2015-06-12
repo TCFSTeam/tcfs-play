@@ -168,6 +168,7 @@ public class OrderTCFS extends Model {
                 .between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
                 .orderBy("id").findList();
     }
+
     /**
      * Retrieve all active orders by table
      * @param table
@@ -207,17 +208,6 @@ public class OrderTCFS extends Model {
                 .where().between("createdAt", DateTime.now().withTimeAtStartOfDay(), DateTime.now().plusDays(1).withTimeAtStartOfDay())
                 .findList();
     }
-    /**
-     * Delete all not saved orders
-     * @return
-     */
-    public static boolean removeNonSavedOrders() {
-        List<OrderTCFS> ordersForDelete = find.where().eq("saved", true).findList();
-        for (OrderTCFS orderForDelete : ordersForDelete) {
-            Ebean.delete(orderForDelete);
-        }
-        return true;
-    }
 
     public static boolean proceedToPay(int orderId) {
         OrderTCFS orderTCFS = OrderTCFS.findById(orderId);
@@ -238,11 +228,10 @@ public class OrderTCFS extends Model {
         boolean returnedState = false;
         for (OrderItem item : orderTCFS.items) {
             if (item.isReturned) {
-                returnedState = item.isReady = true;
+                returnedState = true;
                 break;
             }
         }
-
         return returnedState;
     }
 
@@ -273,12 +262,12 @@ public class OrderTCFS extends Model {
             if (item.id == orderItemId) {
                 redinessSetted = item.isReady = true;
                 Ebean.save(item);
-                Ebean.save(orderTCFS);
                 break;
             }
         }
         if(OrderTCFS.getReadinessStatus(orderId) >=100)
             orderTCFS.setStatus("Ready");
+        Ebean.save(orderTCFS);
         return redinessSetted;
     }
     public static boolean setTable(Integer orderId, Integer tableId) {

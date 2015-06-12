@@ -30,6 +30,18 @@ users:
         password:   megan
         imagePath: /assets/images/megan.jpg
         memberType:  Cashier
+- !!models.UserTCFS
+        email:      vasya@tcfs.com
+        name:       Vasya
+        password:   vasya
+        imagePath: /assets/images/vasya.jpg
+        memberType:  Waiter
+- !!models.UserTCFS
+        email:      zhanna@tcfs.com
+        name:       Zhanna
+        password:   zhanna
+        imagePath: /assets/images/zhanna.jpg
+        memberType:  Waiter
 
 #MenuItems
 menuitems:
@@ -105,6 +117,7 @@ orderitems:
 - &orderItem14 !!models.OrderItem
         menuItemId: 6
         isReady: true
+        isReturned: true
 #Orders
 orders:
 - &order !!models.OrderTCFS
