@@ -1,14 +1,10 @@
 package helpers;
 
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
-import org.joda.time.Hours;
 import org.joda.time.Minutes;
-import org.joda.time.Seconds;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -56,17 +52,17 @@ public class DateTimeHelper {
             return "now";
         else if (minutesAgo == 1)
             return minutesAgo + " minute ago";
-        else if (minutesAgo > 60) {
+        else if (minutesAgo >= 60) {
             int hoursAgo = minutesAgo / 60;
-            if (hoursAgo > 24) {
+            if (hoursAgo >= 24) {
                 int daysAgo = hoursAgo / 24;
-                if (hoursAgo < 2)
-                    return " about day ago";
+                if (daysAgo < 2)
+                    return "about day ago";
                 else
                     return daysAgo + " days ago";
             }
             if (hoursAgo < 2)
-                return " about hour ago";
+                return "about hour ago";
             else
                 return hoursAgo + " hours ago";
         } else
@@ -82,20 +78,6 @@ public class DateTimeHelper {
         final SimpleDateFormat sdf = new SimpleDateFormat(ISO_8601_24H_FULL_FORMAT);
         sdf.setTimeZone(UTC);
         date = sdf.parse(datetimestring);
-
-//        if(date == null)
-//        {
-//            DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
-//            date = formatter.parseDateTime(datetimestring);
-//        }
-//        if(date == null)
-//           date = DateTime.parse(datetimestring);
-//        if(date == null)
-//        {
-//            date = new DateTime(datetimestring);
-//        }
-//        if(date == null)
-//             date = ISODateTimeFormat.dateTimeParser().parseDateTime(datetimestring);
         return new DateTime(date);
     }
     public static String getDateString(DateTime datetime){

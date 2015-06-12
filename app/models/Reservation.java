@@ -34,10 +34,7 @@ public class Reservation extends Model {
         this.setCreatedAt(DateTime.now().minusDays(1));
         this.setStartAt(DateTime.now().plusHours(4));
     }
-    public Reservation(DateTime createdAt, DateTime startAt){
-        this.setCreatedAt(createdAt);
-        this.setStartAt(startAt);
-    }
+
     public static Model.Finder<String, Reservation> find = new Model.Finder<String, Reservation>(String.class, Reservation.class);
     /**
      * Retrieve all reservations.

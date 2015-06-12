@@ -3,11 +3,15 @@ package models;
 import com.avaje.ebean.annotation.ConcurrencyMode;
 import com.avaje.ebean.annotation.EntityConcurrencyMode;
 import com.avaje.ebean.annotation.EnumValue;
+import helpers.SerializationHelper;
 import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
+
+import static org.h2.util.Utils.serialize;
+
 /**
  * UserTCFS entity managed by Ebean
  */
@@ -40,8 +44,8 @@ public class UserTCFS extends Model {
     /**
      * Retrieve all users by type.
      */
-    public static List<UserTCFS> findAllByType(MemberType memberType) {
-        return find.where().eq("MemberType", memberType.name()).findList();
+    public static List<UserTCFS> findAllByType(MemberType memberType) throws IllegalAccessException {
+        return find.where().eq("Member_Type", SerializationHelper.serialize(memberType)).findList();
     }
     /**
      * Retrieve a UserTCFS from email.
