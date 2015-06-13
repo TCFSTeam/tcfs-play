@@ -2,6 +2,7 @@
     @main(userTCFS) {
     @*Internal JS routing*@
     <script type="text/javascript" src="@routes.OrderController.orderJavascriptRoutes()"></script>
+    <script src="@routes.Assets.at("javascripts/plugins/bootstrap-notify/bootstrap-notify.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("javascripts/tcfs.js")" type="text/javascript"></script>
     <script src="@routes.Assets.at("javascripts/place.js")" type="text/javascript"></script>
     <div class="row">
@@ -53,7 +54,7 @@
                     </button>
                     <ul class="dropdown-menu" id="waiterOnOrder" role="waiterChange">
                     @for(userTCFS <- UserTCFS.findAll()) {
-                        @if(userTCFS.isWaiter || userTCFS.isAdmin){<li value="@userTCFS.email"><a>@userTCFS.name</a></li>}
+                        @if(userTCFS.isWaiter || userTCFS.isAdmin){<li value="@userTCFS.email"><a id="@userTCFS.email">@userTCFS.name</a></li>}
                     }
                     </ul>
                 </div></div>
@@ -124,7 +125,7 @@
         @if(order != null && OrderTCFS.haveReturnedItems(order.id)){
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="page-header">Returned order items</h2>
+                    <h2 id = "returned_items" class="page-header">Returned order items</h2>
                 </div>
             </div>
             <table class="table table-hover disabled">
@@ -148,7 +149,7 @@
             </table>
         }
         <div class="row-fluid">
-            <div class="span6 offset6"><h2 class="page-header">Amount: @OrderTCFS.getOrderCost(order.id).toString()$</h2></div>
+            <div class="span6 offset6"><h2 id="order_amount" class="page-header">Amount: @OrderTCFS.getOrderCost(order.id).toString()$</h2></div>
         </div>
 }
     }

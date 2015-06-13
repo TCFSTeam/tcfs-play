@@ -39,5 +39,4 @@ public class TableTCFS extends Model {
     public static int findAllCount() {
         return find.all().size();
     }
-
 }

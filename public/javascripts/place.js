@@ -15,6 +15,17 @@ $(document).ready(function () {
         oJsRoutes.controllers.OrderController.setWaiter(orderId, waiterId).ajax({
             success: function () {
                 console.log("Waiter changed to: " + waiterId);
+                $.notify({
+                    message: 'New waiter is:' + waiterName
+                });
+            },
+            error: function () {
+                console.log("Error on waiter changing " + waiterId);
+                $.notify({
+                    message: 'Waiter not changed!'
+                },{
+                    type: 'error'
+                });
             }
         });
     });
@@ -33,17 +44,26 @@ $(document).ready(function () {
     });
 
     /**
-     * Set class for table button on order creation\editing.
+     * Change readiness status for order items
      */
-    $( ".ready" ).change(function() {
-        item = $('#orderId').val();
-        console.log( "Handler for .change() called." + item );
-        $.ajax({
-            url: oJsRoutes.controllers.OrderController.setReady(item, $(this).val()),
-            context: document.body
-        }).done(function() {
-            $(".table-button").removeClass("btn-success");
-            ($(this).addClass("btn-success"));
+    $(".ready").change(function () {
+        orderId = $('#orderId').val();
+        itemId = $(this).attr("value");
+        oJsRoutes.controllers.OrderController.setReady(orderId, itemId).ajax({
+            success: function () {
+                $("#chkReady" + itemId).prop("disabled", true);
+                $("#chkReady" + itemId).parent().parent().addClass("success");
+                $.notify({
+                    message: 'New readiness changed for item:' + $(this).val()
+                });
+            },
+            error: function () {
+                $.notify({
+                    message: 'Error on readiness setting!'
+                },{
+                    type: 'danger'
+                });
+            }
         });
     });
 
@@ -57,6 +77,16 @@ $(document).ready(function () {
             success: function () {
                 $(".table-button").removeClass("btn-success");
                 $("#table" + tableId).addClass("btn-success");
+                $.notify({
+                    message: 'New table number:' + tableId.toString()
+                });
+            },
+            error: function () {
+                $.notify({
+                    message: 'Error on table changing!'
+                },{
+                    type: 'danger'
+                });
             }
         });
     });
@@ -71,22 +101,18 @@ $(document).ready(function () {
             success: function () {
                 $(".guests-button").removeClass("btn-success");
                 $("#guests" + guests).addClass("btn-success");
+                $.notify({
+                    message: 'New guests count:' + guests.toString()
+                });
+            },
+            error: function () {
+                $.notify({
+                    message: 'Error on guests changing!'
+                },{
+                    type: 'danger'
+                });
             }
         });
 
-    });
-
-    /**
-     * Change readiness status for order items
-     */
-    $(".ready").change(function () {
-        orderId = $('#orderId').val();
-        itemId = $(this).attr("value");
-        oJsRoutes.controllers.OrderController.setReady(orderId, itemId).ajax({
-            success: function () {
-                $("#chkReady" + itemId).prop("disabled", true);
-                $("#chkReady" + itemId).parent().parent().addClass("success");
-            }
-        });
     });
 });

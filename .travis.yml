@@ -4,6 +4,5 @@ cache:
   - .sbt
 script:
   - sbt compile
-  - sbt test
   - sbt dist
   - sbt war
