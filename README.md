@@ -7,9 +7,11 @@
 * Scala plugin for IDEA
 * SBT plugin for IDEA
 * Play 2.0 plugin for IDEA
+* SBT 
+* Typesafe Activator
 
 ##Setting up environment
-### Method 1 (simple)
+### Method 1 (simple & outdated)
 -----------
 * Install VMWare Workstation 10+ 
 * Connect to vmware.p-hosting.ru
