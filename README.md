@@ -1,6 +1,5 @@
 # The CheeseCake Factory Simplificator
-##Current bulid status <a href="https://travis-ci.org/TCFSTeam/tcfs-play"><img src="https://travis-ci.org/TCFSTeam/tcfs-play.svg?branch=master"></a>
-##Environment Requirements
+## Environment Requirements
 -----------
 * Java 7
 * Intellij IDEA Ultimate
@@ -10,8 +9,8 @@
 * SBT 
 * Typesafe Activator
 
-##Setting up environment
-### Method 1 (simple & outdated)
+# Setting up environment
+## Method 1 (simple & outdated)
 -----------
 * Install VMWare Workstation 10+ 
 * Connect to vmware.p-hosting.ru
